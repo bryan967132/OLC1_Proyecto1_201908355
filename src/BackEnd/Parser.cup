@@ -37,9 +37,9 @@ parser code
 
 /* 3. Terminales*/
 
-terminal String RW_CONJ,CHAR,ID,VALUE;
+terminal String RW_CONJ,SET,ID,VALUE;
 terminal String LBRACKET,RBRACKET;
-terminal String SEMICOLON,COLON,COMMA,TILDE,PROMPT;
+terminal String SEMICOLON,COLON,COMMA,PROMPT;
 terminal String OR,POSITIVE,KLEENE,CONCAT;
 terminal String LIMIT;
 
@@ -52,4 +52,4 @@ non terminal ini;
 
 start with ini;
 
-ini ::= LBRACKET RBRACKET;
+ini ::= LBRACKET  RBRACKET;
