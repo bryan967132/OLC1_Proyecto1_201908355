@@ -15,7 +15,7 @@ import Components.*;
     String operation = "";
     public void printTokens() {
         System.out.println("TOKENS");
-        System.out.printf("%-15s%-5s%-8s%-10s\n",
+        System.out.printf("%-25s%-6s%-8s%-10s\n",
             "Lexeme",
             "Line",
             "Column",
@@ -29,7 +29,7 @@ import Components.*;
     }
     public void printErrors() {
         System.out.println("ERRORS");
-        System.out.printf("%-5s%-8s%-10s\n",
+        System.out.printf("%-6s%-8s%-10s\n",
             "Line",
             "Column",
             "Description"
@@ -42,7 +42,7 @@ import Components.*;
     }
     public String getTokens() {
         String tokensTab = "TOKENS\n";
-        tokensTab += "Lexeme         Line Column  Type\n";
+        tokensTab += "Lexeme                   Line  Column  Type\n";
         if(tokens.size() > 0) {
             for(int i = 0; i < tokens.size(); i ++) {
                 tokensTab += tokens.get(i) + "\n";
@@ -53,7 +53,7 @@ import Components.*;
     }
     public String getErrors() {
         String errorsTab = "ERRORS\n";
-        errorsTab += "Line Column  Description\n";
+        errorsTab += "Line  Column  Description\n";
         if(errors.size() > 0) {
             for(int i = 0; i < errors.size(); i ++) {
                 errorsTab += errors.get(i) + "\n";
@@ -100,8 +100,8 @@ import Components.*;
 
 //Expresiones regulares
 UNUSED=[ \r\t]+
-ALPHA=[a-zA-Z0-9]+
-VALUE = \"([^\"\\]|\\.)*\"
+CHARACTER = [a-zA-Z0-9]
+VALUE = \"(([^\"\\]?|\\.)*)\"
 
 INPUTCHARACTER = [^\r\n]
 
@@ -112,11 +112,21 @@ COMMENTM = "<!"[\s\S]*?"!>"
 /* 3. Reglas Semanticas */
 
 "CONJ"              {addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
-{ALPHA}             {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
+{CHARACTER}         {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+{CHARACTER}+        {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
 {VALUE}             {addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
 "}"                 {addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());}
 ";"                 {addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());}
+":"                 {addToken(yytext(),yyline,yychar,"COLON");          return new Symbol(Sym.COLON,yyline,yychar,yytext());}
+","                 {addToken(yytext(),yyline,yychar,"COMMA");          return new Symbol(Sym.COMMA,yyline,yychar,yytext());}
+"~"                 {addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());}
+"->"                {addToken(yytext(),yyline,yychar,"PROMPT");         return new Symbol(Sym.PROMPT,yyline,yychar,yytext());}
+"|"                 {addToken(yytext(),yyline,yychar,"OR");             return new Symbol(Sym.OR,yyline,yychar,yytext());}
+"+"                 {addToken(yytext(),yyline,yychar,"POSITIVE");       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());}
+"*"                 {addToken(yytext(),yyline,yychar,"KLEENE");         return new Symbol(Sym.KLEENE,yyline,yychar,yytext());}
+"."                 {addToken(yytext(),yyline,yychar,"CONCAT");         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());}
+"%%"                {addToken(yytext(),yyline,yychar,"LIMIT");          return new Symbol(Sym.LIMIT,yyline,yychar,yytext());}
 \n                  {yychar = 1;}
 {UNUSED}            {}
 {COMMENTS}          {}
