@@ -11,7 +11,7 @@ public class Token {
         this.type = type;
     }
     public void print() {
-        System.out.printf("%-15s%-5s%-8s%-10s\n",
+        System.out.printf("%-25s%-6s%-8s%-10s\n",
             lexeme,
             line,
             column,
@@ -21,11 +21,11 @@ public class Token {
     public String toString() {
         String token = "";
         token += lexeme;
-        for(int i = 1; i <= 15 - String.valueOf(lexeme).length(); i ++) {
+        for(int i = 1; i <= 25 - String.valueOf(lexeme).length(); i ++) {
             token += " ";
         }
         token += line;
-        for(int i = 1; i <= 5 - String.valueOf(line).length(); i ++) {
+        for(int i = 1; i <= 6 - String.valueOf(line).length(); i ++) {
             token += " ";
         }
         token += column;

@@ -9,7 +9,7 @@ public class ErrorL {
         this.character = character;
     }
     public void print() {
-        System.out.printf("%-5s%-8s%-10s\n",
+        System.out.printf("%-6s%-8s%-10s\n",
             line,
             column,
             "Unrecognized Character: " + character
@@ -18,7 +18,7 @@ public class ErrorL {
     public String toString() {
         String error = "";
         error += line;
-        for(int i = 1; i <= 5 - String.valueOf(line).length(); i ++) {
+        for(int i = 1; i <= 6 - String.valueOf(line).length(); i ++) {
             error += " ";
         }
         error += column;
