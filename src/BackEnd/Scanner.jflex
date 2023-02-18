@@ -102,6 +102,7 @@ import Components.*;
 UNUSED=[ \r\t]+
 CHARACTER = [a-zA-Z0-9]
 VALUE = \"(([^\"\\]?|\\.)*)\"
+CONJUNTO = {CHARACTER}"~"{CHARACTER}
 
 INPUTCHARACTER = [^\r\n]
 
@@ -112,7 +113,7 @@ COMMENTM = "<!"[\s\S]*?"!>"
 /* 3. Reglas Semanticas */
 
 "CONJ"              {addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
-{CHARACTER}         {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+{CONJUNTO}          {addToken(yytext(),yyline,yychar,"SET");            return new Symbol(Sym.SET,yyline,yychar,yytext());}
 {CHARACTER}+        {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
 {VALUE}             {addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
@@ -120,7 +121,6 @@ COMMENTM = "<!"[\s\S]*?"!>"
 ";"                 {addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());}
 ":"                 {addToken(yytext(),yyline,yychar,"COLON");          return new Symbol(Sym.COLON,yyline,yychar,yytext());}
 ","                 {addToken(yytext(),yyline,yychar,"COMMA");          return new Symbol(Sym.COMMA,yyline,yychar,yytext());}
-"~"                 {addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());}
 "->"                {addToken(yytext(),yyline,yychar,"PROMPT");         return new Symbol(Sym.PROMPT,yyline,yychar,yytext());}
 "|"                 {addToken(yytext(),yyline,yychar,"OR");             return new Symbol(Sym.OR,yyline,yychar,yytext());}
 "+"                 {addToken(yytext(),yyline,yychar,"POSITIVE");       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());}
@@ -131,4 +131,4 @@ COMMENTM = "<!"[\s\S]*?"!>"
 {UNUSED}            {}
 {COMMENTS}          {}
 {COMMENTM}          {}
-.                   {errors.add(new ErrorL(yyline,yychar,yytext()));}
+.                   {addError(yyline,yychar,yytext());}
