@@ -9,7 +9,7 @@ import java_cup.runtime.Symbol;
 public class ScannerAnalysisTest {
     public static void main(String[] args) throws Exception {
         try {
-            String input = readInput("src/Tests/Input.txt");
+            String input = readInput("src/Tests/Input.olc");
             Scanner scanner = new Scanner(
                 new BufferedReader(
                     new StringReader(input)
