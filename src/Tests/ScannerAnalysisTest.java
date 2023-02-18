@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java_cup.runtime.Symbol;
-public class AnalysisTest {
+public class ScannerAnalysisTest {
     public static void main(String[] args) throws Exception {
         try {
             String input = readInput("src/Tests/Input.txt");
