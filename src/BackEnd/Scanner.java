@@ -265,7 +265,7 @@ public class Scanner implements java_cup.runtime.Scanner {
             "Line",
             "Column",
             "Type"
-	    );
+        );
         tokens.forEach(
             token -> {
                 token.print();
@@ -278,7 +278,7 @@ public class Scanner implements java_cup.runtime.Scanner {
             "Line",
             "Column",
             "Description"
-	    );
+        );
         errors.forEach(
             error -> {
                 error.print();
