@@ -118,6 +118,6 @@ COMMENTM = "<!"[\s\S]*?"!>"
 ";"                 {addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());}
 \n                  {yychar = 1;}
 {UNUSED}            {}
-{COMMENTS}          {System.out.println(yytext());}
-{COMMENTM}          {System.out.println(yytext());}
+{COMMENTS}          {}
+{COMMENTM}          {}
 .                   {errors.add(new ErrorL(yyline,yychar,yytext()));}
