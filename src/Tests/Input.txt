@@ -14,6 +14,6 @@
     $
     %%
     
-    ExpReg1:"primer\nLexemaCokoa";
+    ExpReg1:"primerLexemaCokoa";
     ExpresionReg2:"34.44";
 }
