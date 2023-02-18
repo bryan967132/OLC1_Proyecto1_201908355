@@ -101,8 +101,8 @@ import Components.*;
 //Expresiones regulares
 UNUSED=[ \r\t]+
 ALPHA=[a-zA-Z0-9]+
+VALUE = \"([^\"\\]|\\.)*\"
 
-LINETERMINATOR = \r|\n|\r\n
 INPUTCHARACTER = [^\r\n]
 
 COMMENTS = "//"{INPUTCHARACTER}*
@@ -113,6 +113,7 @@ COMMENTM = "<!"[\s\S]*?"!>"
 
 "CONJ"              {addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
 {ALPHA}             {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
+{VALUE}             {addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
 "}"                 {addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());}
 ";"                 {addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());}

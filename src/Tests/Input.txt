@@ -1,10 +1,11 @@
 {
-    //COJUNTOS
+    ////COJUNTOS sadflkjlk
 
     CONJ:letra->a~z;
     CONJ:digito->0~9;
     
-    <!   ASDFÑLKJ  SD asdlkjd @ ## EXPRESIONES REGULARES!>
+    <!   ASDFÑLKJ  SD asdlkjd @ #
+    #EXPRESIONES REGULARES!>
 
     ExprReg1->.{letra}*|"_"|{letra}{digito};
     ExpresionReg2->.{digito}."."+{digito};
