@@ -20,7 +20,7 @@ import Components.*;
             "Line",
             "Column",
             "Type"
-	);
+	    );
         tokens.forEach(
             token -> {
                 token.print();
@@ -33,7 +33,7 @@ import Components.*;
             "Line",
             "Column",
             "Description"
-	);
+	    );
         errors.forEach(
             error -> {
                 error.print();
