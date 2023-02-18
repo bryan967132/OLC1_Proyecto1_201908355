@@ -1,18 +1,19 @@
 {
-    ////COJUNTOS sadflkjlk
-
+    //Este es un comentario en nuestro programa@
+    
     CONJ:letra->a~z;
     CONJ:digito->0~9;
+    @
+    <!Este es un comentario
+      en nuestro programa$
+    !>
     
-    <!   ASDFÑLKJ  SD asdlkjd @ #
-    #EXPRESIONES REGULARES!>
-
     ExprReg1->.{letra}*|"_"|{letra}{digito};
     ExpresionReg2->.{digito}."."+{digito};
     RegEx3->.{digito}*|"_"|{letra}{digito};
-
+    $
     %%
-
-    ExpReg1:"primerLexemaCokoa";
+    
+    ExpReg1:"primer\nLexemaCokoa";
     ExpresionReg2:"34.44";
 }

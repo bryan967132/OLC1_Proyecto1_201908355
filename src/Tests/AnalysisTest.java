@@ -21,6 +21,7 @@ public class AnalysisTest {
                 sym = scanner.next_token();
             } while(sym.value != null);
             System.out.println(scanner.getTokens());
+            System.out.println(scanner.getErrors());
         } catch (Exception e) {
             System.out.println(e);
         }
