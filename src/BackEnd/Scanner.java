@@ -37,15 +37,15 @@ public class Scanner implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  5,  7,  7,  6,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  6,  8,  8,  7,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     1, 10,  3,  0,  0, 28, 16,  0,  0,  0, 25, 24, 21, 22, 26,  8, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 20, 19,  9,  0, 11,  0, 
-     0,  2,  2, 12,  2,  2,  2,  2,  2,  2, 15,  2,  2,  2, 14, 13, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  4,  0,  0,  0, 
+     1, 11,  4,  0,  0, 29, 17,  0,  0,  0, 26, 25, 22, 23, 27,  9, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 21, 20, 10,  0, 12,  0, 
+     0,  2,  2, 13,  2,  2,  2,  2,  2,  2, 16,  2,  2,  2, 15, 14, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  0,  5,  0,  0,  3, 
      0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 17, 23, 18, 27,  0, 
-     0,  0,  0,  0,  0,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 18, 24, 19, 28,  0, 
+     0,  0,  0,  0,  0,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -61,10 +61,10 @@ public class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\1\1\4\2\1\2\3"+
-    "\1\5\1\6\1\7\1\10\1\11\1\1\1\12\1\13"+
-    "\1\14\1\15\1\16\1\1\1\17\1\0\1\20\1\0"+
-    "\1\2\1\0\1\17\1\21\1\22\1\0\1\17\1\2"+
+    "\1\0\1\1\1\2\1\3\1\4\1\1\1\5\2\1"+
+    "\2\3\1\6\1\7\1\10\1\11\1\12\1\1\1\13"+
+    "\1\14\1\15\1\16\1\17\1\1\1\0\1\20\1\0"+
+    "\1\2\1\0\1\4\1\21\1\22\1\0\1\4\1\2"+
     "\1\23";
 
   private static int [] zzUnpackAction() {
@@ -93,11 +93,11 @@ public class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\35\0\72\0\127\0\164\0\35\0\221\0\256"+
-    "\0\35\0\313\0\35\0\35\0\35\0\35\0\35\0\350"+
-    "\0\35\0\35\0\35\0\35\0\35\0\u0105\0\127\0\164"+
-    "\0\35\0\u0122\0\u013f\0\u015c\0\u0179\0\35\0\35\0\u0196"+
-    "\0\u01b3\0\u015c\0\127";
+    "\0\0\0\36\0\74\0\132\0\132\0\170\0\36\0\226"+
+    "\0\264\0\36\0\322\0\36\0\36\0\36\0\36\0\36"+
+    "\0\360\0\36\0\36\0\36\0\36\0\36\0\u010e\0\170"+
+    "\0\36\0\u012c\0\u014a\0\u0168\0\u0186\0\36\0\36\0\u01a4"+
+    "\0\u01c2\0\u0168\0\132";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[35];
@@ -123,19 +123,20 @@ public class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\5\1\2\1\6\1\3\1\0"+
-    "\1\7\1\10\1\11\1\2\1\12\3\4\1\11\1\13"+
+    "\1\2\1\3\1\4\1\5\1\6\1\2\1\7\1\3"+
+    "\1\0\1\10\1\11\1\12\1\2\1\13\3\4\1\12"+
     "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
-    "\1\24\1\25\1\26\36\0\1\3\4\0\1\3\30\0"+
-    "\1\27\11\0\4\27\15\0\3\30\1\31\1\32\30\30"+
-    "\10\0\1\33\36\0\1\34\24\0\1\27\11\0\1\27"+
-    "\1\35\2\27\30\0\1\36\55\0\1\37\5\30\3\0"+
-    "\25\30\5\33\2\0\26\33\12\34\1\40\22\34\2\0"+
-    "\1\27\11\0\2\27\1\41\1\27\15\0\12\34\1\40"+
-    "\1\42\21\34\2\0\1\27\11\0\3\27\1\43\15\0";
+    "\1\24\1\25\1\26\1\27\37\0\1\3\5\0\1\3"+
+    "\30\0\2\5\11\0\4\5\15\0\4\30\1\31\1\32"+
+    "\30\30\11\0\1\33\37\0\1\34\24\0\2\5\11\0"+
+    "\1\5\1\35\2\5\31\0\1\36\56\0\1\37\6\30"+
+    "\3\0\25\30\6\33\2\0\26\33\13\34\1\40\22\34"+
+    "\2\0\2\5\11\0\2\5\1\41\1\5\15\0\13\34"+
+    "\1\40\1\42\21\34\2\0\2\5\11\0\3\5\1\43"+
+    "\15\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[464];
+    int [] result = new int[480];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -173,8 +174,8 @@ public class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\3\1\1\11\2\1\1\11\1\1\5\11"+
-    "\1\1\5\11\2\1\1\0\1\11\1\0\1\1\1\0"+
+    "\1\0\1\11\4\1\1\11\2\1\1\11\1\1\5\11"+
+    "\1\1\5\11\1\1\1\0\1\11\1\0\1\1\1\0"+
     "\1\1\2\11\1\0\3\1";
 
   private static int [] zzUnpackAttribute() {
@@ -712,67 +713,67 @@ public class Scanner implements java_cup.runtime.Scanner {
             // fall through
           case 22: break;
           case 4: 
-            { yychar = 1;
+            { addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());
             } 
             // fall through
           case 23: break;
           case 5: 
-            { addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());
+            { yychar = 1;
             } 
             // fall through
           case 24: break;
           case 6: 
-            { addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());
             } 
             // fall through
           case 25: break;
           case 7: 
-            { addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());
             } 
             // fall through
           case 26: break;
           case 8: 
-            { addToken(yytext(),yyline,yychar,"COLON");          return new Symbol(Sym.COLON,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());
             } 
             // fall through
           case 27: break;
           case 9: 
-            { addToken(yytext(),yyline,yychar,"COMMA");          return new Symbol(Sym.COMMA,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"COLON");          return new Symbol(Sym.COLON,yyline,yychar,yytext());
             } 
             // fall through
           case 28: break;
           case 10: 
-            { addToken(yytext(),yyline,yychar,"OR");             return new Symbol(Sym.OR,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"COMMA");          return new Symbol(Sym.COMMA,yyline,yychar,yytext());
             } 
             // fall through
           case 29: break;
           case 11: 
-            { addToken(yytext(),yyline,yychar,"POSITIVE");       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"OR");             return new Symbol(Sym.OR,yyline,yychar,yytext());
             } 
             // fall through
           case 30: break;
           case 12: 
-            { addToken(yytext(),yyline,yychar,"KLEENE");         return new Symbol(Sym.KLEENE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"POSITIVE");       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());
             } 
             // fall through
           case 31: break;
           case 13: 
-            { addToken(yytext(),yyline,yychar,"CONCAT");         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"KLEENE");         return new Symbol(Sym.KLEENE,yyline,yychar,yytext());
             } 
             // fall through
           case 32: break;
           case 14: 
-            { addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"CONCAT");         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());
             } 
             // fall through
           case 33: break;
           case 15: 
-            { addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());
             } 
             // fall through
           case 34: break;
           case 16: 
-            { addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,"STRING");         return new Symbol(Sym.STRING,yyline,yychar,yytext());
             } 
             // fall through
           case 35: break;

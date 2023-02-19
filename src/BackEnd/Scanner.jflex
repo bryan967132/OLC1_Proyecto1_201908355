@@ -101,7 +101,8 @@ import Components.*;
 //Expresiones regulares
 UNUSED=[ \r\t]+
 CHARACTER = [a-zA-Z0-9]
-VALUE = \"(([^\"\\]?|\\.)*)\"
+ID = [a-zA-Z0-9\_]+
+STRING = \"(([^\"\\]?|\\.)*)\"
 
 INPUTCHARACTER = [^\r\n]
 
@@ -115,8 +116,8 @@ COMMENTM = "<!"[\s\S]*?"!>"
 {CHARACTER}         {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
 "!"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
 "&"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
-{CHARACTER}+        {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
-{VALUE}             {addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());}
+{ID}                {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
+{STRING}            {addToken(yytext(),yyline,yychar,"STRING");         return new Symbol(Sym.STRING,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
 "}"                 {addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());}
 ";"                 {addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());}
