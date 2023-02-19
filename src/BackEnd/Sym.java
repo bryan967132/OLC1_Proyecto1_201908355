@@ -13,7 +13,6 @@ public class Sym {
   public static final int OR = 13;
   public static final int POSITIVE = 14;
   public static final int CHAR = 5;
-  public static final int VALUE = 4;
   public static final int CONCAT = 16;
   public static final int LBRACKET = 6;
   public static final int COLON = 9;
@@ -22,6 +21,7 @@ public class Sym {
   public static final int RBRACKET = 7;
   public static final int TILDE = 12;
   public static final int KLEENE = 15;
+  public static final int STRING = 4;
   public static final int COMMA = 10;
   public static final int RW_CONJ = 2;
   public static final int EOF = 0;
@@ -31,7 +31,7 @@ public class Sym {
   "error",
   "RW_CONJ",
   "ID",
-  "VALUE",
+  "STRING",
   "CHAR",
   "LBRACKET",
   "RBRACKET",
