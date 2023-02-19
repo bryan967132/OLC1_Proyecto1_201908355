@@ -113,6 +113,8 @@ COMMENTM = "<!"[\s\S]*?"!>"
 
 "CONJ"              {addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
 {CHARACTER}         {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+"!"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+"&"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
 {CHARACTER}+        {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
 {VALUE}             {addToken(yytext(),yyline,yychar,"VALUE");          return new Symbol(Sym.VALUE,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
