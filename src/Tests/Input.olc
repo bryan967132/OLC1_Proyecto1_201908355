@@ -3,6 +3,10 @@
     
     CONJ:letra->a~z;
     CONJ:digito->0~9;
+    CONJ:digito->A~Z;
+    CONJ:digito->0,2,4,6,8;
+    CONJ:digito->A,b,C,d;
+    CONJ:digito->!~&;
     @
     <!Este es un comentario
       en nuestro programa$
