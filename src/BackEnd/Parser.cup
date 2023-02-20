@@ -33,18 +33,34 @@ parser code
             new Instruction("Unrecovered Syntax Error.")
         );
     }
+    public String getExecution() {
+        String exe = "";
+        /*for(int i = 0; i < flowExe.size(); i ++) {
+            exe += flowExe.get(i) + "\n";
+        }*/
+        for(int i = 0; i < errors.size(); i ++) {
+            exe += errors.get(i) + "\n";
+        }
+        return exe + "\n";
+    }
 :} 
 
 /* 3. Terminales*/
 
-terminal String RW_CONJ,ID,STRING,CHAR;
-terminal String LBRACKET,RBRACKET;
-terminal String SEMICOLON,COLON,COMMA,PROMPT,TILDE;
-terminal String OR,POSITIVE,KLEENE,CONCAT;
+terminal String RW_CONJ, ID, STRING, CHAR;
+terminal String LBRACKET, RBRACKET;
+terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
+terminal String OR, POSITIVE, KLEENE, CONCAT;
 terminal String LIMIT;
 
 /* 4. No Terminales*/
 non terminal ini;
+non terminal instructions,instruction;
+non terminal set, elements;
+non terminal specific, regex, body;
+non terminal operations, operation;
+non terminal node;
+non terminal analysis, expresion;
 
 /* 5. Precedencias */
 
@@ -52,4 +68,16 @@ non terminal ini;
 
 start with ini;
 
-ini ::= LBRACKET RBRACKET;
+ini::=LBRACKET instructions LIMIT analysis RBRACKET;
+instructions::=instruction instructions | instruction;
+instruction::=set | regex;
+set::=RW_CONJ COLON ID PROMPT elements SEMICOLON;
+elements::=CHAR TILDE CHAR | specific;
+specific::=CHAR COMMA specific | CHAR;
+regex::=ID PROMPT body SEMICOLON;
+body::=operations;
+operations::=operations operation | operation;
+operation::=CONCAT operation operation | OR operation operation | KLEENE operation | POSITIVE operation | node;
+node::=LBRACKET ID RBRACKET | STRING;
+analysis::=expresion analysis | expresion;
+expresion::=ID COLON STRING SEMICOLON;
