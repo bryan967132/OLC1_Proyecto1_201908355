@@ -20,4 +20,12 @@ public class Label extends JLabel {
 		this.setHorizontalAlignment(JLabel.LEFT);
 		this.setVerticalAlignment(JLabel.CENTER);
 	}
+	public Label(int x,int y,int w,int h,String txt,int fuente) {
+		this.setText(txt);
+		this.setForeground(Colors.WHITE);
+		this.setBounds(x,y,w,h);
+		this.setFont(new Font("Tahoma",Font.PLAIN,fuente));
+		this.setHorizontalAlignment(JLabel.CENTER);
+		this.setVerticalAlignment(JLabel.CENTER);
+	}
 }
