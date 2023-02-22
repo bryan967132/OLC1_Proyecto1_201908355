@@ -1,0 +1,82 @@
+/* 1. Package e importaciones */
+package BackEnd;
+import Components.ErrorS;
+import Components.Instruction;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+
+/* 2. Codigo para el parser, variables y metodos */
+
+parser code 
+{:
+    Scanner s;
+    public Parser(Scanner s) {
+        super(s);
+        this.s = s;
+    }
+
+    //ArrayList<Instruction> flowExe = new ArrayList<>();
+    ArrayList<Instruction> errors = new ArrayList<>();
+    public void syntax_error(Symbol sym) {
+        errors.add(
+            new Instruction(
+                new ErrorS(
+                    sym.left,
+                    sym.right,
+                    sym.value
+                )
+            )
+        );
+    }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        errors.add(
+            new Instruction("Unrecovered Syntax Error.")
+        );
+    }
+    public String getExecution() {
+        String exe = "";
+        /*for(int i = 0; i < flowExe.size(); i ++) {
+            exe += flowExe.get(i) + "\n";
+        }*/
+        for(int i = 0; i < errors.size(); i ++) {
+            exe += errors.get(i) + "\n";
+        }
+        return exe + "\n";
+    }
+:} 
+
+/* 3. Terminales*/
+
+terminal String RW_CONJ, ID, STRING, CHAR;
+terminal String LBRACKET, RBRACKET;
+terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
+terminal String OR, POSITIVE, KLEENE, CONCAT;
+terminal String LIMIT;
+
+/* 4. No Terminales*/
+non terminal ini;
+non terminal instructions,instruction;
+non terminal set, elements;
+non terminal specific, regex;
+non terminal operations, operation;
+non terminal node;
+non terminal analysis, expresion;
+
+/* 5. Precedencias */
+
+/* 6. Gramatica Libre de Contexto */
+
+start with ini;
+
+ini::=LBRACKET instructions LIMIT analysis RBRACKET;
+instructions::=instruction instructions | instruction;
+instruction::=set | regex;
+set::=RW_CONJ COLON ID PROMPT elements SEMICOLON;
+elements::=CHAR TILDE CHAR | specific;
+specific::=CHAR COMMA specific | CHAR;
+regex::=ID PROMPT operations SEMICOLON;
+operations::=operations operation | operation;
+operation::=CONCAT operation operation | OR operation operation | KLEENE operation | POSITIVE operation | node;
+node::=LBRACKET ID RBRACKET | STRING;
+analysis::=expresion analysis | expresion;
+expresion::=ID COLON STRING SEMICOLON;
