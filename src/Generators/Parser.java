@@ -8,12 +8,12 @@ public class Parser {
             java_cup.Main.main(
                 new String[] {
                     "-destdir",
-                    "src/BackEnd",
+                    "src/Language",
                     "-symbols",
                     "Sym",
                     "-parser",
                     "Parser",
-                    "src/BackEnd/Parser.cup"
+                    "src/Language/Parser.cup"
                 }
             );
         }
