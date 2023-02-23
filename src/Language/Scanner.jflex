@@ -1,5 +1,5 @@
 /* 1. Package e importaciones */
-package BackEnd;
+package Language;
 import java_cup.runtime.Symbol;
 import java.util.ArrayList;
 import Components.*;

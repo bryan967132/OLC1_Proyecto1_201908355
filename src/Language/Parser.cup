@@ -1,5 +1,5 @@
 /* 1. Package e importaciones */
-package BackEnd;
+package Language;
 import Components.ErrorS;
 import Components.Instruction;
 import java_cup.runtime.*;
