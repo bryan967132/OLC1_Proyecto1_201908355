@@ -104,10 +104,8 @@ CHARACTER = [a-zA-Z0-9]
 ID = [a-zA-Z0-9\_]+
 STRING = \"(([^\"\\]?|\\.)*)\"
 
-INPUTCHARACTER = [^\r\n]
-
-COMMENTS = "//"{INPUTCHARACTER}*
-COMMENTM = "<!"[\s\S]*?"!>"
+COMMENTS = "//"([^\r\n]*)?
+COMMENTM = "<!"([^<!>]*)?"!>"
 %%
 
 /* 3. Reglas Semanticas */
