@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import Templates.FunctionButton;
-import Templates.Colors;
+import Colors.Colors;
 public class ToolBar extends JPanel implements ActionListener {
     Window w;
     FunctionButton close,minimize;

@@ -1,5 +1,6 @@
 package Interface;
 import javax.swing.JFrame;
+import Colors.Colors;
 public class Window extends JFrame {
     IDE ide;
     public Window() {
@@ -9,6 +10,7 @@ public class Window extends JFrame {
     }
     void initComponents() {
         ide = new IDE(this);
+        this.getContentPane().setBackground(Colors.LIGHTECLIPSE);
         this.getContentPane().add(ide);
     }
     void init() {

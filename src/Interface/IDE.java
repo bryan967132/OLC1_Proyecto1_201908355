@@ -1,24 +1,40 @@
 package Interface;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import java_cup.runtime.Symbol;
+import Colors.*;
 import Templates.Button;
-import Templates.Colors;
-public class IDE extends JPanel {
+import java.awt.event.KeyAdapter;
+public class IDE extends JPanel implements ActionListener {
+    ArrayList<Token> code;
     Button analyzeInput;
-    Button generateAFD;
+    Button paintCode;
     EditorArea editorArea;
+    int posCaret;
     JLabel cursorPosition;
     JPanel editorAreaContent;
+    JPanel editorAreaContentFalse;
     JPanel graphics;
     JPanel projects;
     JTextPane console;
+    Parser parser;
+    Scanner sc;
+    String input;
+    Symbol sym;
     ToolBar toolbar;
     Window w;
+    WordPainter painter;
     public IDE(Window w) {
         this.w = w;
         init();
@@ -35,6 +51,7 @@ public class IDE extends JPanel {
         console = new JTextPane();
         graphics = new JPanel();
         analyzeInput = new Button("►");
+        paintCode = new Button(/*"✐🖉"*/"↓");
     }
     void defineComponents() {
         //projects
@@ -44,6 +61,13 @@ public class IDE extends JPanel {
         editorAreaContent.setLayout(new BorderLayout());
         editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
         editorArea = new EditorArea();
+        editorArea.editor.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_F5) {
+                    try {setFormat();} catch (Exception e1) {}
+                }
+            }
+        });
         editorAreaContent.add(editorArea,BorderLayout.WEST);
         editorAreaContent.add(editorArea.scroll,BorderLayout.CENTER);
         editorAreaContent.setBounds(220,105,550,425);
@@ -52,7 +76,7 @@ public class IDE extends JPanel {
         cursorPosition.setForeground(Colors.WHITE);
         cursorPosition.setBounds(220,535,550,10);
         cursorPosition.setHorizontalAlignment(JLabel.RIGHT);
-		cursorPosition.setVerticalAlignment(JLabel.CENTER);
+        cursorPosition.setVerticalAlignment(JLabel.CENTER);
         //console
         console.setEditable(false);
         console.setForeground(Colors.WHITE);
@@ -68,6 +92,13 @@ public class IDE extends JPanel {
         analyzeInput.text(Colors.WHITE,15);
         analyzeInput.setDesign(Colors.GREEN2);
         analyzeInput.setHoverColor(Colors.GREEN3);
+        analyzeInput.addActionListener(this);
+        //paintCode
+        paintCode.locationSize(260,56,30,30);
+        paintCode.text(Colors.WHITE,15);
+        paintCode.setDesign(Colors.GREEN2);
+        paintCode.setHoverColor(Colors.GREEN3);
+        paintCode.addActionListener(this);
     }
     void addComponents() {
         this.add(projects);
@@ -76,28 +107,31 @@ public class IDE extends JPanel {
         this.add(console);
         this.add(graphics);
         this.add(analyzeInput);
-        //this.add(generateAFD);
+        this.add(paintCode);
     }
     void cursorPosition() {
         editorArea.editor.addCaretListener(
             new CaretListener() {
                 public void caretUpdate(CaretEvent e) {
-                    int pos = e.getDot();
-                    int row = 1,col = 1;
-                    int lastRow = -1;
-                    String text = editorArea.editor.getText().replaceAll("\r","");
-                    for(int i = 0; i < pos; i ++) {
-                        if(text.charAt(i) == 10) {
-                            row ++;
-                            lastRow = i;
+                    try {
+                        posCaret = e.getDot();
+                        int row = 1,col = 1;
+                        int lastRow = -1;
+                        String text = editorArea.editor.getText().replaceAll("\r","");
+                        for(int i = 0; i < posCaret; i ++) {
+                            if(text.charAt(i) == '\n') {
+                                row ++;
+                                lastRow = i;
+                            }
                         }
+                        col = posCaret - lastRow;
+                        cursorPosition.setText(row + " : " + col);
                     }
-                    col = pos - lastRow;
-                    cursorPosition.setText(row + " : " + col);
+                    catch(Exception e1) {}
                 }
             }
-        );
-    }
+            );
+        }
     void addToolBar() {
         toolbar = new ToolBar(w);
         toolbar.setBounds(0,0,1390,40);
@@ -106,5 +140,33 @@ public class IDE extends JPanel {
     void init() {
         this.setBackground(Colors.MEDIUMECLIPSE1);
         this.setLayout(null);
+    }
+    public void setFormat() throws Exception {
+        input = editorArea.editor.getText();
+        painter = new WordPainter();
+        sc = new Scanner(
+            new BufferedReader(
+                new StringReader(input)
+            ),
+            painter
+        );
+        painter.setStyle(input);
+        editorArea.editor.setDocument(painter.box.getDocument());
+        Token token;
+        code = new ArrayList<>();
+        while((token = sc.yylex()) != null) {
+            code.add(token);
+        }
+        parser = new Parser(code,painter);
+        parser.parse();
+    }
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == paintCode) {
+            try {
+                setFormat();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

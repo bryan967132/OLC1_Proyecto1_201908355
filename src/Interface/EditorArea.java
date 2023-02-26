@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.Document;
-import Templates.Colors;
+import Colors.Colors;
 public class EditorArea extends JPanel {
     JTextPane editor;
     JScrollPane scroll;
@@ -18,7 +18,8 @@ public class EditorArea extends JPanel {
         setMinimumSize(new Dimension (30, 30));
         setPreferredSize(new Dimension (30, 30));
         setMinimumSize(new Dimension (30, 30));
-        editor = new JTextPane() {
+        //editor
+        editor = new JTextPane(){
             public void paint(Graphics g) {
                 super.paint(g);
                 EditorArea.this.repaint();
@@ -26,12 +27,16 @@ public class EditorArea extends JPanel {
         };
         editor.setForeground(Colors.WHITE);
         editor.setBackground(Colors.DARKECLIPSE);
-        editor.setFont(new java.awt.Font("Consolas", 0, 12));
+        editor.setFont(new java.awt.Font("Consolas", 0, 11));
         editor.setCaretColor(Colors.WHITE);
         editor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         editor.setBorder(BorderFactory.createEmptyBorder());
+        //scroll
         scroll = new JScrollPane(editor);
-        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.setOpaque(false);
+        scroll.setBorder(null);
+        scroll.getViewport().setOpaque(false);
+        scroll.setViewportBorder(null);
     }
     public void paint(Graphics g) {
         super.paint(g);
