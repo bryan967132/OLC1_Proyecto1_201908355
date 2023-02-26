@@ -3,8 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.event.CaretEvent;
@@ -16,8 +14,10 @@ import java_cup.runtime.Symbol;
 import Colors.*;
 import Templates.Button;
 import java.awt.event.KeyAdapter;
+import BackEnd.BackEnd;
 public class IDE extends JPanel implements ActionListener {
     ArrayList<Token> code;
+    BackEnd backend;
     Button analyzeInput;
     Button paintCode;
     EditorArea editorArea;
@@ -45,6 +45,7 @@ public class IDE extends JPanel implements ActionListener {
         cursorPosition();
     }
     void initComponents() {
+        backend = new BackEnd();
         projects = new JPanel();
         editorAreaContent = new JPanel();
         cursorPosition = new JLabel();
@@ -64,7 +65,7 @@ public class IDE extends JPanel implements ActionListener {
         editorArea.editor.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_F5) {
-                    try {setFormat();} catch (Exception e1) {}
+                    try {backend.setFormat(editorArea.editor);} catch (Exception e1) {}
                 }
             }
         });
@@ -141,29 +142,10 @@ public class IDE extends JPanel implements ActionListener {
         this.setBackground(Colors.MEDIUMECLIPSE1);
         this.setLayout(null);
     }
-    public void setFormat() throws Exception {
-        input = editorArea.editor.getText();
-        painter = new WordPainter();
-        sc = new Scanner(
-            new BufferedReader(
-                new StringReader(input)
-            ),
-            painter
-        );
-        painter.setStyle(input);
-        editorArea.editor.setDocument(painter.box.getDocument());
-        Token token;
-        code = new ArrayList<>();
-        while((token = sc.yylex()) != null) {
-            code.add(token);
-        }
-        parser = new Parser(code,painter);
-        parser.parse();
-    }
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == paintCode) {
             try {
-                setFormat();
+                backend.setFormat(editorArea.editor);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
