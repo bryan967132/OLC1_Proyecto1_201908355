@@ -46,21 +46,18 @@ parser code
         }
         return exe + "\n";
     }
-    public void initSet(String startChar,String endChar) {
-        this.set = new Set();
-        this.set.startChar = startChar;
-        this.set.endChar = endChar;
+    private void initSet(String id) {
+        set = new Set();
+        set.id = id;
     }
-    public void initSet() {
-        this.set = new Set();
-        this.set.specifics = new ArrayList<>();
+    private void initSpecifics() {
+        set.specifics = new ArrayList<>();
     }
-    public void addSpecific(String ch) {
-        this.set.specifics.add(ch);
+    private void addSpecific(String ch) {
+        set.specifics.add(ch);
     }
-    public void setId(String id) {
-        this.set.id = id;
-        sets.add(this.set);
+    private void addSet() {
+        sets.add(set);
     }
     public ArrayList<Set> getSets() {
         return sets;
@@ -83,7 +80,7 @@ non terminal specific, regex;
 non terminal operations, operation;
 non terminal node;
 non terminal String character;
-non terminal analysis, expresion;
+non terminal analysis, expression;
 
 /* 5. Precedencias */
 
@@ -102,15 +99,15 @@ instruction::=
     set |
     regex;
 
-set::=RW_CONJ COLON ID:id PROMPT elements SEMICOLON {:setId(id);:};
+set::=RW_CONJ COLON ID:id {:initSet(id);:} PROMPT elements SEMICOLON {:addSet();:};
 
 elements::=
-    character:start TILDE character:end {:initSet(start,end);:} |
+    character:start TILDE character:end {:set.startChar = start;set.endChar = end;:}|
     specific;
 
 specific::=
-    specific COMMA character:ch {:addSpecific(ch);:} |
-    character:ch                {:initSet();addSpecific(ch);:};
+    character:ch                {:initSpecifics();addSpecific(ch);:} |
+    specific COMMA character:ch {:addSpecific(ch);:};
 
 character::=
     CHAR:ch         {:RESULT = ch;:} |
@@ -124,9 +121,11 @@ character::=
     KLEENE:kl       {:RESULT = kl;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
-regex::=ID PROMPT operations SEMICOLON;
+regex::=ID {} PROMPT operations SEMICOLON;
 
-operations::=operations operation | operation;
+operations::=
+    operations operation |
+    operation;
 
 operation::=
     CONCAT operation operation |
@@ -140,8 +139,8 @@ node::=
     STRING;
 
 analysis::=
-    expresion analysis |
-    expresion error |
-    expresion;
+    expression analysis |
+    expression error |
+    expression;
 
-expresion::=ID COLON STRING SEMICOLON;
+expression::=ID COLON STRING SEMICOLON;
