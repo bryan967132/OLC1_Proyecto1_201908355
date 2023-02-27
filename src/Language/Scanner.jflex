@@ -103,7 +103,7 @@ UNUSED=[ \r\t]+
 CHARACTER = [a-zA-Z0-9]
 ID = [a-zA-Z0-9\_]+
 STRING = \"(([^\"\\]?|\\.)*)\"
-
+ASCII = [!-\/:-@\[-`{-\}]
 COMMENTS = "//"([^\r\n]*)?
 COMMENTM = "<!"([^<!>]*)?"!>"
 %%
@@ -112,8 +112,6 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 
 "CONJ"              {addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
 {CHARACTER}         {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
-"!"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
-"&"                 {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
 {ID}                {addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());}
 {STRING}            {addToken(yytext(),yyline,yychar,"STRING");         return new Symbol(Sym.STRING,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}
@@ -128,6 +126,7 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 "."                 {addToken(yytext(),yyline,yychar,"CONCAT");         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());}
 "~"                 {addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());}
 "%%"                {addToken(yytext(),yyline,yychar,"LIMIT");          return new Symbol(Sym.LIMIT,yyline,yychar,yytext());}
+{ASCII}             {addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
 \n                  {yychar = 1;}
 {UNUSED}            {}
 {COMMENTS}          {}
