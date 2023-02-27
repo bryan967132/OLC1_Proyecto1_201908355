@@ -137,7 +137,7 @@ public class ParserC {
     /*character::=CHAR | LBRACKET | RBRACKET | SEMICOLON | COLON | COMMA | OR | POSITIVE | KLEENE | CONCAT*/
     boolean characters(Tokens type) {
         for(characters token : characters.values()) {
-            if(token == characters.valueOf(String.valueOf(type))) return true;
+            if(String.valueOf(token).equals(String.valueOf(type))) return true;
         }
         return false;
     }
