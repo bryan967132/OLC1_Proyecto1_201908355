@@ -27,7 +27,7 @@ UNUSED=[ \r\t]+
 CHARACTER = [a-zA-Z0-9]
 ID = [a-zA-Z0-9\_]+
 STRING = \"(([^\"\\]?|\\.)*)\"
-
+ASCII = [!-\/:-@\[-`{-\}]
 COMMENTS = "//"([^\r\n]*)?
 COMMENTM = "<!"([^<!>]*)?"!>"
 %%
@@ -36,8 +36,6 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 
 "CONJ"              {return new Token(yytext(),yychar,yylength(),Tokens.RW_CONJ);}
 {CHARACTER}         {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
-"!"                 {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
-"&"                 {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
 {ID}                {return new Token(yytext(),yychar,yylength(),Tokens.ID);}
 {STRING}            {return new Token(yytext(),yychar,yylength(),Tokens.STRING);}
 "{"                 {return new Token(yytext(),yychar,yylength(),Tokens.LBRACKET);}
@@ -52,6 +50,7 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 "."                 {return new Token(yytext(),yychar,yylength(),Tokens.CONCAT);}
 "~"                 {return new Token(yytext(),yychar,yylength(),Tokens.TILDE);}
 "%%"                {return new Token(yytext(),yychar,yylength(),Tokens.LIMIT);}
+{ASCII}             {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
 \n                  {}
 {UNUSED}            {}
 {COMMENTS}          {painter.COMMENT(yychar,yylength());}

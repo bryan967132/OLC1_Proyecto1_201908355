@@ -10,6 +10,7 @@ public class Parser {
     Stack<Token> op;
     Queue<Token> queue;
     Token token;
+    enum characters{CHAR,LBRACKET,RBRACKET,SEMICOLON,COLON,COMMA,OR,POSITIVE,KLEENE,CONCAT}
     WordPainter painter;
     public Parser(ArrayList<Token> code,WordPainter painter) {
         this.code = code;
@@ -38,10 +39,13 @@ public class Parser {
     /*instructions::=instruction instructions | instruction*/
     void instructions() {
         instruction();
-        token = getToken(0);
-        if(token != null && token.type != Tokens.LIMIT) {
-            instructions();
+        try {
+            token = getToken(0);
+            if(token != null && token.type != Tokens.LIMIT) {
+                instructions();
+            }
         }
+        catch(StackOverflowError e) {}
     }
     /*instruction::=set | regex*/
     void instruction() {
@@ -72,7 +76,7 @@ public class Parser {
                     token = popTokenQueue();
                     if(token != null && token.type == Tokens.PROMPT) {
                         token = getTokenQueue();
-                        if(token != null && token.type == Tokens.CHAR) {
+                        if(token != null && (token.type == Tokens.CHAR || characters(token.type))) {
                             elements();
                             token = popToken(0);
                             if(token != null && token.type == Tokens.SEMICOLON) {
@@ -93,7 +97,7 @@ public class Parser {
     /*elements::=CHAR TILDE CHAR | specific*/
     void elements() {
         token = getTokenQueue();
-        if(token != null && token.type == Tokens.CHAR) {
+        if(token != null && (token.type == Tokens.CHAR || characters(token.type))) {
             token = getTokenQueue(1);
             if(token != null) {
                 if(token.type == Tokens.TILDE) {
@@ -101,7 +105,7 @@ public class Parser {
                     painter.CHARACTER(token.yychar,token.yylength);
                     popTokenQueue();
                     token = popTokenQueue();
-                    if(token != null && token.type == Tokens.CHAR) {
+                    if(token != null && (token.type == Tokens.CHAR || characters(token.type))) {
                         painter.CHARACTER(token.yychar,token.yylength);
                         return;
                     }
@@ -120,7 +124,7 @@ public class Parser {
     /*specific::=CHAR COMMA specific | CHAR*/
     void specific() {
         token = popTokenQueue();
-        if(token != null && token.type == Tokens.CHAR) {
+        if(token != null && (token.type == Tokens.CHAR || characters(token.type))) {
             painter.CHARACTER(token.yychar,token.yylength);
             token = popTokenQueue();
             if(token != null && token.type == Tokens.COMMA) {
@@ -129,6 +133,13 @@ public class Parser {
             }
             return;
         }
+    }
+    /*character::=CHAR | LBRACKET | RBRACKET | SEMICOLON | COLON | COMMA | OR | POSITIVE | KLEENE | CONCAT*/
+    boolean characters(Tokens type) {
+        for(characters token : characters.values()) {
+            if(token == characters.valueOf(String.valueOf(type))) return true;
+        }
+        return false;
     }
     /*regex::=ID PROMPT operations SEMICOLON*/
     void regex() {
@@ -231,10 +242,13 @@ public class Parser {
     /*analysis::=expresion analysis | expresion*/
     void analysis() {
         expresion();
-        token = getToken(0);
-        if(token != null && token.type != Tokens.RBRACKET) {
-            analysis();
+        try {
+            token = getToken(0);
+            if(token != null && token.type != Tokens.RBRACKET) {
+                analysis();
+            }
         }
+        catch(StackOverflowError e) {}
     }
     /*expresion::=ID COLON STRING SEMICOLON*/
     void expresion() {
