@@ -19,6 +19,7 @@ parser code
     //ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Set> sets = new ArrayList<>();
+    Set set;
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -45,6 +46,25 @@ parser code
         }
         return exe + "\n";
     }
+    public void initSet(String startChar,String endChar) {
+        this.set = new Set();
+        this.set.startChar = startChar;
+        this.set.endChar = endChar;
+    }
+    public void initSet() {
+        this.set = new Set();
+        this.set.specifics = new ArrayList<>();
+    }
+    public void addSpecific(String ch) {
+        this.set.specifics.add(ch);
+    }
+    public void setId(String id) {
+        this.set.id = id;
+        sets.add(this.set);
+    }
+    public ArrayList<Set> getSets() {
+        return sets;
+    }
 :} 
 
 /* 3. Terminales*/
@@ -61,7 +81,8 @@ non terminal instructions,instruction;
 non terminal set, elements;
 non terminal specific, regex;
 non terminal operations, operation;
-non terminal node,character;
+non terminal node;
+non terminal String character;
 non terminal analysis, expresion;
 
 /* 5. Precedencias */
@@ -77,23 +98,46 @@ instructions::=
     instruction error |
     instruction;
 
-instruction::=set | regex;
+instruction::=
+    set |
+    regex;
 
-set::=RW_CONJ COLON ID PROMPT elements SEMICOLON;
+set::=RW_CONJ COLON ID:id PROMPT elements SEMICOLON {:setId(id);:};
 
-elements::=character TILDE character | specific;
+elements::=
+    character:start TILDE character:end {:initSet(start,end);:} |
+    specific;
 
-specific::=character COMMA specific | character;
+specific::=
+    specific COMMA character:ch {:addSpecific(ch);:} |
+    character:ch                {:initSet();addSpecific(ch);:};
 
-character::=CHAR | LBRACKET | RBRACKET | SEMICOLON | COLON | COMMA | OR | POSITIVE | KLEENE | CONCAT;
+character::=
+    CHAR:ch         {:RESULT = ch;:} |
+    LBRACKET:lb     {:RESULT = lb;:} |
+    RBRACKET:rb     {:RESULT = rb;:} |
+    SEMICOLON:sm    {:RESULT = sm;:} |
+    COLON:cn        {:RESULT = cn;:} |
+    COMMA:cm        {:RESULT = cm;:} |
+    OR:or           {:RESULT = or;:} |
+    POSITIVE:pl     {:RESULT = pl;:} |
+    KLEENE:kl       {:RESULT = kl;:} |
+    CONCAT:cc       {:RESULT = cc;:};
 
 regex::=ID PROMPT operations SEMICOLON;
 
 operations::=operations operation | operation;
 
-operation::=CONCAT operation operation | OR operation operation | KLEENE operation | POSITIVE operation | node;
+operation::=
+    CONCAT operation operation |
+    OR operation operation |
+    KLEENE operation |
+    POSITIVE operation |
+    node;
 
-node::=LBRACKET ID RBRACKET | STRING;
+node::=
+    LBRACKET ID RBRACKET |
+    STRING;
 
 analysis::=
     expresion analysis |
