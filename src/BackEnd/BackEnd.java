@@ -40,7 +40,7 @@ public class BackEnd {
             System.out.println(input);
             Parser parser = new Parser(scanner);
             parser.parse();
-            System.out.println(parser.getSets());
+            System.out.println(parser.getStrSets());
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -6,6 +6,6 @@ public class Set {
     public String endChar = null;
     public ArrayList<String> specifics = null;
     public String toString() {
-        return "\nID: " + id + (specifics != null ? "\t\tSpecifics: " + specifics : "\t\tStartChar: " + startChar + "\t\t\tEndChar: " + endChar);
+        return "ID: " + id + (specifics != null ? "\t\tSpecifics: " + specifics : "\t\tStartChar: " + startChar + "\t\t\tEndChar: " + endChar);
     }
 }

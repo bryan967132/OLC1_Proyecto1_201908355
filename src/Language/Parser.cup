@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Components.ErrorS;
 import Components.Instruction;
 import BackEnd.Set;
+import BackEnd.Regex;
 
 /* 2. Codigo para el parser, variables y metodos */
 
@@ -50,6 +51,10 @@ parser code
         set = new Set();
         set.id = id;
     }
+    private void addRange(String start,String end) {
+        set.startChar = start;
+        set.endChar = end;
+    }
     private void initSpecifics() {
         set.specifics = new ArrayList<>();
     }
@@ -58,9 +63,17 @@ parser code
     }
     private void addSet() {
         sets.add(set);
+        set = null;
     }
     public ArrayList<Set> getSets() {
         return sets;
+    }
+    public String getStrSets() {
+        String str = "";
+        for(Set set : sets) {
+            str += set + "\n";
+        }
+        return str;
     }
 :} 
 
@@ -102,7 +115,7 @@ instruction::=
 set::=RW_CONJ COLON ID:id {:initSet(id);:} PROMPT elements SEMICOLON {:addSet();:};
 
 elements::=
-    character:start TILDE character:end {:set.startChar = start;set.endChar = end;:}|
+    character:start TILDE character:end {:addRange(start,end);:}|
     specific;
 
 specific::=

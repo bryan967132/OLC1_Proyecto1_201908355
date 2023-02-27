@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import Components.ErrorS;
 import Components.Instruction;
 import BackEnd.Set;
+import BackEnd.Regex;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -221,6 +222,10 @@ public class Parser extends java_cup.runtime.lr_parser {
         set = new Set();
         set.id = id;
     }
+    private void addRange(String start,String end) {
+        set.startChar = start;
+        set.endChar = end;
+    }
     private void initSpecifics() {
         set.specifics = new ArrayList<>();
     }
@@ -229,9 +234,17 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
     private void addSet() {
         sets.add(set);
+        set = null;
     }
     public ArrayList<Set> getSets() {
         return sets;
+    }
+    public String getStrSets() {
+        String str = "";
+        for(Set set : sets) {
+            str += set + "\n";
+        }
+        return str;
     }
 
 
@@ -363,7 +376,7 @@ initSet(id);
 		int endleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int endright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String end = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		set.startChar = start;set.endChar = end;
+		addRange(start,end);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("elements",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
