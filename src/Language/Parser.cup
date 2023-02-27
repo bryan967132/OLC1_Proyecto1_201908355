@@ -1,9 +1,10 @@
 /* 1. Package e importaciones */
 package Language;
-import Components.ErrorS;
-import Components.Instruction;
 import java_cup.runtime.*;
 import java.util.ArrayList;
+import Components.ErrorS;
+import Components.Instruction;
+import BackEnd.Set;
 
 /* 2. Codigo para el parser, variables y metodos */
 
@@ -17,6 +18,7 @@ parser code
 
     //ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
+    ArrayList<Set> sets = new ArrayList<>();
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -69,15 +71,33 @@ non terminal analysis, expresion;
 start with ini;
 
 ini::=LBRACKET instructions LIMIT analysis RBRACKET;
-instructions::=instruction instructions | instruction;
+
+instructions::=
+    instruction instructions |
+    instruction error |
+    instruction;
+
 instruction::=set | regex;
+
 set::=RW_CONJ COLON ID PROMPT elements SEMICOLON;
+
 elements::=character TILDE character | specific;
+
 specific::=character COMMA specific | character;
+
 character::=CHAR | LBRACKET | RBRACKET | SEMICOLON | COLON | COMMA | OR | POSITIVE | KLEENE | CONCAT;
+
 regex::=ID PROMPT operations SEMICOLON;
+
 operations::=operations operation | operation;
+
 operation::=CONCAT operation operation | OR operation operation | KLEENE operation | POSITIVE operation | node;
+
 node::=LBRACKET ID RBRACKET | STRING;
-analysis::=expresion analysis | expresion;
+
+analysis::=
+    expresion analysis |
+    expresion error |
+    expresion;
+
 expresion::=ID COLON STRING SEMICOLON;

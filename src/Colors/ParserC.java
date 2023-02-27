@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
-public class Parser {
+public class ParserC {
     ArrayList<Token> code;
     Stack<Token> stack;
     Stack<Token> op;
@@ -12,7 +12,7 @@ public class Parser {
     Token token;
     enum characters{CHAR,LBRACKET,RBRACKET,SEMICOLON,COLON,COMMA,OR,POSITIVE,KLEENE,CONCAT}
     WordPainter painter;
-    public Parser(ArrayList<Token> code,WordPainter painter) {
+    public ParserC(ArrayList<Token> code,WordPainter painter) {
         this.code = code;
         this.painter = painter;
     }

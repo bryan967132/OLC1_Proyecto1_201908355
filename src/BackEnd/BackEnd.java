@@ -4,15 +4,21 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import javax.swing.JTextPane;
-import Colors.Parser;
-import Colors.Scanner;
+import Colors.ParserC;
+import Colors.ScannerC;
 import Colors.Token;
 import Colors.WordPainter;
+import Language.Parser;
+import Language.Scanner;
 public class BackEnd {
+    ArrayList<Set> sets = new ArrayList<>();
+    public void addSet(Set set) {
+        sets.add(set);
+    }
     public void setFormat(JTextPane editor) throws IOException {
         String input = editor.getText();
         WordPainter painter = new WordPainter();
-        Scanner sc = new Scanner(
+        ScannerC sc = new ScannerC(
             new BufferedReader(
                 new StringReader(input)
             ),
@@ -25,7 +31,24 @@ public class BackEnd {
         while((token = sc.yylex()) != null) {
             code.add(token);
         }
-        Parser parser = new Parser(code,painter);
+        ParserC parser = new ParserC(code,painter);
         parser.parse();
+    }
+    public void analyze(String input) {
+        try {
+            Scanner scanner = new Scanner(
+                new BufferedReader(
+                    new StringReader(input)
+                )
+            );
+            System.out.println(input);
+            Parser parser = new Parser(scanner);
+            parser.parse();
+            System.out.println(scanner.getTokens());
+            System.out.println(scanner.getErrors());
+            System.out.println(parser.getExecution());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

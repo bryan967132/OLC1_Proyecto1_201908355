@@ -7,7 +7,7 @@ public class ScannerFormat {
     public static void generate() {
         jflex.Main.generate(
             new File(
-                "src/Colors/Scanner.jflex"
+                "src/Colors/ScannerC.jflex"
             )
         );
     }

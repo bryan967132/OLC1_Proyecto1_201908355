@@ -28,8 +28,6 @@ public class IDE extends JPanel implements ActionListener {
     JPanel graphics;
     JPanel projects;
     JTextPane console;
-    Parser parser;
-    Scanner sc;
     String input;
     Symbol sym;
     ToolBar toolbar;

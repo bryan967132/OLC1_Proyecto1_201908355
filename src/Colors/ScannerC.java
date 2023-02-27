@@ -8,7 +8,7 @@ package Colors;
  * <a href="http://www.jflex.de/">JFlex</a> 1.7.0
  * from the specification file <tt>src/Colors/Scanner.jflex</tt>
  */
-public class Scanner {
+public class ScannerC {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -250,7 +250,7 @@ public class Scanner {
 
   /* user code: */
     WordPainter painter;
-    public Scanner(java.io.Reader in,WordPainter painter) {
+    public ScannerC(java.io.Reader in,WordPainter painter) {
         this.zzReader = in;
         this.painter = painter;
     }
@@ -261,7 +261,7 @@ public class Scanner {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  public Scanner(java.io.Reader in) {
+  public ScannerC(java.io.Reader in) {
     this.zzReader = in;
   }
 
