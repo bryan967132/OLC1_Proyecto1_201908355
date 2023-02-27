@@ -11,10 +11,6 @@ import Colors.WordPainter;
 import Language.Parser;
 import Language.Scanner;
 public class BackEnd {
-    ArrayList<Set> sets = new ArrayList<>();
-    public void addSet(Set set) {
-        sets.add(set);
-    }
     public void setFormat(JTextPane editor) throws IOException {
         String input = editor.getText();
         WordPainter painter = new WordPainter();
@@ -44,9 +40,7 @@ public class BackEnd {
             System.out.println(input);
             Parser parser = new Parser(scanner);
             parser.parse();
-            System.out.println(scanner.getTokens());
-            System.out.println(scanner.getErrors());
-            System.out.println(parser.getExecution());
+            System.out.println(parser.getSets());
         } catch (Exception e) {
             System.out.println(e);
         }

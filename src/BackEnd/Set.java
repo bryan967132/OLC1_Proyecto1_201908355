@@ -1,17 +1,11 @@
 package BackEnd;
 import java.util.ArrayList;
 public class Set {
-    String id = null;
-    String startChar = null;
-    String endChar = null;
-    ArrayList<String> specifics = null;
-    public Set(String id,String startChar,String endChar) {
-        this.id = id;
-        this.startChar = startChar;
-        this.endChar = endChar;
-    }
-    public Set(String id) {
-        this.id = id;
-        this.specifics = new ArrayList<>();
+    public String id = null;
+    public String startChar = null;
+    public String endChar = null;
+    public ArrayList<String> specifics = null;
+    public String toString() {
+        return "\nID: " + id + (specifics != null ? "\t\tSpecifics: " + specifics : "\t\tStartChar: " + startChar + "\t\t\tEndChar: " + endChar);
     }
 }
