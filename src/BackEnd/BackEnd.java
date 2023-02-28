@@ -44,6 +44,7 @@ public class BackEnd {
             System.out.println(parser.getStrSets());
             System.out.println("EXPRESIONES REGULARES");
             System.out.println(parser.getStrRegexs());
+            System.out.println(parser.getExecution());
         } catch (Exception e) {
             System.out.println(e);
         }
