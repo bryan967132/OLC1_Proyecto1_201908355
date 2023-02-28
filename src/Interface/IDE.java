@@ -62,8 +62,18 @@ public class IDE extends JPanel implements ActionListener {
         editorArea = new EditorArea();
         editorArea.editor.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_F5) {
-                    try {backend.setFormat(editorArea.editor);} catch (Exception e1) {}
+                if(e.getKeyCode() == KeyEvent.VK_F5) {
+                    try {
+                        backend.setFormat(editorArea.editor);
+                    }
+                    catch (Exception e1) {}
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_F6) {
+                    try {
+                        backend.setFormat(editorArea.editor);
+                        backend.analyze(editorArea.editor.getText());
+                    }
+                    catch (Exception e1) {}
                 }
             }
         });
