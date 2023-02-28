@@ -21,8 +21,8 @@ parser code
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Set> sets = new ArrayList<>();
     ArrayList<Regex> regexs = new ArrayList<>();
-    Set set;
-    Regex regex;
+    Set set = new Set();
+    Regex regex = new Regex();
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -49,10 +49,6 @@ parser code
         }
         return "SUCCESSFULLY RUN";
     }
-    private void initSet(String id) {
-        set = new Set();
-        set.id = id;
-    }
     private void addRange(String start,String end) {
         set.startChar = start;
         set.endChar = end;
@@ -60,9 +56,10 @@ parser code
     private void addSpecific(String ch) {
         set.specifics.add(ch);
     }
-    private void addSet() {
+    private void addSet(String id) {
+        set.id = id;
         sets.add(set);
-        set = null;
+        set = new Set();
     }
     public ArrayList<Set> getSets() {
         return sets;
@@ -74,16 +71,13 @@ parser code
         }
         return str;
     }
-    private void initRegex(String id) {
-        regex = new Regex();
-        regex.id = id;
-    }
     private void addElement(String element) {
         regex.expression.push(element);
     }
-    private void addRegex() {
+    private void addRegex(String id) {
+        regex.id = id;
         regexs.add(regex);
-        regex = null;
+        regex = new Regex();
     }
     public ArrayList<Regex> getRegexs() {
         return regexs;
@@ -133,7 +127,7 @@ instruction::=
     set |
     regex;
 
-set::=RW_CONJ COLON ID:id {:initSet(id);:} PROMPT elements SEMICOLON {:addSet();:};
+set::=RW_CONJ COLON ID:id PROMPT elements SEMICOLON {:addSet(id);:};
 
 elements::=
     character:start TILDE character:end {:addRange(start,end);:}|
@@ -155,7 +149,7 @@ character::=
     KLEENE:kl       {:RESULT = kl;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
-regex::=ID:id {:initRegex(id);:} PROMPT operations SEMICOLON {:addRegex();:};
+regex::=ID:id PROMPT operations SEMICOLON {:addRegex(id);:};
 
 operations::=
     operations operation |
