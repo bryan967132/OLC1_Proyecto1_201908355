@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java_cup.runtime.*;
 import Components.ErrorS;
 import Components.Instruction;
-import BackEnd.Set;
+import BackEnd.Expression;
 import BackEnd.Regex;
+import BackEnd.Set;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -202,10 +203,12 @@ public class Parser extends java_cup.runtime.lr_parser {
 
     ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
-    ArrayList<Set> sets = new ArrayList<>();
+    ArrayList<Expression> expressions = new ArrayList<>();
     ArrayList<Regex> regexs = new ArrayList<>();
-    Set set = new Set();
+    ArrayList<Set> sets = new ArrayList<>();
+    Expression expression = new Expression();
     Regex regex = new Regex();
+    Set set = new Set();
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -279,6 +282,13 @@ public class Parser extends java_cup.runtime.lr_parser {
             str += regex + "\n";
         }
         return str;
+    }
+    private void addExpression(String id,String string) {
+        expression.id = id;
+        expression.string = string;
+        expressions.add(expression);
+        flowExe.add(new Instruction(expression));
+        expression = new Expression();
     }
 
 
@@ -784,7 +794,13 @@ addElement(pl);
           case 42: // expression ::= ID COLON STRING SEMICOLON 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		int strleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int strright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		String str = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		addExpression(id,str);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("expression",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java_cup.runtime.*;
 import Components.ErrorS;
 import Components.Instruction;
-import BackEnd.Set;
+import BackEnd.Expression;
 import BackEnd.Regex;
+import BackEnd.Set;
 
 /* 2. Codigo para el parser, variables y metodos */
 
@@ -19,10 +20,12 @@ parser code
 
     ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
-    ArrayList<Set> sets = new ArrayList<>();
+    ArrayList<Expression> expressions = new ArrayList<>();
     ArrayList<Regex> regexs = new ArrayList<>();
-    Set set = new Set();
+    ArrayList<Set> sets = new ArrayList<>();
+    Expression expression = new Expression();
     Regex regex = new Regex();
+    Set set = new Set();
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -96,6 +99,13 @@ parser code
             str += regex + "\n";
         }
         return str;
+    }
+    private void addExpression(String id,String string) {
+        expression.id = id;
+        expression.string = string;
+        expressions.add(expression);
+        flowExe.add(new Instruction(expression));
+        expression = new Expression();
     }
 :} 
 
@@ -180,4 +190,4 @@ analysis::=
     expression error |
     expression;
 
-expression::=ID COLON STRING SEMICOLON;
+expression::=ID:id COLON STRING:str SEMICOLON {:addExpression(id,str);:};
