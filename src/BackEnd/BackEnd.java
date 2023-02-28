@@ -40,7 +40,10 @@ public class BackEnd {
             System.out.println(input);
             Parser parser = new Parser(scanner);
             parser.parse();
+            System.out.println("CONJUNTOS");
             System.out.println(parser.getStrSets());
+            System.out.println("EXPRESIONES REGULARES");
+            System.out.println(parser.getStrRegexs());
         } catch (Exception e) {
             System.out.println(e);
         }

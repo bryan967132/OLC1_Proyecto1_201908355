@@ -1,7 +1,7 @@
 /* 1. Package e importaciones */
 package Language;
-import java_cup.runtime.*;
 import java.util.ArrayList;
+import java_cup.runtime.*;
 import Components.ErrorS;
 import Components.Instruction;
 import BackEnd.Set;
@@ -20,7 +20,9 @@ parser code
     //ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Set> sets = new ArrayList<>();
+    ArrayList<Regex> regexs = new ArrayList<>();
     Set set;
+    Regex regex;
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -55,9 +57,6 @@ parser code
         set.startChar = start;
         set.endChar = end;
     }
-    private void initSpecifics() {
-        set.specifics = new ArrayList<>();
-    }
     private void addSpecific(String ch) {
         set.specifics.add(ch);
     }
@@ -72,6 +71,27 @@ parser code
         String str = "";
         for(Set set : sets) {
             str += set + "\n";
+        }
+        return str;
+    }
+    private void initRegex(String id) {
+        regex = new Regex();
+        regex.id = id;
+    }
+    private void addElement(String element) {
+        regex.expression.push(element);
+    }
+    private void addRegex() {
+        regexs.add(regex);
+        regex = null;
+    }
+    public ArrayList<Regex> getRegexs() {
+        return regexs;
+    }
+    public String getStrRegexs() {
+        String str = "";
+        for(Regex regex : regexs) {
+            str += regex + "\n";
         }
         return str;
     }
@@ -119,7 +139,7 @@ elements::=
     specific;
 
 specific::=
-    character:ch                {:initSpecifics();addSpecific(ch);:} |
+    character:ch                {:addSpecific(ch);:} |
     specific COMMA character:ch {:addSpecific(ch);:};
 
 character::=
@@ -134,22 +154,22 @@ character::=
     KLEENE:kl       {:RESULT = kl;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
-regex::=ID {} PROMPT operations SEMICOLON;
+regex::=ID:id {:initRegex(id);:} PROMPT operations SEMICOLON {:addRegex();:};
 
 operations::=
     operations operation |
     operation;
 
 operation::=
-    CONCAT operation operation |
-    OR operation operation |
-    KLEENE operation |
-    POSITIVE operation |
+    CONCAT:cc   {:addElement(cc);:} operation operation |
+    OR:or       {:addElement(or);:} operation operation |
+    KLEENE:kl   {:addElement(kl);:} operation |
+    POSITIVE:pl {:addElement(pl);:} operation |
     node;
 
 node::=
-    LBRACKET ID RBRACKET |
-    STRING;
+    LBRACKET ID:id RBRACKET {:addElement(id);:} |
+    STRING:str              {:addElement(str);:};
 
 analysis::=
     expression analysis |
