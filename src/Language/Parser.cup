@@ -17,7 +17,7 @@ parser code
         this.s = s;
     }
 
-    //ArrayList<Instruction> flowExe = new ArrayList<>();
+    ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Set> sets = new ArrayList<>();
     ArrayList<Regex> regexs = new ArrayList<>();
@@ -39,15 +39,21 @@ parser code
             new Instruction("Unrecovered Syntax Error.")
         );
     }
-    public String getExecution() {
+    public ArrayList<Instruction> getExcecution() {
+        return flowExe;
+    }
+    public String getStrExecution() {
         String exe = "";
+        for(int i = 0; i < flowExe.size(); i ++) {
+            exe += flowExe.get(i) + "\n";
+        }
         if(errors.size() > 0) {
             for(int i = 0; i < errors.size(); i ++) {
                 exe += errors.get(i) + "\n";
             }
             return exe + "\n";
         }
-        return "SUCCESSFULLY RUN";
+        return exe + "SUCCESSFULLY RUN";
     }
     private void addRange(String start,String end) {
         set.startChar = start;
@@ -59,6 +65,7 @@ parser code
     private void addSet(String id) {
         set.id = id;
         sets.add(set);
+        flowExe.add(new Instruction(set));
         set = new Set();
     }
     public ArrayList<Set> getSets() {
@@ -77,6 +84,7 @@ parser code
     private void addRegex(String id) {
         regex.id = id;
         regexs.add(regex);
+        flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
     public ArrayList<Regex> getRegexs() {
@@ -167,6 +175,7 @@ node::=
     STRING:str              {:addElement(str);:};
 
 analysis::=
+    expression error analysis |
     expression analysis |
     expression error |
     expression;

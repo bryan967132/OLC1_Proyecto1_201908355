@@ -6,6 +6,6 @@ public class Set {
     public String endChar;
     public ArrayList<String> specifics = new ArrayList<>();
     public String toString() {
-        return "ID: " + id + (specifics.size() > 0 ? "\t\tSpecifics: " + String.join(", ",specifics) : "\t\tStartChar: " + startChar + "\t\t\tEndChar: " + endChar);
+        return "CONJUNTO --------------- ID: " + id + (specifics.size() > 0 ? "\t\tSpecifics: " + String.join(", ",specifics) : "\t\tStartChar: " + startChar + "\t\t\tEndChar: " + endChar);
     }
 }
