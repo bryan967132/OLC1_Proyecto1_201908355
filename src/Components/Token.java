@@ -19,20 +19,6 @@ public class Token {
 	);
     }
     public String toString() {
-        String token = "";
-        token += lexeme;
-        for(int i = 1; i <= 25 - String.valueOf(lexeme).length(); i ++) {
-            token += " ";
-        }
-        token += line;
-        for(int i = 1; i <= 6 - String.valueOf(line).length(); i ++) {
-            token += " ";
-        }
-        token += column;
-        for(int i = 1; i <= 8 - String.valueOf(column).length(); i ++) {
-            token += " ";
-        }
-        token += type;
-        return token;
+        return lexeme + " ".repeat(25 - lexeme.length()) + line + " ".repeat(6 - String.valueOf(line).length()) + column + " ".repeat(8 - String.valueOf(column).length()) + type;
     }
 }
