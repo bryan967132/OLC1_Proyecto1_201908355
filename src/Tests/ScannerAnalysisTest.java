@@ -1,11 +1,11 @@
 package Tests;
-import BackEnd.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java_cup.runtime.Symbol;
+import Language.Scanner;
 public class ScannerAnalysisTest {
     public static void main(String[] args) throws Exception {
         try {
