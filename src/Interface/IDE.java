@@ -14,10 +14,10 @@ import java_cup.runtime.Symbol;
 import Colors.*;
 import Templates.Button;
 import java.awt.event.KeyAdapter;
-import BackEnd.BackEnd;
+import Controller.Controller;
 public class IDE extends JPanel implements ActionListener {
     ArrayList<Token> code;
-    BackEnd backend;
+    Controller controller;
     Button analyzeInput;
     Button paintCode;
     EditorArea editorArea;
@@ -43,7 +43,7 @@ public class IDE extends JPanel implements ActionListener {
         cursorPosition();
     }
     void initComponents() {
-        backend = new BackEnd();
+        controller = new Controller();
         projects = new JPanel();
         editorAreaContent = new JPanel();
         cursorPosition = new JLabel();
@@ -64,14 +64,14 @@ public class IDE extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_F5) {
                     try {
-                        backend.setFormat(editorArea.editor);
+                        controller.setFormat(editorArea.editor);
                     }
                     catch (Exception e1) {}
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_F6) {
                     try {
-                        backend.setFormat(editorArea.editor);
-                        backend.analyze(editorArea.editor.getText());
+                        controller.setFormat(editorArea.editor);
+                        controller.analyze(editorArea.editor.getText());
                     }
                     catch (Exception e1) {}
                 }
@@ -153,7 +153,7 @@ public class IDE extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == paintCode) {
             try {
-                backend.setFormat(editorArea.editor);
+                controller.setFormat(editorArea.editor);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }

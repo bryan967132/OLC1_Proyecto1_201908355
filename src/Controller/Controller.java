@@ -10,7 +10,7 @@ import Colors.Token;
 import Colors.WordPainter;
 import Language.Parser;
 import Language.Scanner;
-public class BackEnd {
+public class Controller {
     public void setFormat(JTextPane editor) throws IOException {
         String input = editor.getText();
         WordPainter painter = new WordPainter();

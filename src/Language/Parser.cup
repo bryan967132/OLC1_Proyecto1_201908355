@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java_cup.runtime.*;
 import Components.ErrorS;
 import Components.Instruction;
-import BackEnd.Expression;
-import BackEnd.Regex;
-import BackEnd.Set;
+import Controller.Expression;
+import Controller.Regex;
+import Controller.Set;
 import Colors.Token;
 import Colors.Tokens;
 
