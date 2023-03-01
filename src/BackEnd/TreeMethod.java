@@ -14,6 +14,7 @@ public class TreeMethod {
     }
     public void build() {
         tree.build();
+        tree.nodesI();
         System.out.println(tree.getDot());
     }
 }

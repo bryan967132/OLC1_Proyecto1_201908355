@@ -96,6 +96,24 @@ public class Tree {
     private String getNexts(Node node) {
         return node.nexts.size() > 0 ? String.join(",",node.nexts.stream().map(Object::toString).collect(Collectors.joining(" "))) :  "";
     }
+    public void nodesI() {
+        nodesI(root);
+    }
+    private void nodesI(Node node) {
+        if(node != null) {
+            if(node.left == null && node.right == null) {
+                node.i = i;
+                i ++;
+                return;
+            }
+            if(node.left != null) {
+                nodesI(node.left);
+            }
+            if(node.right != null) {
+                nodesI(node.right);
+            }
+        }
+    }
     public String getDot() {
         return "digraph Tree {\n\tnode[shape = plaintext];" + getDotNodes(root,Align.CENTER) + "\n}";
     }
