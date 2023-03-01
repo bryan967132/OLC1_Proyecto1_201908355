@@ -2,10 +2,13 @@
 package Language;
 import java.util.ArrayList;
 import java_cup.runtime.*;
+import Colors.Token;
+import Colors.Tokens;
 import Components.ErrorS;
 import Components.Instruction;
-import BackEnd.Set;
-import BackEnd.Regex;
+import Controller.Expression;
+import Controller.Regex;
+import Controller.Set;
 
 /* 2. Codigo para el parser, variables y metodos */
 
@@ -17,12 +20,14 @@ parser code
         this.s = s;
     }
 
-    //ArrayList<Instruction> flowExe = new ArrayList<>();
+    ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
-    ArrayList<Set> sets = new ArrayList<>();
+    ArrayList<Expression> expressions = new ArrayList<>();
     ArrayList<Regex> regexs = new ArrayList<>();
-    Set set = new Set();
+    ArrayList<Set> sets = new ArrayList<>();
+    Expression expression = new Expression();
     Regex regex = new Regex();
+    Set set = new Set();
     public void syntax_error(Symbol sym) {
         errors.add(
             new Instruction(
@@ -39,15 +44,21 @@ parser code
             new Instruction("Unrecovered Syntax Error.")
         );
     }
-    public String getExecution() {
+    public ArrayList<Instruction> getExcecution() {
+        return flowExe;
+    }
+    public String getStrExecution() {
         String exe = "";
+        for(int i = 0; i < flowExe.size(); i ++) {
+            exe += flowExe.get(i) + "\n";
+        }
         if(errors.size() > 0) {
             for(int i = 0; i < errors.size(); i ++) {
                 exe += errors.get(i) + "\n";
             }
             return exe + "\n";
         }
-        return "SUCCESSFULLY RUN";
+        return exe + "SUCCESSFULLY RUN";
     }
     private void addRange(String start,String end) {
         set.startChar = start;
@@ -59,6 +70,7 @@ parser code
     private void addSet(String id) {
         set.id = id;
         sets.add(set);
+        flowExe.add(new Instruction(set));
         set = new Set();
     }
     public ArrayList<Set> getSets() {
@@ -71,12 +83,15 @@ parser code
         }
         return str;
     }
-    private void addElement(String element) {
-        regex.expression.push(element);
+    private void addElement(String element,Tokens type) {
+        regex.expression.push(new Token(element,type));
     }
     private void addRegex(String id) {
         regex.id = id;
         regexs.add(regex);
+        regex.expression.add(0,new Token(".",Tokens.CONCAT));
+        regex.expression.push(new Token("#",Tokens.CONCAT));
+        flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
     public ArrayList<Regex> getRegexs() {
@@ -88,6 +103,13 @@ parser code
             str += regex + "\n";
         }
         return str;
+    }
+    private void addExpression(String id,String string) {
+        expression.id = id;
+        expression.string = string;
+        expressions.add(expression);
+        flowExe.add(new Instruction(expression));
+        expression = new Expression();
     }
 :} 
 
@@ -106,8 +128,9 @@ non terminal set, elements;
 non terminal specific, regex;
 non terminal operations, operation;
 non terminal node;
-non terminal String character;
 non terminal analysis, expression;
+non terminal String character;
+non terminal String ids;
 
 /* 5. Precedencias */
 
@@ -127,7 +150,7 @@ instruction::=
     set |
     regex;
 
-set::=RW_CONJ COLON ID:id PROMPT elements SEMICOLON {:addSet(id);:};
+set::=RW_CONJ COLON ids:id PROMPT elements SEMICOLON {:addSet(id);:};
 
 elements::=
     character:start TILDE character:end {:addRange(start,end);:}|
@@ -149,26 +172,29 @@ character::=
     KLEENE:kl       {:RESULT = kl;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
-regex::=ID:id PROMPT operations SEMICOLON {:addRegex(id);:};
+regex::=ids:id PROMPT operations SEMICOLON {:addRegex(id);:};
 
 operations::=
     operations operation |
     operation;
 
 operation::=
-    CONCAT:cc   {:addElement(cc);:} operation operation |
-    OR:or       {:addElement(or);:} operation operation |
-    KLEENE:kl   {:addElement(kl);:} operation |
-    POSITIVE:pl {:addElement(pl);:} operation |
+    CONCAT:cc   {:addElement(cc,Tokens.CONCAT);:} operation operation |
+    OR:or       {:addElement(or,Tokens.OR);:} operation operation |
+    KLEENE:kl   {:addElement(kl,Tokens.KLEENE);:} operation |
+    POSITIVE:pl {:addElement(pl,Tokens.POSITIVE);:} operation |
     node;
 
 node::=
-    LBRACKET ID:id RBRACKET {:addElement(id);:} |
-    STRING:str              {:addElement(str);:};
+    LBRACKET ids:id RBRACKET {:addElement(id,Tokens.ID);:} |
+    STRING:str               {:addElement(str,Tokens.STRING);:};
 
 analysis::=
+    expression error analysis |
     expression analysis |
     expression error |
     expression;
 
-expression::=ID COLON STRING SEMICOLON;
+expression::=ids:id COLON STRING:str SEMICOLON {:addExpression(id,str);:};
+
+ids::= ID:id {:RESULT = id;:} | CHAR:ch {:RESULT = ch;:};

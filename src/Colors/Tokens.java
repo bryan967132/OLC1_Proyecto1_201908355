@@ -17,5 +17,6 @@ public enum Tokens {
     TILDE,
     LIMIT,
     COMMENT,
-    ERROR
+    ERROR,
+    END
 }
