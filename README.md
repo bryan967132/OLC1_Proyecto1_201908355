@@ -59,7 +59,7 @@ operation -> '.' operation operation |
 
 node -> '{' ID '}' | STRING
 
-analysis -> expresion analysis | expresion
+analysis -> expression analysis | expression
 
-expresion -> ID ':' STRING ';'
+expression -> ID ':' STRING ';'
 ```
