@@ -1,0 +1,28 @@
+digraph Tree {
+	node[shape = plaintext];
+	node12[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td>N</td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p12" width="25">.</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node11[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p11" width="25">.</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node10[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p10" width="25">.</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node9[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p9" width="25">.</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node8[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p8" width="25">a</td><td></td></tr><tr><td></td><td>1</td><td></td></tr></table>>];
+	node9:p9 -> node8:p8;
+	node7[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td>N</td></tr><tr><td></td><td border="1" style="rounded" port="p7" width="25">b</td><td></td></tr><tr><td></td><td>2</td><td></td></tr></table>>];
+	node9:p9 -> node7:p7;
+	node10:p10 -> node9:p9;
+	node6[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td>A</td></tr><tr><td></td><td border="1" style="rounded" port="p6" width="25">*</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node5[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p5" width="25">b</td><td></td></tr><tr><td></td><td>3</td><td></td></tr></table>>];
+	node6:p6 -> node5:p5;
+	node10:p10 -> node6:p6;
+	node11:p11 -> node10:p10;
+	node4[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td>A</td></tr><tr><td></td><td border="1" style="rounded" port="p4" width="25">*</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node3[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p3" width="25">|</td><td></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node2[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td>N</td><td></td><td></td></tr><tr><td></td><td border="1" style="rounded" port="p2" width="25">b</td><td></td></tr><tr><td></td><td>4</td><td></td></tr></table>>];
+	node3:p3 -> node2:p2;
+	node1[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td>N</td></tr><tr><td></td><td border="1" style="rounded" port="p1" width="25">a</td><td></td></tr><tr><td></td><td>5</td><td></td></tr></table>>];
+	node3:p3 -> node1:p1;
+	node4:p4 -> node3:p3;
+	node11:p11 -> node4:p4;
+	node12:p12 -> node11:p11;
+	node0[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td>N</td></tr><tr><td></td><td border="1" style="rounded" port="p0" width="25">#</td><td></td></tr><tr><td></td><td>6</td><td></td></tr></table>>];
+	node12:p12 -> node0:p0;
+}

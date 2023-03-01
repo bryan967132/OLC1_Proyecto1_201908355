@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 import Colors.Token;
 import Controller.Regex;
 public class Tree {
+    private boolean an1,an2;
     private int i;
     private int id;
     private Regex regex;
@@ -23,44 +24,51 @@ public class Tree {
             switch(token.type) {
                 case ID:
                     node = new Node(id,token.lexeme);
+                    node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case STRING:
                     node = new Node(id,token.lexeme);
+                    node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case END:
                     node = new Node(id,token.lexeme);
+                    node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case OR:
                     node = new Node(id,token.lexeme);
-                    id ++;
                     node.left = stack.pop();
                     node.right = stack.pop();
+                    node.anulable = node.left.anulable || node.right.anulable;
                     stack.push(node);
+                    id ++;
                     break;
                 case CONCAT:
                     node = new Node(id,token.lexeme);
-                    id ++;
                     node.left = stack.pop();
                     node.right = stack.pop();
+                    node.anulable = node.left.anulable && node.right.anulable;
                     stack.push(node);
+                    id ++;
                     break;
                 case POSITIVE:
                     node = new Node(id,token.lexeme);
-                    id ++;
                     node.left = stack.pop();
+                    node.anulable = node.left.anulable;
                     stack.push(node);
+                    id ++;
                     break;
                 case KLEENE:
                     node = new Node(id,token.lexeme);
-                    id ++;
                     node.left = stack.pop();
+                    node.anulable = true;
                     stack.push(node);
+                    id ++;
                     break;
                 default:
                     break;
