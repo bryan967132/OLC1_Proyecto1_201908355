@@ -68,6 +68,27 @@ public class Tree {
         }
         root = stack.pop();
     }
+    public void createIDNodes() {
+        createIDNodes(root);
+    }
+    private void createIDNodes(Node node) {
+        if(node != null) {
+            if(node.left == null && node.right == null) {
+                node.i = i;
+                i ++;
+                return;
+            }
+            if(node.left != null) {
+                createIDNodes(node.left);
+            }
+            if(node.right != null) {
+                createIDNodes(node.right);
+            }
+        }
+    }
+    public String getDot() {
+        return "digraph Tree {\n\tnode[shape = plaintext];" + getDotNodes(root,Align.CENTER) + "\n}";
+    }
     private String getDotNodes(Node node,Align align) {
         String dot = "";
         if(node != null) {
@@ -84,8 +105,7 @@ public class Tree {
         return dot;
     }
     private String getStructN(Node node,Align align) {
-        return "node" + node.id +
-            "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td>" + getFirsts(node) + "</td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\">" + node.value + "</td><td>" + getNexts(node) + "</td></tr><tr><td></td><td>" + (node.i > 0 ? node.i : "") + "</td><td></td></tr></table>>];";
+        return "node" + node.id + "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td>" + getFirsts(node) + "</td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\" width=\"25\">" + node.value + "</td><td>" + getNexts(node) + "</td></tr><tr><td></td><td>" + (node.i > 0 ? node.i : "") + "</td><td></td></tr></table>>];";
     }
     private String getAnulable(Node node,Align align) {
         return "<td>" + (align == Align.LEFT ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.CENTER ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.RIGHT ? (node.anulable ? "A" : "N") : "") + "</td>";
@@ -95,27 +115,6 @@ public class Tree {
     }
     private String getNexts(Node node) {
         return node.nexts.size() > 0 ? String.join(",",node.nexts.stream().map(Object::toString).collect(Collectors.joining(" "))) :  "";
-    }
-    public void nodesI() {
-        nodesI(root);
-    }
-    private void nodesI(Node node) {
-        if(node != null) {
-            if(node.left == null && node.right == null) {
-                node.i = i;
-                i ++;
-                return;
-            }
-            if(node.left != null) {
-                nodesI(node.left);
-            }
-            if(node.right != null) {
-                nodesI(node.right);
-            }
-        }
-    }
-    public String getDot() {
-        return "digraph Tree {\n\tnode[shape = plaintext];" + getDotNodes(root,Align.CENTER) + "\n}";
     }
     Token popTokenStack() {
         return regex.expression.pop();
