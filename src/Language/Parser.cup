@@ -7,6 +7,8 @@ import Components.Instruction;
 import BackEnd.Expression;
 import BackEnd.Regex;
 import BackEnd.Set;
+import Colors.Token;
+import Colors.Tokens;
 
 /* 2. Codigo para el parser, variables y metodos */
 
@@ -81,12 +83,14 @@ parser code
         }
         return str;
     }
-    private void addElement(String element) {
-        regex.expression.push(element);
+    private void addElement(String element,Tokens type) {
+        regex.expression.push(new Token(element,type));
     }
     private void addRegex(String id) {
         regex.id = id;
         regexs.add(regex);
+        regex.expression.add(0,new Token(".",Tokens.CONCAT));
+        regex.expression.push(new Token("#",Tokens.CONCAT));
         flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
@@ -124,8 +128,9 @@ non terminal set, elements;
 non terminal specific, regex;
 non terminal operations, operation;
 non terminal node;
-non terminal String character;
 non terminal analysis, expression;
+non terminal String character;
+non terminal String ids;
 
 /* 5. Precedencias */
 
@@ -145,7 +150,7 @@ instruction::=
     set |
     regex;
 
-set::=RW_CONJ COLON ID:id PROMPT elements SEMICOLON {:addSet(id);:};
+set::=RW_CONJ COLON ids:id PROMPT elements SEMICOLON {:addSet(id);:};
 
 elements::=
     character:start TILDE character:end {:addRange(start,end);:}|
@@ -167,22 +172,22 @@ character::=
     KLEENE:kl       {:RESULT = kl;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
-regex::=ID:id PROMPT operations SEMICOLON {:addRegex(id);:};
+regex::=ids:id PROMPT operations SEMICOLON {:addRegex(id);:};
 
 operations::=
     operations operation |
     operation;
 
 operation::=
-    CONCAT:cc   {:addElement(cc);:} operation operation |
-    OR:or       {:addElement(or);:} operation operation |
-    KLEENE:kl   {:addElement(kl);:} operation |
-    POSITIVE:pl {:addElement(pl);:} operation |
+    CONCAT:cc   {:addElement(cc,Tokens.CONCAT);:} operation operation |
+    OR:or       {:addElement(or,Tokens.OR);:} operation operation |
+    KLEENE:kl   {:addElement(kl,Tokens.KLEENE);:} operation |
+    POSITIVE:pl {:addElement(pl,Tokens.POSITIVE);:} operation |
     node;
 
 node::=
-    LBRACKET ID:id RBRACKET {:addElement(id);:} |
-    STRING:str              {:addElement(str);:};
+    LBRACKET ids:id RBRACKET {:addElement(id,Tokens.ID);:} |
+    STRING:str               {:addElement(str,Tokens.STRING);:};
 
 analysis::=
     expression error analysis |
@@ -190,4 +195,6 @@ analysis::=
     expression error |
     expression;
 
-expression::=ID:id COLON STRING:str SEMICOLON {:addExpression(id,str);:};
+expression::=ids:id COLON STRING:str SEMICOLON {:addExpression(id,str);:};
+
+ids::= ID:id {:RESULT = id;:} | CHAR:ch {:RESULT = ch;:};
