@@ -1,5 +1,5 @@
 package Colors;
-public enum Tokens {
+public enum Types {
     RW_CONJ,
     CHAR,
     ID,
@@ -18,5 +18,6 @@ public enum Tokens {
     LIMIT,
     COMMENT,
     ERROR,
-    END
+    END,
+    LEAF
 }

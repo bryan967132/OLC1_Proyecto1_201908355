@@ -2,7 +2,7 @@ package BackEnd;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import Colors.Token;
-import Colors.Tokens;
+import Colors.Types;
 import Controller.Regex;
 public class Tree {
     private int i;
@@ -106,10 +106,10 @@ public class Tree {
             calculateFirsts(node.left);
             calculateFirsts(node.right);
             node.firsts.addAll(node.left.firsts);
-            if(node.type == Tokens.OR) {
+            if(node.type == Types.OR) {
                 node.firsts.addAll(node.right.firsts);
             }
-            else if(node.type == Tokens.CONCAT) {
+            else if(node.type == Types.CONCAT) {
                 if(node.left.anulable) {
                     node.firsts.addAll(node.right.firsts);
                 }
@@ -127,13 +127,13 @@ public class Tree {
             }
             calculateLasts(node.left);
             calculateLasts(node.right);
-            if(node.type == Tokens.OR || node.type == Tokens.POSITIVE || node.type == Tokens.KLEENE) {
+            if(node.type == Types.OR || node.type == Types.POSITIVE || node.type == Types.KLEENE) {
                 node.lasts.addAll(node.left.lasts);
-                if(node.type == Tokens.OR) {
+                if(node.type == Types.OR) {
                     node.lasts.addAll(node.right.lasts);
                 }
             }
-            else if(node.type == Tokens.CONCAT) {
+            else if(node.type == Types.CONCAT) {
                 if(node.right.anulable) {
                     node.lasts.addAll(node.left.lasts);
                 }

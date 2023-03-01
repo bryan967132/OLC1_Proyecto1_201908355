@@ -1,7 +1,7 @@
 package Tests;
 import BackEnd.TreeMethod;
 import Colors.Token;
-import Colors.Tokens;
+import Colors.Types;
 import Controller.Regex;
 public class TreeMethodTest {
     static Regex regex;
@@ -30,20 +30,20 @@ public class TreeMethodTest {
         // abb*(b|a)*#
         regex = new Regex();
         regex.id = "Expresion1";
-        regex.expression.push(new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token("a",Tokens.ID));
-        regex.expression.push(new Token("b",Tokens.ID));
-        regex.expression.push(new Token("*",Tokens.KLEENE));
-        regex.expression.push(new Token("b",Tokens.ID));
-        regex.expression.push(new Token("*",Tokens.KLEENE));
-        regex.expression.push(new Token("|",Tokens.OR));
-        regex.expression.push(new Token("b",Tokens.ID));
-        regex.expression.push(new Token("a",Tokens.ID));
+        regex.expression.push(new Token(".",Types.CONCAT));
+        regex.expression.push(new Token(".",Types.CONCAT));
+        regex.expression.push(new Token(".",Types.CONCAT));
+        regex.expression.push(new Token("a",Types.ID));
+        regex.expression.push(new Token("b",Types.ID));
+        regex.expression.push(new Token("*",Types.KLEENE));
+        regex.expression.push(new Token("b",Types.ID));
+        regex.expression.push(new Token("*",Types.KLEENE));
+        regex.expression.push(new Token("|",Types.OR));
+        regex.expression.push(new Token("b",Types.ID));
+        regex.expression.push(new Token("a",Types.ID));
 
-        regex.expression.add(0,new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token("#",Tokens.END));
+        regex.expression.add(0,new Token(".",Types.CONCAT));
+        regex.expression.push(new Token("#",Types.END));
         tree = new TreeMethod(regex);
         tree.build();
     }

@@ -8,7 +8,7 @@ package Language;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 import Colors.Token;
-import Colors.Tokens;
+import Colors.Types;
 import Components.ErrorS;
 import Components.Instruction;
 import Controller.Expression;
@@ -273,14 +273,14 @@ public class Parser extends java_cup.runtime.lr_parser {
         }
         return str;
     }
-    private void addElement(String element,Tokens type) {
+    private void addElement(String element,Types type) {
         regex.expression.push(new Token(element,type));
     }
     private void addRegex(String id) {
         regex.id = id;
         regexs.add(regex);
-        regex.expression.add(0,new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token("#",Tokens.CONCAT));
+        regex.expression.add(0,new Token(".",Types.CONCAT));
+        regex.expression.push(new Token("#",Types.CONCAT));
         flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
@@ -635,7 +635,7 @@ addSpecific(ch);
 		int ccleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int ccright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String cc = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-addElement(cc,Tokens.CONCAT);
+addElement(cc,Types.CONCAT);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$1",15, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -661,7 +661,7 @@ addElement(cc,Tokens.CONCAT);
 		int orleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int orright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String or = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-addElement(or,Tokens.OR);
+addElement(or,Types.OR);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$2",16, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -687,7 +687,7 @@ addElement(or,Tokens.OR);
 		int klleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int klright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String kl = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-addElement(kl,Tokens.KLEENE);
+addElement(kl,Types.KLEENE);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$3",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -713,7 +713,7 @@ addElement(kl,Tokens.KLEENE);
 		int plleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int plright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String pl = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-addElement(pl,Tokens.POSITIVE);
+addElement(pl,Types.POSITIVE);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$4",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -748,7 +748,7 @@ addElement(pl,Tokens.POSITIVE);
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		addElement(id,Tokens.ID);
+		addElement(id,Types.ID);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("node",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -760,7 +760,7 @@ addElement(pl,Tokens.POSITIVE);
 		int strleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int strright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String str = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		addElement(str,Tokens.STRING);
+		addElement(str,Types.STRING);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("node",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

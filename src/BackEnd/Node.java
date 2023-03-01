@@ -1,6 +1,6 @@
 package BackEnd;
 import java.util.ArrayList;
-import Colors.Tokens;
+import Colors.Types;
 public class Node {
     ArrayList<Integer> firsts;
     ArrayList<Integer> lasts;
@@ -11,8 +11,8 @@ public class Node {
     Node left;
     Node right;
     String value;
-    Tokens type;
-    public Node(int id,String value,Tokens type) {
+    Types type;
+    public Node(int id,String value,Types type) {
         this.id = id;
         this.value = value;
         this.type = type;

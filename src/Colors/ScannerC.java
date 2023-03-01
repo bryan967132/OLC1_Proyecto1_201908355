@@ -621,67 +621,67 @@ public class ScannerC {
             // fall through
           case 21: break;
           case 3: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.CHAR);
+            { return new Token(yytext(),yychar,yylength(),Types.CHAR);
             } 
             // fall through
           case 22: break;
           case 4: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.ID);
+            { return new Token(yytext(),yychar,yylength(),Types.ID);
             } 
             // fall through
           case 23: break;
           case 5: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.LBRACKET);
+            { return new Token(yytext(),yychar,yylength(),Types.LBRACKET);
             } 
             // fall through
           case 24: break;
           case 6: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.RBRACKET);
+            { return new Token(yytext(),yychar,yylength(),Types.RBRACKET);
             } 
             // fall through
           case 25: break;
           case 7: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.SEMICOLON);
+            { return new Token(yytext(),yychar,yylength(),Types.SEMICOLON);
             } 
             // fall through
           case 26: break;
           case 8: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.COLON);
+            { return new Token(yytext(),yychar,yylength(),Types.COLON);
             } 
             // fall through
           case 27: break;
           case 9: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.COMMA);
+            { return new Token(yytext(),yychar,yylength(),Types.COMMA);
             } 
             // fall through
           case 28: break;
           case 10: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.OR);
+            { return new Token(yytext(),yychar,yylength(),Types.OR);
             } 
             // fall through
           case 29: break;
           case 11: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.POSITIVE);
+            { return new Token(yytext(),yychar,yylength(),Types.POSITIVE);
             } 
             // fall through
           case 30: break;
           case 12: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.KLEENE);
+            { return new Token(yytext(),yychar,yylength(),Types.KLEENE);
             } 
             // fall through
           case 31: break;
           case 13: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.CONCAT);
+            { return new Token(yytext(),yychar,yylength(),Types.CONCAT);
             } 
             // fall through
           case 32: break;
           case 14: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.TILDE);
+            { return new Token(yytext(),yychar,yylength(),Types.TILDE);
             } 
             // fall through
           case 33: break;
           case 15: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.STRING);
+            { return new Token(yytext(),yychar,yylength(),Types.STRING);
             } 
             // fall through
           case 34: break;
@@ -691,17 +691,17 @@ public class ScannerC {
             // fall through
           case 35: break;
           case 17: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.PROMPT);
+            { return new Token(yytext(),yychar,yylength(),Types.PROMPT);
             } 
             // fall through
           case 36: break;
           case 18: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.LIMIT);
+            { return new Token(yytext(),yychar,yylength(),Types.LIMIT);
             } 
             // fall through
           case 37: break;
           case 19: 
-            { return new Token(yytext(),yychar,yylength(),Tokens.RW_CONJ);
+            { return new Token(yytext(),yychar,yylength(),Types.RW_CONJ);
             } 
             // fall through
           case 38: break;
