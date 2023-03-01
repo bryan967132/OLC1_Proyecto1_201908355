@@ -63,17 +63,10 @@ public class IDE extends JPanel implements ActionListener {
         editorArea.editor.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_F5) {
-                    try {
-                        controller.setFormat(editorArea.editor);
-                    }
-                    catch (Exception e1) {}
+                    setFormat();
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_F6) {
-                    try {
-                        controller.setFormat(editorArea.editor);
-                        controller.analyze(editorArea.editor.getText());
-                    }
-                    catch (Exception e1) {}
+                    execute();
                 }
             }
         });
@@ -150,13 +143,25 @@ public class IDE extends JPanel implements ActionListener {
         this.setBackground(Colors.MEDIUMECLIPSE1);
         this.setLayout(null);
     }
+    void execute() {
+        try {
+            controller.setFormat(editorArea.editor);
+            controller.analyze(editorArea.editor.getText());
+        }
+        catch (Exception e1) {}
+    }
+    void setFormat() {
+        try {
+            controller.setFormat(editorArea.editor);
+        }
+        catch (Exception e1) {}
+    }
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == paintCode) {
-            try {
-                controller.setFormat(editorArea.editor);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+        if(e.getSource() == analyzeInput) {
+            execute();
+        }
+        else if(e.getSource() == paintCode) {
+            setFormat();
         }
     }
 }
