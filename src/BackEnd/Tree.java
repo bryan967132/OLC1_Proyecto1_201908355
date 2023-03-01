@@ -116,8 +116,33 @@ public class Tree {
             }
         }
     }
+    public void calculateLasts() {
+        calculateLasts(root);
+    }
+    private void calculateLasts(Node node) {
+        if(node != null) {
+            if(node.left == null && node.right == null) {
+                node.lasts.add(node.i);
+                return;
+            }
+            calculateLasts(node.left);
+            calculateLasts(node.right);
+            if(node.type == Tokens.OR || node.type == Tokens.POSITIVE || node.type == Tokens.KLEENE) {
+                node.lasts.addAll(node.left.lasts);
+                if(node.type == Tokens.OR) {
+                    node.lasts.addAll(node.right.lasts);
+                }
+            }
+            else if(node.type == Tokens.CONCAT) {
+                if(node.right.anulable) {
+                    node.lasts.addAll(node.left.lasts);
+                }
+                node.lasts.addAll(node.right.lasts);
+            }
+        }
+    }
     public String getDot() {
-        return "digraph Tree {\n\tnode[shape = plaintext];" + getDotNodes(root,Align.CENTER) + "\n}";
+        return "digraph Tree {\n\tnode[shape = plaintext fontname=\"Arial\"];\n\tedge[dir = none];" + getDotNodes(root,Align.CENTER) + "\n}";
     }
     private String getDotNodes(Node node,Align align) {
         String dot = "";
@@ -135,16 +160,16 @@ public class Tree {
         return dot;
     }
     private String getStructN(Node node,Align align) {
-        return "node" + node.id + "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td>" + getFirsts(node) + "</td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\" width=\"25\">" + node.value + "</td><td>" + getNexts(node) + "</td></tr><tr><td></td><td>" + (node.i > 0 ? node.i : "") + "</td><td></td></tr></table>>];";
+        return "node" + node.id + "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td><font color=\"#CC6600\">" + getFirsts(node) + "</font></td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\" width=\"25\">" + node.value + "</td><td><font color=\"#009900\">" + getLasts(node) + "</font></td></tr><tr><td></td><td>" + (node.i > 0 ? "<font color=\"#0C7CBA\">" + node.i + "</font>" : "") + "</td><td></td></tr></table>>];";
     }
     private String getAnulable(Node node,Align align) {
-        return "<td>" + (align == Align.LEFT ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.CENTER ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.RIGHT ? (node.anulable ? "A" : "N") : "") + "</td>";
+        return "<td>" + (align == Align.LEFT ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td><td>" + (align == Align.CENTER ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td><td>" + (align == Align.RIGHT ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td>";
     }
     private String getFirsts(Node node) {
         return node.firsts.size() > 0 ? String.join(",",node.firsts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
     }
-    private String getNexts(Node node) {
-        return node.nexts.size() > 0 ? String.join(",",node.nexts.stream().map(Object::toString).collect(Collectors.joining(" "))) :  "";
+    private String getLasts(Node node) {
+        return node.lasts.size() > 0 ? String.join(",",node.lasts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
     }
     Token popTokenStack() {
         return regex.expression.pop();

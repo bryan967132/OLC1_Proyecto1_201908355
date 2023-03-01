@@ -19,6 +19,7 @@ public class TreeMethod {
         tree.build();
         tree.createIDNodes();
         tree.calculateFirsts();
+        tree.calculateLasts();
         exportGraph(regex.id,tree.getDot());
     }
     public void exportGraph(String id,String content) {
