@@ -9,7 +9,7 @@ public class TreeMethodTest {
     public static void main(String[] args) {
         // ....*|ababb#
         // (a|b)*abb#
-        regex = new Regex();
+        /*regex = new Regex();
         regex.id = "Expresion1";
         regex.expression.push(new Token(".",Tokens.CONCAT));
         regex.expression.push(new Token(".",Tokens.CONCAT));
@@ -25,7 +25,7 @@ public class TreeMethodTest {
         regex.expression.add(0,new Token(".",Tokens.CONCAT));
         regex.expression.push(new Token("#",Tokens.END));
         tree = new TreeMethod(regex);
-        tree.build();
+        tree.build();*/
         // ...ab*b*|ba#
         // abb*(b|a)*#
         regex = new Regex();
