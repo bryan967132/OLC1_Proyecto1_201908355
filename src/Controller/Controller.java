@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import Language.Parser;
 import Language.Scanner;
-public class BackEnd {
+public class Controller {
     public void analyze(String input) {
         try {
             Scanner scanner = new Scanner(
