@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import BackEnd.BackEnd;
+import Controller.BackEnd;
 public class ParserAnalysisTest {
     public static void main(String[] args) throws Exception {
         BackEnd backend = new BackEnd();

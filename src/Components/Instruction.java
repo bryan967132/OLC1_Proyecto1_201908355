@@ -1,7 +1,7 @@
 package Components;
-import BackEnd.Expression;
-import BackEnd.Regex;
-import BackEnd.Set;
+import Controller.Expression;
+import Controller.Regex;
+import Controller.Set;
 public class Instruction {
     Expression expression;
     Regex regex;
