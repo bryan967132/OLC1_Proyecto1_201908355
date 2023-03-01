@@ -2,9 +2,9 @@ package BackEnd;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import Colors.Token;
+import Colors.Tokens;
 import Controller.Regex;
 public class Tree {
-    private boolean an1,an2;
     private int i;
     private int id;
     private Regex regex;
@@ -23,25 +23,25 @@ public class Tree {
             token = popTokenStack();
             switch(token.type) {
                 case ID:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case STRING:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case END:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case OR:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
                     node.right = stack.pop();
                     node.anulable = node.left.anulable || node.right.anulable;
@@ -49,7 +49,7 @@ public class Tree {
                     id ++;
                     break;
                 case CONCAT:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
                     node.right = stack.pop();
                     node.anulable = node.left.anulable && node.right.anulable;
@@ -57,14 +57,14 @@ public class Tree {
                     id ++;
                     break;
                 case POSITIVE:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
                     node.anulable = node.left.anulable;
                     stack.push(node);
                     id ++;
                     break;
                 case KLEENE:
-                    node = new Node(id,token.lexeme);
+                    node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
                     node.anulable = true;
                     stack.push(node);
@@ -94,6 +94,28 @@ public class Tree {
             }
         }
     }
+    public void calculateFirsts() {
+        calculateFirsts(root);
+    }
+    private void calculateFirsts(Node node) {
+        if(node != null) {
+            if(node.left == null && node.right == null) {
+                node.firsts.add(node.i);
+                return;
+            }
+            calculateFirsts(node.left);
+            calculateFirsts(node.right);
+            node.firsts.addAll(node.left.firsts);
+            if(node.type == Tokens.OR) {
+                node.firsts.addAll(node.right.firsts);
+            }
+            else if(node.type == Tokens.CONCAT) {
+                if(node.left.anulable) {
+                    node.firsts.addAll(node.right.firsts);
+                }
+            }
+        }
+    }
     public String getDot() {
         return "digraph Tree {\n\tnode[shape = plaintext];" + getDotNodes(root,Align.CENTER) + "\n}";
     }
@@ -119,7 +141,7 @@ public class Tree {
         return "<td>" + (align == Align.LEFT ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.CENTER ? (node.anulable ? "A" : "N") : "") + "</td><td>" + (align == Align.RIGHT ? (node.anulable ? "A" : "N") : "") + "</td>";
     }
     private String getFirsts(Node node) {
-        return node.firsts.size() > 0 ? String.join(",",node.firsts.stream().map(Object::toString).collect(Collectors.joining(" "))) :  "";
+        return node.firsts.size() > 0 ? String.join(",",node.firsts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
     }
     private String getNexts(Node node) {
         return node.nexts.size() > 0 ? String.join(",",node.nexts.stream().map(Object::toString).collect(Collectors.joining(" "))) :  "";
