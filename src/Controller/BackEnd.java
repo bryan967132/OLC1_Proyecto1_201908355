@@ -1,4 +1,4 @@
-package BackEnd;
+package Controller;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import Language.Parser;
