@@ -16,16 +16,6 @@ public class ErrorL {
 	);
     }
     public String toString() {
-        String error = "";
-        error += line;
-        for(int i = 1; i <= 6 - String.valueOf(line).length(); i ++) {
-            error += " ";
-        }
-        error += column;
-        for(int i = 1; i <= 8 - String.valueOf(column).length(); i ++) {
-            error += " ";
-        }
-        error += "Unrecognized Character: " + character;
-        return error;
+        return line + " ".repeat(6 - String.valueOf(line).length()) + column + " ".repeat(8 - String.valueOf(column).length()) + "Unrecognized Character: " + character;
     }
 }

@@ -1,25 +1,29 @@
 package Components;
+import BackEnd.Expression;
+import BackEnd.Regex;
+import BackEnd.Set;
 public class Instruction {
-    String execution = null;
-    ErrorS error = null;
+    Expression expression;
+    Regex regex;
+    Set set;
+    String execution;
+    ErrorS error;
+    public Instruction(Expression expression) {
+        this.expression = expression;
+    }
+    public Instruction(Regex regex) {
+        this.regex = regex;
+    }
+    public Instruction(Set set) {
+        this.set = set;
+    }
     public Instruction(String execution) {
         this.execution = execution;
     }
     public Instruction(ErrorS error) {
         this.error = error;
     }
-    public void print() {
-        if(execution != null) {
-            System.out.println(execution);
-        }
-        else if(error != null) {
-            error.print();
-        }
-    }
     public String toString() {
-        if(execution != null) {
-            return execution;
-        }
-        return error + "";
+        return (expression != null ? expression : (regex != null ? regex : (set != null ? set : (execution != null ? execution : error)))) + "";
     }
 }
