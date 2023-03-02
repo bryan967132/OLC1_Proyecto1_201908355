@@ -23,19 +23,19 @@ public class Tree {
             token = popTokenStack();
             switch(token.type) {
                 case ID:
-                    node = new Node(id,token.lexeme,token.type);
+                    node = new Node(id,token.lexeme,Type.LEAF);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case STRING:
-                    node = new Node(id,token.lexeme,token.type);
+                    node = new Node(id,token.lexeme,Type.LEAF);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case END:
-                    node = new Node(id,token.lexeme,token.type);
+                    node = new Node(id,token.lexeme,Type.LEAF);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
@@ -81,7 +81,7 @@ public class Tree {
     }
     private void createIDNodes(Node node) {
         if(node != null) {
-            if(node.left == null && node.right == null) {
+            if(node.type == Type.LEAF) {
                 node.i = i;
                 i ++;
                 return;
@@ -99,7 +99,7 @@ public class Tree {
     }
     private void calculateFirsts(Node node) {
         if(node != null) {
-            if(node.left == null && node.right == null) {
+            if(node.type == Type.LEAF) {
                 node.firsts.add(node.i);
                 return;
             }
@@ -121,7 +121,7 @@ public class Tree {
     }
     private void calculateLasts(Node node) {
         if(node != null) {
-            if(node.left == null && node.right == null) {
+            if(node.type == Type.LEAF) {
                 node.lasts.add(node.i);
                 return;
             }
@@ -142,7 +142,10 @@ public class Tree {
         }
     }
     public String getDot() {
-        return "digraph Tree {\n\tnode[shape = plaintext fontname=\"Arial\"];\n\tedge[dir = none];" + getDotNodes(root,Align.CENTER) + "\n}";
+        return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
+    }
+    public String description() {
+        return "label=<<font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";
     }
     private String getDotNodes(Node node,Align align) {
         String dot = "";

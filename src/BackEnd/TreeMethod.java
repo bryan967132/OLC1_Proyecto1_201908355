@@ -1,6 +1,8 @@
 package BackEnd;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Stack;
 import Colors.Token;
 import Controller.Regex;
@@ -24,9 +26,11 @@ public class TreeMethod {
     }
     public void exportGraph(String id,String content) {
         try {
-            FileWriter file = new FileWriter("Dot/" + id + ".dot");
-            file.write(content);
-            file.close();
+            FileOutputStream outputStream = new FileOutputStream("Dot/" + id + ".dot");
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            outputStreamWriter.write(content);
+            outputStreamWriter.close();
+            outputStream.close();
         }
         catch(IOException e) {}
     }
