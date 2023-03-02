@@ -6,14 +6,14 @@ package Colors;
 
 %{
     WordPainter painter;
-    public Scanner(java.io.Reader in,WordPainter painter) {
+    public ScannerC(java.io.Reader in,WordPainter painter) {
         this.zzReader = in;
         this.painter = painter;
     }
 %}
 
 //Directivas
-%class Scanner
+%class ScannerC
 %public
 %type Token
 %char
@@ -34,23 +34,23 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 
 /* 3. Reglas Semanticas */
 
-"CONJ"              {return new Token(yytext(),yychar,yylength(),Tokens.RW_CONJ);}
-{CHARACTER}         {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
-{ID}                {return new Token(yytext(),yychar,yylength(),Tokens.ID);}
-{STRING}            {return new Token(yytext(),yychar,yylength(),Tokens.STRING);}
-"{"                 {return new Token(yytext(),yychar,yylength(),Tokens.LBRACKET);}
-"}"                 {return new Token(yytext(),yychar,yylength(),Tokens.RBRACKET);}
-";"                 {return new Token(yytext(),yychar,yylength(),Tokens.SEMICOLON);}
-":"                 {return new Token(yytext(),yychar,yylength(),Tokens.COLON);}
-","                 {return new Token(yytext(),yychar,yylength(),Tokens.COMMA);}
-"->"                {return new Token(yytext(),yychar,yylength(),Tokens.PROMPT);}
-"|"                 {return new Token(yytext(),yychar,yylength(),Tokens.OR);}
-"+"                 {return new Token(yytext(),yychar,yylength(),Tokens.POSITIVE);}
-"*"                 {return new Token(yytext(),yychar,yylength(),Tokens.KLEENE);}
-"."                 {return new Token(yytext(),yychar,yylength(),Tokens.CONCAT);}
-"~"                 {return new Token(yytext(),yychar,yylength(),Tokens.TILDE);}
-"%%"                {return new Token(yytext(),yychar,yylength(),Tokens.LIMIT);}
-{ASCII}             {return new Token(yytext(),yychar,yylength(),Tokens.CHAR);}
+"CONJ"              {return new Token(yytext(),yychar,yylength(),Type.RW_CONJ);}
+{CHARACTER}         {return new Token(yytext(),yychar,yylength(),Type.CHAR);}
+{ID}                {return new Token(yytext(),yychar,yylength(),Type.ID);}
+{STRING}            {return new Token(yytext(),yychar,yylength(),Type.STRING);}
+"{"                 {return new Token(yytext(),yychar,yylength(),Type.LBRACKET);}
+"}"                 {return new Token(yytext(),yychar,yylength(),Type.RBRACKET);}
+";"                 {return new Token(yytext(),yychar,yylength(),Type.SEMICOLON);}
+":"                 {return new Token(yytext(),yychar,yylength(),Type.COLON);}
+","                 {return new Token(yytext(),yychar,yylength(),Type.COMMA);}
+"->"                {return new Token(yytext(),yychar,yylength(),Type.PROMPT);}
+"|"                 {return new Token(yytext(),yychar,yylength(),Type.OR);}
+"+"                 {return new Token(yytext(),yychar,yylength(),Type.POSITIVE);}
+"*"                 {return new Token(yytext(),yychar,yylength(),Type.KLEENE);}
+"."                 {return new Token(yytext(),yychar,yylength(),Type.CONCAT);}
+"~"                 {return new Token(yytext(),yychar,yylength(),Type.TILDE);}
+"%%"                {return new Token(yytext(),yychar,yylength(),Type.LIMIT);}
+{ASCII}             {return new Token(yytext(),yychar,yylength(),Type.CHAR);}
 \n                  {}
 {UNUSED}            {}
 {COMMENTS}          {painter.COMMENT(yychar,yylength());}
