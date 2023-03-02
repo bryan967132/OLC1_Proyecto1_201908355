@@ -53,7 +53,7 @@ public class TreeMethodTest {
         // .a.*|abb
         // a(a|b)*b
         regex = new Regex();
-        regex.id = "Expresion2";
+        regex.id = "Expresion3";
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token("a",Type.ID));
         regex.expression.push(new Token(".",Type.CONCAT));
