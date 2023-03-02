@@ -1,10 +1,12 @@
 package BackEnd;
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import Colors.Token;
 import Colors.Type;
 import Controller.Regex;
 public class Tree {
+    private ArrayList<Node> leafs;
     private int i;
     private int id;
     private Regex regex;
@@ -17,6 +19,7 @@ public class Tree {
         this.id = 0;
         this.regex = regex;
         this.stack = new Stack<>();
+        this.leafs = new ArrayList<>();
     }
     public void build() {
         while(!isEmptyStack()) {
@@ -43,7 +46,9 @@ public class Tree {
                 case OR:
                     node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
+                    node.left.parent = node;
                     node.right = stack.pop();
+                    node.right.parent = node;
                     node.anulable = node.left.anulable || node.right.anulable;
                     stack.push(node);
                     id ++;
@@ -51,7 +56,9 @@ public class Tree {
                 case CONCAT:
                     node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
+                    node.left.parent = node;
                     node.right = stack.pop();
+                    node.right.parent = node;
                     node.anulable = node.left.anulable && node.right.anulable;
                     stack.push(node);
                     id ++;
@@ -59,6 +66,7 @@ public class Tree {
                 case POSITIVE:
                     node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
+                    node.left.parent = node;
                     node.anulable = node.left.anulable;
                     stack.push(node);
                     id ++;
@@ -66,6 +74,7 @@ public class Tree {
                 case KLEENE:
                     node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
+                    node.left.parent = node;
                     node.anulable = true;
                     stack.push(node);
                     id ++;
@@ -86,12 +95,8 @@ public class Tree {
                 i ++;
                 return;
             }
-            if(node.left != null) {
-                createIDNodes(node.left);
-            }
-            if(node.right != null) {
-                createIDNodes(node.right);
-            }
+            createIDNodes(node.left);
+            createIDNodes(node.right);
         }
     }
     public void calculateFirsts() {
@@ -141,8 +146,53 @@ public class Tree {
             }
         }
     }
+    public void calculateNexts() {
+        fillLeafs(root);
+        for(int i = 0; i < leafs.size(); i ++) {
+            calculateNexts(leafs.get(i),leafs.get(i));
+        }
+    }
+    private void calculateNexts(Node node1,Node node2) {
+        if(node1.type == Type.LEAF && node1.value.equals("#")) {
+            node1.nexts = null;
+            return;
+        }
+        if(node2 != null) {
+            if(node2.parent.type == Type.CONCAT) {
+                if(node2.parent.right.id == node2.id) {
+                    calculateNexts(node1,node2.parent);
+                    return;
+                }
+                node1.nexts.addAll(node2.parent.right.firsts);
+                if(node2.parent.right.anulable) {
+                    calculateNexts(node1,node2.parent);
+                    return;
+                }
+            }
+            else if(node2.parent.type == Type.OR) {
+                calculateNexts(node1,node2.parent);
+            }
+            else if(node2.parent.type == Type.KLEENE) {
+                node1.nexts.addAll(node2.parent.firsts);
+                calculateNexts(node1,node2.parent);
+            }
+        }
+    }
+    private void fillLeafs(Node node) {
+        if(node != null) {
+            if(node.type == Type.LEAF) {
+                this.leafs.add(node);
+                return;
+            }
+            fillLeafs(node.left);
+            fillLeafs(node.right);
+        }
+    }
+    public ArrayList<Node> getNexts() {
+        return leafs;
+    }
     public String getDot() {
-        return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
+        return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext fontname=\"Consolas\"];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
     }
     public String description() {
         return "label=<<font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";

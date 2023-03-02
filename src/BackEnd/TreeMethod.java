@@ -3,6 +3,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Stack;
 import Colors.Token;
 import Controller.Regex;
@@ -22,7 +23,12 @@ public class TreeMethod {
         tree.createIDNodes();
         tree.calculateFirsts();
         tree.calculateLasts();
+        tree.calculateNexts();
+        ArrayList<Node> nexts = tree.getNexts();
         exportGraph(regex.id,tree.getDot());
+        for(int i = 0; i < nexts.size(); i ++) {
+            System.out.println(nexts.get(i));
+        }
     }
     public void exportGraph(String id,String content) {
         try {

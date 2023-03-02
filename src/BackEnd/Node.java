@@ -9,6 +9,7 @@ public class Node {
     int i;
     int id;
     Node left;
+    Node parent;
     Node right;
     String value;
     Type type;
@@ -19,5 +20,8 @@ public class Node {
         this.firsts = new ArrayList<>();
         this.lasts = new ArrayList<>();
         this.nexts = new ArrayList<>();
+    }
+    public String toString() {
+        return value + ", Nexts -> " + nexts;
     }
 }

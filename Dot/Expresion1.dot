@@ -1,6 +1,6 @@
 digraph Tree {
 	graph[fontname="Consolas" labelloc=t];
-	node[shape = plaintext];
+	node[shape = plaintext fontname="Consolas"];
 	edge[dir = none];
 	label=<<font color="#0C7CBA">IDENTIFICADORES</font><br align="left"/><font color="#CC0000">ANULABLES</font><br align="left"/><font color="#CC6600">PRIMEROS</font><br align="left"/><font color="#009900">ÚLTIMOS</font><br align="left"/>>;
 	node11[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td><font color="#CC0000">N</font></td><td></td></tr><tr><td><font color="#CC6600">1,2,3</font></td><td border="1" style="rounded" port="p11" width="25">.</td><td><font color="#009900">6</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
