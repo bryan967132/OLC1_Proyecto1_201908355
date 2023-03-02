@@ -24,10 +24,11 @@ public class TreeMethod {
         tree.calculateLasts();
         tree.calculateNexts();
         ArrayList<Node> nexts = tree.getNexts();
-        exportGraph(regex.id,tree.getDot());
         for(int i = 0; i < nexts.size(); i ++) {
             System.out.println(nexts.get(i));
         }
+        
+        exportGraph(regex.id,tree.getDot());
     }
     public void exportGraph(String id,String content) {
         try {

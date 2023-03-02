@@ -55,8 +55,8 @@ public class TreeMethodTest {
         regex = new Regex();
         regex.id = "Expresion3";
         regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("a",Type.ID));
         regex.expression.push(new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("a",Type.ID));
         regex.expression.push(new Token("*",Type.KLEENE));
         regex.expression.push(new Token("|",Type.OR));
         regex.expression.push(new Token("a",Type.ID));

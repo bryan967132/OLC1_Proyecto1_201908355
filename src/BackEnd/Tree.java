@@ -17,9 +17,9 @@ public class Tree {
     public Tree(Regex regex) {
         this.i = 1;
         this.id = 0;
+        this.leafs = new ArrayList<>();
         this.regex = regex;
         this.stack = new Stack<>();
-        this.leafs = new ArrayList<>();
     }
     public void build() {
         while(!isEmptyStack()) {
