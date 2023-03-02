@@ -3,7 +3,7 @@ package Language;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 import Colors.Token;
-import Colors.Tokens;
+import Colors.Type;
 import Components.ErrorS;
 import Components.Instruction;
 import Controller.Expression;
@@ -83,14 +83,14 @@ parser code
         }
         return str;
     }
-    private void addElement(String element,Tokens type) {
+    private void addElement(String element,Type type) {
         regex.expression.push(new Token(element,type));
     }
     private void addRegex(String id) {
         regex.id = id;
         regexs.add(regex);
-        regex.expression.add(0,new Token(".",Tokens.CONCAT));
-        regex.expression.push(new Token("#",Tokens.CONCAT));
+        regex.expression.add(0,new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("#",Type.CONCAT));
         flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
@@ -179,15 +179,15 @@ operations::=
     operation;
 
 operation::=
-    CONCAT:cc   {:addElement(cc,Tokens.CONCAT);:} operation operation |
-    OR:or       {:addElement(or,Tokens.OR);:} operation operation |
-    KLEENE:kl   {:addElement(kl,Tokens.KLEENE);:} operation |
-    POSITIVE:pl {:addElement(pl,Tokens.POSITIVE);:} operation |
+    CONCAT:cc   {:addElement(cc,Type.CONCAT);:} operation operation |
+    OR:or       {:addElement(or,Type.OR);:} operation operation |
+    KLEENE:kl   {:addElement(kl,Type.KLEENE);:} operation |
+    POSITIVE:pl {:addElement(pl,Type.POSITIVE);:} operation |
     node;
 
 node::=
-    LBRACKET ids:id RBRACKET {:addElement(id,Tokens.ID);:} |
-    STRING:str               {:addElement(str,Tokens.STRING);:};
+    LBRACKET ids:id RBRACKET {:addElement(id,Type.ID);:} |
+    STRING:str               {:addElement(str,Type.STRING);:};
 
 analysis::=
     expression error analysis |

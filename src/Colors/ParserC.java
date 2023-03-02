@@ -23,14 +23,14 @@ public class ParserC {
     /*ini::=LBRACKET instructions LIMIT analysis RBRACKET*/
     void ini() {
         token = popToken(0);
-        if(token != null && token.type == Types.LBRACKET) {
+        if(token != null && token.type == Type.LBRACKET) {
             instructions();
             token = popToken(0);
-            if(token != null && token.type == Types.LIMIT) {
+            if(token != null && token.type == Type.LIMIT) {
                 painter.LIMIT(token.yychar,token.yylength);
                 analysis();
                 token = popToken(0);
-                if(token != null && token.type == Types.RBRACKET) {
+                if(token != null && token.type == Type.RBRACKET) {
                     return;
                 }
             }
@@ -41,7 +41,7 @@ public class ParserC {
         instruction();
         try {
             token = getToken(0);
-            if(token != null && token.type != Types.LIMIT) {
+            if(token != null && token.type != Type.LIMIT) {
                 instructions();
             }
         }
@@ -51,7 +51,7 @@ public class ParserC {
     void instruction() {
         token = getToken(0);
         if(token != null) {
-            if(token.type == Types.RW_CONJ) {
+            if(token.type == Type.RW_CONJ) {
                 set();
                 return;
             }
@@ -66,20 +66,20 @@ public class ParserC {
         queue = new LinkedList<Token>();
         toQueue();
         token = popTokenQueue();
-        if(token != null && token.type == Types.RW_CONJ) {
+        if(token != null && token.type == Type.RW_CONJ) {
             painter.RW(token.yychar,token.yylength);
             token = popTokenQueue();
-            if(token != null && token.type == Types.COLON) {
+            if(token != null && token.type == Type.COLON) {
                 token = popTokenQueue();
                 if(token != null && ids(token.type)) {
                     painter.VARIABLE(token.yychar,token.yylength);
                     token = popTokenQueue();
-                    if(token != null && token.type == Types.PROMPT) {
+                    if(token != null && token.type == Type.PROMPT) {
                         token = getTokenQueue();
-                        if(token != null && (token.type == Types.CHAR || characters(token.type))) {
+                        if(token != null && (token.type == Type.CHAR || characters(token.type))) {
                             elements();
                             token = popToken(0);
-                            if(token != null && token.type == Types.SEMICOLON) {
+                            if(token != null && token.type == Type.SEMICOLON) {
                                 return;
                             }
                         }
@@ -89,7 +89,7 @@ public class ParserC {
         }
         emptyQueue();
         token = getToken(0);
-        if(token != null && token.type == Types.SEMICOLON) {
+        if(token != null && token.type == Type.SEMICOLON) {
             popToken(0);
             return;
         }
@@ -97,21 +97,21 @@ public class ParserC {
     /*elements::=CHAR TILDE CHAR | specific*/
     void elements() {
         token = getTokenQueue();
-        if(token != null && (token.type == Types.CHAR || characters(token.type))) {
+        if(token != null && (token.type == Type.CHAR || characters(token.type))) {
             token = getTokenQueue(1);
             if(token != null) {
-                if(token.type == Types.TILDE) {
+                if(token.type == Type.TILDE) {
                     token = popTokenQueue();
                     painter.CHARACTER(token.yychar,token.yylength);
                     popTokenQueue();
                     token = popTokenQueue();
-                    if(token != null && (token.type == Types.CHAR || characters(token.type))) {
+                    if(token != null && (token.type == Type.CHAR || characters(token.type))) {
                         painter.CHARACTER(token.yychar,token.yylength);
                         return;
                     }
                     return;
                 }
-                if(token.type == Types.COMMA) {
+                if(token.type == Type.COMMA) {
                     specific();
                     return;
                 }
@@ -124,10 +124,10 @@ public class ParserC {
     /*specific::=CHAR COMMA specific | CHAR*/
     void specific() {
         token = popTokenQueue();
-        if(token != null && (token.type == Types.CHAR || characters(token.type))) {
+        if(token != null && (token.type == Type.CHAR || characters(token.type))) {
             painter.CHARACTER(token.yychar,token.yylength);
             token = popTokenQueue();
-            if(token != null && token.type == Types.COMMA) {
+            if(token != null && token.type == Type.COMMA) {
                 specific();
                 return;
             }
@@ -135,7 +135,7 @@ public class ParserC {
         }
     }
     /*character::=CHAR | LBRACKET | RBRACKET | SEMICOLON | COLON | COMMA | OR | POSITIVE | KLEENE | CONCAT*/
-    boolean characters(Types type) {
+    boolean characters(Type type) {
         for(characters token : characters.values()) {
             if(String.valueOf(token).equals(String.valueOf(type))) return true;
         }
@@ -149,20 +149,20 @@ public class ParserC {
         if(token != null && ids(token.type)) {
             painter.REGEX(token.yychar,token.yylength);
             token = popTokenQueue();
-            if(token != null && token.type == Types.PROMPT) {
+            if(token != null && token.type == Type.PROMPT) {
                 stack = new Stack<>();
                 op = new Stack<>();
                 toStack();
                 operations();
                 token = popToken(0);
-                if(token != null && token.type == Types.SEMICOLON) {
+                if(token != null && token.type == Type.SEMICOLON) {
                     return;
                 }
             }
         }
         emptyQueue();
         token = getToken(0);
-        if(token != null && token.type == Types.SEMICOLON) {
+        if(token != null && token.type == Type.SEMICOLON) {
             popToken(0);
             return;
         }
@@ -175,13 +175,13 @@ public class ParserC {
     void operation() {
         token = getTokenStack();
         if(token != null) {
-            if(token.type == Types.RBRACKET || token.type == Types.STRING) {
+            if(token.type == Type.RBRACKET || token.type == Type.STRING) {
                 if(node()) {
                     operation();
                 }
                 return;
             }
-            if(token.type == Types.OR && op.size() >= 2) {
+            if(token.type == Type.OR && op.size() >= 2) {
                 painter.OPERATOR(token.yychar,token.yylength);
                 op.pop();
                 op.pop();
@@ -190,7 +190,7 @@ public class ParserC {
                 operation();
                 return;
             }
-            if(token.type == Types.CONCAT && op.size() >= 2) {
+            if(token.type == Type.CONCAT && op.size() >= 2) {
                 painter.OPERATOR(token.yychar,token.yylength);
                 op.pop();
                 op.pop();
@@ -199,7 +199,7 @@ public class ParserC {
                 operation();
                 return;
             }
-            if(token.type == Types.KLEENE && op.size() >= 1) {
+            if(token.type == Type.KLEENE && op.size() >= 1) {
                 painter.OPERATOR(token.yychar,token.yylength);
                 op.pop();
                 op.push(token);
@@ -207,7 +207,7 @@ public class ParserC {
                 operation();
                 return;
             }
-            if(token.type == Types.POSITIVE && op.size() >= 1) {
+            if(token.type == Type.POSITIVE && op.size() >= 1) {
                 painter.OPERATOR(token.yychar,token.yylength);
                 op.pop();
                 op.push(token);
@@ -222,13 +222,13 @@ public class ParserC {
         int yychar,yylength;
         token = popTokenStack();
         if(token != null) {
-            if(token.type == Types.RBRACKET) {
+            if(token.type == Type.RBRACKET) {
                 token = popTokenStack();
                 if(token != null && ids(token.type)) {
                     yychar = token.yychar;
                     yylength = token.yylength;
                     token = popTokenStack();
-                    if(token != null && token.type == Types.LBRACKET) {
+                    if(token != null && token.type == Type.LBRACKET) {
                         painter.VARIABLEUSE(yychar,yylength);
                         op.push(token);
                         return true;
@@ -236,7 +236,7 @@ public class ParserC {
                     return false;
                 }
             }
-            if(token.type == Types.STRING) {
+            if(token.type == Type.STRING) {
                 painter.STRING(token.yychar,token.yylength);
                 op.push(token);
                 return true;
@@ -249,7 +249,7 @@ public class ParserC {
         expresion();
         try {
             token = getToken(0);
-            if(token != null && token.type != Types.RBRACKET) {
+            if(token != null && token.type != Type.RBRACKET) {
                 analysis();
             }
         }
@@ -263,12 +263,12 @@ public class ParserC {
         if(token != null && ids(token.type)) {
             painter.REGEXUSE(token.yychar,token.yylength);
             token = popTokenQueue();
-            if(token != null && token.type == Types.COLON) {
+            if(token != null && token.type == Type.COLON) {
                 token = popTokenQueue();
-                if(token != null && token.type == Types.STRING) {
+                if(token != null && token.type == Type.STRING) {
                     painter.STRING(token.yychar,token.yylength);
                     token = popToken(0);
-                    if(token != null && token.type == Types.SEMICOLON) {
+                    if(token != null && token.type == Type.SEMICOLON) {
                         return;
                     }
                 }
@@ -276,14 +276,14 @@ public class ParserC {
         }
         emptyQueue();
         token = getToken(0);
-        if(token != null && token.type == Types.SEMICOLON) {
+        if(token != null && token.type == Type.SEMICOLON) {
             popToken(0);
             return;
         }
     }
     /*ids::= ID | CHAR*/
-    boolean ids(Types type) {
-        return (token.type == Types.ID || token.type == Types.CHAR);
+    boolean ids(Type type) {
+        return (token.type == Type.ID || token.type == Type.CHAR);
     }
     void toStack() {
         token = getTokenQueue();
@@ -300,7 +300,7 @@ public class ParserC {
     }
     void toQueue() {
         token = getToken(0);
-        if(token.type != Types.SEMICOLON) {
+        if(token.type != Type.SEMICOLON) {
             queue.add(token);
             popToken(0);
             toQueue();

@@ -1,5 +1,5 @@
 package Colors;
-public enum Types {
+public enum Type {
     RW_CONJ,
     CHAR,
     ID,

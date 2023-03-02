@@ -1,10 +1,11 @@
 package Components;
+import Colors.Type;
 public class Token {
     String lexeme;
     int line;
     int column;
-    String type;
-    public Token(String lexeme,int line,int column,String type) {
+    Type type;
+    public Token(String lexeme,int line,int column,Type type) {
         this.lexeme = lexeme;
         this.line = line;
         this.column = column;

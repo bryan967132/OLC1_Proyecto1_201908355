@@ -4,6 +4,7 @@
 package Language;
 import java_cup.runtime.Symbol;
 import java.util.ArrayList;
+import Colors.Type;
 import Components.*;
 
 
@@ -318,7 +319,7 @@ public class Scanner implements java_cup.runtime.Scanner {
             operation = "";
         }
     }
-    void addToken(String lexeme,int line,int column,String type) {
+    void addToken(String lexeme,int line,int column,Type type) {
         tokens.add(new Token(lexeme,line,column,type));
     }
     void addError(int line,int column,String character) {
@@ -706,12 +707,12 @@ public class Scanner implements java_cup.runtime.Scanner {
             // fall through
           case 21: break;
           case 3: 
-            { addToken(yytext(),yyline,yychar,"CHAR");           return new Symbol(Sym.CHAR,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.CHAR);           return new Symbol(Sym.CHAR,yyline,yychar,yytext());
             } 
             // fall through
           case 22: break;
           case 4: 
-            { addToken(yytext(),yyline,yychar,"ID");             return new Symbol(Sym.ID,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.ID);             return new Symbol(Sym.ID,yyline,yychar,yytext());
             } 
             // fall through
           case 23: break;
@@ -721,72 +722,72 @@ public class Scanner implements java_cup.runtime.Scanner {
             // fall through
           case 24: break;
           case 6: 
-            { addToken(yytext(),yyline,yychar,"LBRACKET");       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.LBRACKET);       return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());
             } 
             // fall through
           case 25: break;
           case 7: 
-            { addToken(yytext(),yyline,yychar,"RBRACKET");       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.RBRACKET);       return new Symbol(Sym.RBRACKET,yyline,yychar,yytext());
             } 
             // fall through
           case 26: break;
           case 8: 
-            { addToken(yytext(),yyline,yychar,"SEMICOLON");      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.SEMICOLON);      return new Symbol(Sym.SEMICOLON,yyline,yychar,yytext());
             } 
             // fall through
           case 27: break;
           case 9: 
-            { addToken(yytext(),yyline,yychar,"COLON");          return new Symbol(Sym.COLON,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.COLON);          return new Symbol(Sym.COLON,yyline,yychar,yytext());
             } 
             // fall through
           case 28: break;
           case 10: 
-            { addToken(yytext(),yyline,yychar,"COMMA");          return new Symbol(Sym.COMMA,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.COMMA);          return new Symbol(Sym.COMMA,yyline,yychar,yytext());
             } 
             // fall through
           case 29: break;
           case 11: 
-            { addToken(yytext(),yyline,yychar,"OR");             return new Symbol(Sym.OR,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.OR);             return new Symbol(Sym.OR,yyline,yychar,yytext());
             } 
             // fall through
           case 30: break;
           case 12: 
-            { addToken(yytext(),yyline,yychar,"POSITIVE");       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.POSITIVE);       return new Symbol(Sym.POSITIVE,yyline,yychar,yytext());
             } 
             // fall through
           case 31: break;
           case 13: 
-            { addToken(yytext(),yyline,yychar,"KLEENE");         return new Symbol(Sym.KLEENE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.KLEENE);         return new Symbol(Sym.KLEENE,yyline,yychar,yytext());
             } 
             // fall through
           case 32: break;
           case 14: 
-            { addToken(yytext(),yyline,yychar,"CONCAT");         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.CONCAT);         return new Symbol(Sym.CONCAT,yyline,yychar,yytext());
             } 
             // fall through
           case 33: break;
           case 15: 
-            { addToken(yytext(),yyline,yychar,"TILDE");          return new Symbol(Sym.TILDE,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.TILDE);          return new Symbol(Sym.TILDE,yyline,yychar,yytext());
             } 
             // fall through
           case 34: break;
           case 16: 
-            { addToken(yytext(),yyline,yychar,"STRING");         return new Symbol(Sym.STRING,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.STRING);         return new Symbol(Sym.STRING,yyline,yychar,yytext());
             } 
             // fall through
           case 35: break;
           case 17: 
-            { addToken(yytext(),yyline,yychar,"PROMPT");         return new Symbol(Sym.PROMPT,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.PROMPT);         return new Symbol(Sym.PROMPT,yyline,yychar,yytext());
             } 
             // fall through
           case 36: break;
           case 18: 
-            { addToken(yytext(),yyline,yychar,"LIMIT");          return new Symbol(Sym.LIMIT,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.LIMIT);          return new Symbol(Sym.LIMIT,yyline,yychar,yytext());
             } 
             // fall through
           case 37: break;
           case 19: 
-            { addToken(yytext(),yyline,yychar,"RW_CONJ");        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());
+            { addToken(yytext(),yyline,yychar,Type.RW_CONJ);        return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());
             } 
             // fall through
           case 38: break;
