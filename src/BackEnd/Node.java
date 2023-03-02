@@ -1,5 +1,6 @@
 package BackEnd;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import Colors.Type;
 public class Node {
     ArrayList<Integer> firsts;
@@ -22,6 +23,6 @@ public class Node {
         this.nexts = new ArrayList<>();
     }
     public String toString() {
-        return value + ", Nexts -> " + nexts;
+        return i + " │ " + value + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");
     }
 }
