@@ -211,6 +211,11 @@ public class Tree {
             }
             transitions.get(position).nexts.addAll(node.nexts);
         }
+        for(Transition transition : transitions) {
+            if(transition.nexts.contains(root.right.i)) {
+                transition.accept = true;
+            }
+        }
     }
     private int verifyTransition(Node node) {
         for(int i = 1; i < transitions.size(); i ++) {
