@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import Colors.Type;
 public class Node {
-    ArrayList<Integer> firsts;
-    ArrayList<Integer> lasts;
-    ArrayList<Integer> nexts;
+    ArrayList<Integer> firsts = new ArrayList<>();
+    ArrayList<Integer> lasts = new ArrayList<>();
+    ArrayList<Integer> nexts = new ArrayList<>();
     boolean anulable;
     int i;
     int id;
@@ -18,9 +18,6 @@ public class Node {
         this.id = id;
         this.value = value;
         this.type = type;
-        this.firsts = new ArrayList<>();
-        this.lasts = new ArrayList<>();
-        this.nexts = new ArrayList<>();
     }
     public String toString() {
         return i + " │ " + value + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");

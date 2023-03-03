@@ -23,11 +23,17 @@ public class TreeMethod {
         tree.calculateFirsts();
         tree.calculateLasts();
         tree.calculateNexts();
+        System.out.println("SIGUIENTES");
         ArrayList<Node> nexts = tree.getNexts();
         for(int i = 0; i < nexts.size(); i ++) {
             System.out.println(nexts.get(i));
         }
-        
+        tree.calculateTransitions();
+        System.out.println("TRANSICIONES");
+        ArrayList<Transition> transitions = tree.getTransitions();
+        for(int i = 0; i < transitions.size(); i ++) {
+            System.out.println(transitions.get(i));
+        }
         exportGraph(regex.id,tree.getDot());
     }
     public void exportGraph(String id,String content) {

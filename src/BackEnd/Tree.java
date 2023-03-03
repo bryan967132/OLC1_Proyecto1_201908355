@@ -1,5 +1,6 @@
 package BackEnd;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import Colors.Token;
@@ -7,6 +8,7 @@ import Colors.Type;
 import Controller.Regex;
 public class Tree {
     private ArrayList<Node> leafs;
+    private ArrayList<Transition> transitions;
     private int i;
     private int id;
     private Regex regex;
@@ -20,6 +22,7 @@ public class Tree {
         this.leafs = new ArrayList<>();
         this.regex = regex;
         this.stack = new Stack<>();
+        this.transitions = new ArrayList<>();
     }
     public void build() {
         while(!isEmptyStack()) {
@@ -166,13 +169,14 @@ public class Tree {
                 node1.nexts.addAll(node2.parent.right.firsts);
                 if(node2.parent.right.anulable) {
                     calculateNexts(node1,node2.parent);
-                    return;
                 }
+                return;
             }
-            else if(node2.parent.type == Type.OR) {
+            if(node2.parent.type == Type.OR) {
                 calculateNexts(node1,node2.parent);
+                return;
             }
-            else if(node2.parent.type == Type.KLEENE) {
+            if(node2.parent.type == Type.KLEENE) {
                 node1.nexts.addAll(node2.parent.firsts);
                 calculateNexts(node1,node2.parent);
             }
@@ -190,6 +194,34 @@ public class Tree {
     }
     public ArrayList<Node> getNexts() {
         return leafs;
+    }
+    public void calculateTransitions() {
+        Transition trnstn = new Transition(0,root.value);
+        trnstn.nexts.addAll(root.firsts);
+        transitions.add(trnstn);
+        int position;
+        for(Node node : leafs) {
+            if(node.value.equals("#")) break;
+            position = verifyTransition(node);
+            if(position == -1) {
+                trnstn = new Transition(transitions.get(transitions.size() - 1).state + 1,node.value);
+                trnstn.nexts.addAll(node.nexts);
+                transitions.add(trnstn);
+                continue;
+            }
+            transitions.get(position).nexts.addAll(node.nexts);
+        }
+    }
+    private int verifyTransition(Node node) {
+        for(int i = 1; i < transitions.size(); i ++) {
+            if(transitions.get(i).value == node.value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public ArrayList<Transition> getTransitions() {
+        return transitions;
     }
     public String getDot() {
         return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext fontname=\"Consolas\"];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
