@@ -35,15 +35,15 @@ public class ScannerC {
   private static final char [] ZZ_CMAP = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  6,  8,  8,  7,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     1, 12,  4,  9,  9, 29,  9,  9,  9,  9, 26, 25, 22, 23, 27, 10, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 21, 20, 11,  9, 13,  9, 
+     1, 12,  4,  9,  9, 31,  9, 29,  9,  9, 25, 24, 22, 32, 27, 10, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 21, 20, 11,  9, 13, 26, 
      9,  2,  2, 14,  2,  2,  2,  2,  2,  2, 17,  2,  2,  2, 16, 15, 
      2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  9,  5,  9,  9,  3, 
-     9,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 
-     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 18, 24, 19, 28,  0, 
+     9,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 30,  2, 
+     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 18, 23, 19, 28,  0, 
      0,  0,  0,  0,  0,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+    33,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -57,13 +57,14 @@ public class ScannerC {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\2\3\1\2\3\3"+
-    "\1\5\1\6\1\7\1\10\1\11\1\3\1\12\1\13"+
-    "\1\14\1\15\1\16\1\3\1\0\1\17\1\0\1\20"+
-    "\1\0\1\4\1\21\1\22\1\0\1\4\1\20\1\23";
+    "\1\0\1\1\1\2\1\3\1\4\2\3\1\2\4\3"+
+    "\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
+    "\1\15\1\16\1\17\2\3\1\0\1\20\1\0\1\21"+
+    "\1\22\1\23\1\24\1\0\1\4\1\25\1\0\1\26"+
+    "\1\0\1\4\1\24\1\27";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[35];
+    int [] result = new int[41];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -88,14 +89,15 @@ public class ScannerC {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\36\0\74\0\132\0\132\0\170\0\36\0\36"+
-    "\0\226\0\264\0\322\0\36\0\36\0\36\0\36\0\36"+
-    "\0\360\0\36\0\36\0\36\0\36\0\36\0\u010e\0\170"+
-    "\0\36\0\u012c\0\u014a\0\u0168\0\u0186\0\36\0\36\0\u01a4"+
-    "\0\u01c2\0\36\0\132";
+    "\0\0\0\42\0\104\0\146\0\146\0\210\0\252\0\42"+
+    "\0\42\0\314\0\356\0\u0110\0\42\0\42\0\42\0\42"+
+    "\0\42\0\42\0\42\0\42\0\42\0\42\0\42\0\u0132"+
+    "\0\u0154\0\210\0\42\0\u0176\0\42\0\42\0\42\0\u0198"+
+    "\0\u01ba\0\u01dc\0\42\0\u0154\0\42\0\u01fe\0\u0220\0\42"+
+    "\0\146";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[35];
+    int [] result = new int[41];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -119,18 +121,21 @@ public class ScannerC {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\3"+
-    "\1\0\1\7\1\11\1\12\2\7\1\13\3\4\1\14"+
-    "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\37\0\1\3\5\0\1\3\30\0"+
-    "\2\5\12\0\4\5\14\0\4\30\1\31\1\32\30\30"+
-    "\12\0\1\33\37\0\1\34\23\0\2\5\12\0\1\5"+
-    "\1\35\2\5\31\0\1\36\55\0\1\37\6\30\3\0"+
-    "\25\30\6\33\2\0\26\33\13\34\1\0\1\40\1\0"+
-    "\20\34\2\0\2\5\12\0\2\5\1\41\1\5\31\0"+
-    "\1\42\22\0\2\5\12\0\3\5\1\43\14\0";
+    "\1\0\1\11\1\12\1\13\2\11\1\14\3\4\1\15"+
+    "\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
+    "\1\26\1\27\1\11\1\4\1\30\1\31\1\2\43\0"+
+    "\1\3\5\0\1\3\34\0\2\5\12\0\4\5\14\0"+
+    "\1\5\3\0\4\32\1\33\1\34\34\32\4\0\1\35"+
+    "\30\0\1\36\1\37\15\0\1\40\43\0\1\41\27\0"+
+    "\2\5\12\0\1\5\1\42\2\5\14\0\1\5\42\0"+
+    "\1\43\3\0\1\44\4\0\3\44\4\0\1\45\23\0"+
+    "\1\44\6\32\3\0\31\32\6\40\2\0\32\40\13\41"+
+    "\1\0\1\46\1\0\24\41\2\0\2\5\12\0\2\5"+
+    "\1\47\1\5\14\0\1\5\20\0\1\50\26\0\2\5"+
+    "\12\0\3\5\1\51\14\0\1\5\3\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[480];
+    int [] result = new int[578];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -168,12 +173,12 @@ public class ScannerC {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\4\1\2\11\3\1\5\11\1\1\5\11"+
-    "\1\1\1\0\1\11\1\0\1\1\1\0\1\1\2\11"+
-    "\1\0\1\1\1\11\1\1";
+    "\1\0\1\11\5\1\2\11\3\1\13\11\2\1\1\0"+
+    "\1\11\1\0\3\11\1\1\1\0\1\1\1\11\1\0"+
+    "\1\11\1\0\1\1\1\11\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[35];
+    int [] result = new int[41];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -614,97 +619,117 @@ public class ScannerC {
             { painter.ERROR(yychar,yylength());
             } 
             // fall through
-          case 20: break;
+          case 24: break;
           case 2: 
             { 
             } 
             // fall through
-          case 21: break;
+          case 25: break;
           case 3: 
             { return new Token(yytext(),yychar,yylength(),Type.CHAR);
             } 
             // fall through
-          case 22: break;
+          case 26: break;
           case 4: 
             { return new Token(yytext(),yychar,yylength(),Type.ID);
             } 
             // fall through
-          case 23: break;
+          case 27: break;
           case 5: 
             { return new Token(yytext(),yychar,yylength(),Type.LBRACKET);
             } 
             // fall through
-          case 24: break;
+          case 28: break;
           case 6: 
             { return new Token(yytext(),yychar,yylength(),Type.RBRACKET);
             } 
             // fall through
-          case 25: break;
+          case 29: break;
           case 7: 
             { return new Token(yytext(),yychar,yylength(),Type.SEMICOLON);
             } 
             // fall through
-          case 26: break;
+          case 30: break;
           case 8: 
             { return new Token(yytext(),yychar,yylength(),Type.COLON);
             } 
             // fall through
-          case 27: break;
+          case 31: break;
           case 9: 
             { return new Token(yytext(),yychar,yylength(),Type.COMMA);
             } 
             // fall through
-          case 28: break;
+          case 32: break;
           case 10: 
             { return new Token(yytext(),yychar,yylength(),Type.OR);
             } 
             // fall through
-          case 29: break;
+          case 33: break;
           case 11: 
             { return new Token(yytext(),yychar,yylength(),Type.POSITIVE);
             } 
             // fall through
-          case 30: break;
+          case 34: break;
           case 12: 
             { return new Token(yytext(),yychar,yylength(),Type.KLEENE);
             } 
             // fall through
-          case 31: break;
-          case 13: 
-            { return new Token(yytext(),yychar,yylength(),Type.CONCAT);
-            } 
-            // fall through
-          case 32: break;
-          case 14: 
-            { return new Token(yytext(),yychar,yylength(),Type.TILDE);
-            } 
-            // fall through
-          case 33: break;
-          case 15: 
-            { return new Token(yytext(),yychar,yylength(),Type.STRING);
-            } 
-            // fall through
-          case 34: break;
-          case 16: 
-            { painter.COMMENT(yychar,yylength());
-            } 
-            // fall through
           case 35: break;
-          case 17: 
-            { return new Token(yytext(),yychar,yylength(),Type.PROMPT);
+          case 13: 
+            { return new Token(yytext(),yychar,yylength(),Type.OPTIONAL);
             } 
             // fall through
           case 36: break;
-          case 18: 
-            { return new Token(yytext(),yychar,yylength(),Type.LIMIT);
+          case 14: 
+            { return new Token(yytext(),yychar,yylength(),Type.CONCAT);
             } 
             // fall through
           case 37: break;
-          case 19: 
-            { return new Token(yytext(),yychar,yylength(),Type.RW_CONJ);
+          case 15: 
+            { return new Token(yytext(),yychar,yylength(),Type.TILDE);
             } 
             // fall through
           case 38: break;
+          case 16: 
+            { return new Token(yytext(),yychar,yylength(),Type.STRING);
+            } 
+            // fall through
+          case 39: break;
+          case 17: 
+            { return new Token(yytext(),yychar,yylength(),Type.DOUBLEQUOTE);
+            } 
+            // fall through
+          case 40: break;
+          case 18: 
+            { return new Token(yytext(),yychar,yylength(),Type.SINGLEQUOTE);
+            } 
+            // fall through
+          case 41: break;
+          case 19: 
+            { return new Token(yytext(),yychar,yylength(),Type.ENTER);
+            } 
+            // fall through
+          case 42: break;
+          case 20: 
+            { painter.COMMENT(yychar,yylength());
+            } 
+            // fall through
+          case 43: break;
+          case 21: 
+            { return new Token(yytext(),yychar,yylength(),Type.LIMIT);
+            } 
+            // fall through
+          case 44: break;
+          case 22: 
+            { return new Token(yytext(),yychar,yylength(),Type.PROMPT);
+            } 
+            // fall through
+          case 45: break;
+          case 23: 
+            { return new Token(yytext(),yychar,yylength(),Type.RW_CONJ);
+            } 
+            // fall through
+          case 46: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

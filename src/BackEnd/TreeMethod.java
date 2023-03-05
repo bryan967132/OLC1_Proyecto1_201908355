@@ -30,10 +30,8 @@ public class TreeMethod {
         }
         tree.calculateTransitions();
         System.out.println("TRANSICIONES");
-        ArrayList<Transition> transitions = tree.getTransitions();
-        for(int i = 0; i < transitions.size(); i ++) {
-            System.out.println(transitions.get(i));
-        }
+        TransitionTable transitionsTable = tree.getTransitionsTable();
+        System.out.println(transitionsTable);
         exportGraph(regex.id,tree.getDot());
     }
     public void exportGraph(String id,String content) {

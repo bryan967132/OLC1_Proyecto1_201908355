@@ -43,13 +43,17 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 ";"                 {return new Token(yytext(),yychar,yylength(),Type.SEMICOLON);}
 ":"                 {return new Token(yytext(),yychar,yylength(),Type.COLON);}
 ","                 {return new Token(yytext(),yychar,yylength(),Type.COMMA);}
-"->"                {return new Token(yytext(),yychar,yylength(),Type.PROMPT);}
 "|"                 {return new Token(yytext(),yychar,yylength(),Type.OR);}
 "+"                 {return new Token(yytext(),yychar,yylength(),Type.POSITIVE);}
 "*"                 {return new Token(yytext(),yychar,yylength(),Type.KLEENE);}
+"?"                 {return new Token(yytext(),yychar,yylength(),Type.OPTIONAL);}
 "."                 {return new Token(yytext(),yychar,yylength(),Type.CONCAT);}
 "~"                 {return new Token(yytext(),yychar,yylength(),Type.TILDE);}
+"\\\""              {return new Token(yytext(),yychar,yylength(),Type.DOUBLEQUOTE);}
+"\\\'"              {return new Token(yytext(),yychar,yylength(),Type.SINGLEQUOTE);}
+"\\n"               {return new Token(yytext(),yychar,yylength(),Type.ENTER);}
 "%%"                {return new Token(yytext(),yychar,yylength(),Type.LIMIT);}
+(\-[\s]*\>)         {return new Token(yytext(),yychar,yylength(),Type.PROMPT);}
 {ASCII}             {return new Token(yytext(),yychar,yylength(),Type.CHAR);}
 \n                  {}
 {UNUSED}            {}

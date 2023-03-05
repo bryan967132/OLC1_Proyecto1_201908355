@@ -12,6 +12,7 @@ public class Colors{
 	public static Color WHITE = new Color(255,255,255);//rgb(255,255,255)
 	public static Color KEYWORD = new Color(204,108,29);//rgb(204,108,29)
 	public static Color STRING = new Color(23,198,163);//rgb(23,198,163)
+	public static Color SPECIALCHAR = new Color(23,255,163);//rgb(23,255,163)
 	public static Color CHARACTER = new Color(167,236,33);//rgb(167,236,33)
 	public static Color COMMENT = new Color(128,128,128);//rgb(128,128,128)
 	public static Color VARIABLE = new Color(242,242,0);//rgb(242,242,0)

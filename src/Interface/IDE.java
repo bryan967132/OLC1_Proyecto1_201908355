@@ -13,9 +13,9 @@ import javax.swing.JTextPane;
 import java_cup.runtime.Symbol;
 import Colors.*;
 import Templates.Button;
-import java.awt.event.KeyAdapter;
 import Controller.Controller;
-public class IDE extends JPanel implements ActionListener {
+import java.awt.event.KeyListener;
+public class IDE extends JPanel implements ActionListener,KeyListener {
     ArrayList<Token> code;
     Controller controller;
     Button analyzeInput;
@@ -60,16 +60,7 @@ public class IDE extends JPanel implements ActionListener {
         editorAreaContent.setLayout(new BorderLayout());
         editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
         editorArea = new EditorArea();
-        editorArea.editor.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_F5) {
-                    setFormat();
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_F6) {
-                    execute();
-                }
-            }
-        });
+        editorArea.editor.addKeyListener(this);
         editorAreaContent.add(editorArea,BorderLayout.WEST);
         editorAreaContent.add(editorArea.scroll,BorderLayout.CENTER);
         editorAreaContent.setBounds(220,105,550,425);
@@ -163,5 +154,20 @@ public class IDE extends JPanel implements ActionListener {
         else if(e.getSource() == paintCode) {
             setFormat();
         }
+    }
+    public void keyTyped(KeyEvent e) {
+        
+    }
+    public void keyPressed(KeyEvent e) {
+        try {
+            setFormat();
+        }
+        catch(Exception e1) {}
+    }
+    public void keyReleased(KeyEvent e) {
+        try {
+            setFormat();
+        }
+        catch(Exception e1) {}
     }
 }

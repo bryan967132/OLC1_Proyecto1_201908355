@@ -11,11 +11,12 @@ public class Tree {
     private ArrayList<Transition> transitions;
     private int i;
     private int id;
+    private Node node;
+    private Node root;
     private Regex regex;
     private Stack<Node> stack;
     private Token token;
-    private Node node;
-    private Node root;
+    private TransitionTable table;
     public Tree(Regex regex) {
         this.i = 1;
         this.id = 0;
@@ -196,17 +197,13 @@ public class Tree {
         return leafs;
     }
     public void calculateTransitions() {
-        Transition trnstn = new Transition(0,root.value);
-        trnstn.nexts.addAll(root.firsts);
-        transitions.add(trnstn);
+        transitions.add(new Transition(0,root.value,new HashSet<Integer>(root.firsts)));
         int position;
         for(Node node : leafs) {
             if(node.value.equals("#")) break;
             position = verifyTransition(node);
             if(position == -1) {
-                trnstn = new Transition(transitions.get(transitions.size() - 1).state + 1,node.value);
-                trnstn.nexts.addAll(node.nexts);
-                transitions.add(trnstn);
+                transitions.add(new Transition(transitions.get(transitions.size() - 1).state + 1,node.value,new HashSet<Integer>(node.nexts)));
                 continue;
             }
             transitions.get(position).nexts.addAll(node.nexts);
@@ -216,6 +213,7 @@ public class Tree {
                 transition.accept = true;
             }
         }
+        table = new TransitionTable(transitions);
     }
     private int verifyTransition(Node node) {
         for(int i = 1; i < transitions.size(); i ++) {
@@ -225,8 +223,8 @@ public class Tree {
         }
         return -1;
     }
-    public ArrayList<Transition> getTransitions() {
-        return transitions;
+    public TransitionTable getTransitionsTable() {
+        return table;
     }
     public String getDot() {
         return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext fontname=\"Consolas\"];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
