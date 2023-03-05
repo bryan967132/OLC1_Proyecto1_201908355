@@ -1,0 +1,111 @@
+/* 1. Package e importaciones */
+package Colors;
+import java_cup.runtime.*;
+
+/* 2. Codigo para el parser, variables y metodos */
+
+parser code 
+{:
+    ScannerC s;
+    WordPainter painter;
+    public ParserC(ScannerC s,WordPainter painter) {
+        super(s);
+        this.s = s;
+        this.painter = painter;
+    }
+    public void syntax_error(Symbol sym) {
+    }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+    }
+:} 
+
+/* 3. Terminales*/
+
+terminal String RW_CONJ, ID, STRING, CHAR;
+terminal String LBRACKET, RBRACKET;
+terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
+terminal String OR, POSITIVE, KLEENE, CONCAT, OPTIONAL;
+terminal String LIMIT, SINGLEQUOTE, DOUBLEQUOTE, ENTER;
+
+/* 4. No Terminales*/
+non terminal ini;
+non terminal instructions,instruction;
+non terminal set, elements;
+non terminal specific, regex;
+non terminal operations, operation;
+non terminal node;
+non terminal analysis, expression;
+non terminal String character;
+non terminal String ids;
+
+/* 5. Precedencias */
+
+/* 6. Gramatica Libre de Contexto */
+
+start with ini;
+
+ini::=LBRACKET instructions LIMIT:l {:painter.LIMIT(lleft,lright);:} analysis RBRACKET;
+
+instructions::=
+    instruction error instructions |
+    instruction instructions |
+    instruction error |
+    instruction;
+
+instruction::=
+    set |
+    regex;
+
+set::=RW_CONJ:rw {:painter.RW(rwleft,rwright);:} COLON ids:id {:painter.VARIABLE(idleft,idright);:} PROMPT elements SEMICOLON;
+
+elements::=
+    character:start {:painter.CHARACTER(startleft,startright);:} TILDE character:end {:painter.CHARACTER(endleft,endright);:}|
+    specific;
+
+specific::=
+    character:ch {:painter.CHARACTER(chleft,chright);:} COMMA specific |
+    character:ch {:painter.CHARACTER(chleft,chright);:};
+
+character::=
+    CHAR:ch         {:RESULT = ch;:} |
+    LBRACKET:lb     {:RESULT = lb;:} |
+    RBRACKET:rb     {:RESULT = rb;:} |
+    SEMICOLON:sm    {:RESULT = sm;:} |
+    COLON:cn        {:RESULT = cn;:} |
+    COMMA:cm        {:RESULT = cm;:} |
+    OR:or           {:RESULT = or;:} |
+    POSITIVE:pl     {:RESULT = pl;:} |
+    KLEENE:kl       {:RESULT = kl;:} |
+    OPTIONAL:op     {:RESULT = op;:} |
+    CONCAT:cc       {:RESULT = cc;:};
+
+regex::=ids:id {:painter.REGEX(idleft,idright);:} PROMPT operations SEMICOLON;
+
+operations::=
+    operations operation |
+    operation;
+
+operation::=
+    CONCAT:op   {:painter.OPERATOR(opleft,opright);:} operation operation |
+    OR:op       {:painter.OPERATOR(opleft,opright);:} operation operation |
+    KLEENE:op   {:painter.OPERATOR(opleft,opright);:} operation |
+    OPTIONAL:op {:painter.OPERATOR(opleft,opright);:} operation |
+    POSITIVE:op {:painter.OPERATOR(opleft,opright);:} operation |
+    node;
+
+node::=
+    LBRACKET ids:nd RBRACKET {:painter.VARIABLEUSE(ndleft,ndright);:} |
+    STRING:nd                {:painter.STRING(ndleft,ndright);:} |
+    ENTER:nd                 {:painter.SPECIALCHAR(ndleft,ndright);:} |
+    DOUBLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:} |
+    SINGLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:};
+
+analysis::=
+    expression error analysis |
+    expression analysis |
+    expression error |
+    expression;
+
+expression::=ids:id {:painter.REGEXUSE(idleft,idright);:} COLON STRING:str {:painter.STRING(strleft,strright);:} SEMICOLON;
+
+ids::= ID:id {:RESULT = id;:} | CHAR:ch {:RESULT = ch;:};

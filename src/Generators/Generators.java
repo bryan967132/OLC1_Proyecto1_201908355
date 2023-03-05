@@ -3,6 +3,7 @@ public class Generators {
     public static void main(String[] args) {
         Parser.generate();
         Scanner.generate();
+        ParserFormat.generate();
         ScannerFormat.generate();
     }
 }

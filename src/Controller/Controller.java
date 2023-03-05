@@ -1,14 +1,10 @@
 package Controller;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
-
 import Colors.ParserC;
 import Colors.ScannerC;
-import Colors.Token;
 import Colors.WordPainter;
 import Language.Parser;
 import Language.Scanner;
@@ -25,12 +21,7 @@ public class Controller {
                 painter
             );
             painter.setStyle(editor);
-            Token token;
-            ArrayList<Token> code = new ArrayList<>();
-            while((token = sc.yylex()) != null) {
-                code.add(token);
-            }
-            ParserC parser = new ParserC(code,painter);
+            ParserC parser = new ParserC(sc,painter);
             parser.parse();
         }
         catch(Exception e) {}
