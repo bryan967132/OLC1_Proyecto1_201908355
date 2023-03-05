@@ -16,6 +16,7 @@ public class WordPainter {
     }
     public void setStyle(JTextPane editor) {
         doc = editor.getStyledDocument();
+        DEFAULT(0,doc.getLength());
     }
     public void RW(int startPos,int endPos) {
         SimpleAttributeSet attr = new SimpleAttributeSet();
