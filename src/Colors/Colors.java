@@ -21,5 +21,5 @@ public class Colors{
 	public static Color REGEXUSE = new Color(104,151,187);//rgb(104,151,187)
 	public static Color OPERATOR = new Color(177,102,218);//rgb(177,102,218)
 	public static Color LIMIT = new Color(102,225,248);//rgb(102,225,248)
-	public static Color ERROR = new Color(170,100,100);//rgb(170,100,100)
+	public static Color ERROR = new Color(232,17,35);//rgb(232,17,35)
 }

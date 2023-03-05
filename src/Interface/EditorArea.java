@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.Document;
+
 import Colors.Colors;
 public class EditorArea extends JPanel {
     JTextPane editor;
@@ -33,10 +34,7 @@ public class EditorArea extends JPanel {
         editor.setBorder(BorderFactory.createEmptyBorder());
         //scroll
         scroll = new JScrollPane(editor);
-        scroll.setOpaque(false);
         scroll.setBorder(null);
-        scroll.getViewport().setOpaque(false);
-        scroll.setViewportBorder(null);
     }
     public void paint(Graphics g) {
         super.paint(g);

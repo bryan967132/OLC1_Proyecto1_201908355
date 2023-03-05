@@ -19,7 +19,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
     ArrayList<Token> code;
     Controller controller;
     Button analyzeInput;
-    Button paintCode;
     EditorArea editorArea;
     int posCaret;
     JLabel cursorPosition;
@@ -50,7 +49,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         console = new JTextPane();
         graphics = new JPanel();
         analyzeInput = new Button("►");
-        paintCode = new Button(/*"✐🖉"*/"↓");
     }
     void defineComponents() {
         //projects
@@ -86,12 +84,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         analyzeInput.setDesign(Colors.GREEN2);
         analyzeInput.setHoverColor(Colors.GREEN3);
         analyzeInput.addActionListener(this);
-        //paintCode
-        paintCode.locationSize(260,56,30,30);
-        paintCode.text(Colors.WHITE,15);
-        paintCode.setDesign(Colors.GREEN2);
-        paintCode.setHoverColor(Colors.GREEN3);
-        paintCode.addActionListener(this);
     }
     void addComponents() {
         this.add(projects);
@@ -100,7 +92,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         this.add(console);
         this.add(graphics);
         this.add(analyzeInput);
-        this.add(paintCode);
     }
     void cursorPosition() {
         editorArea.editor.addCaretListener(
@@ -150,9 +141,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == analyzeInput) {
             execute();
-        }
-        else if(e.getSource() == paintCode) {
-            setFormat();
         }
     }
     public void keyTyped(KeyEvent e) {

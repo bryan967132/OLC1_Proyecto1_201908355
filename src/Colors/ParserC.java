@@ -243,6 +243,7 @@ public class ParserC extends java_cup.runtime.lr_parser {
         this.painter = painter;
     }
     public void syntax_error(Symbol sym) {
+        painter.SERROR(sym.left,sym.right);
     }
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
     }
