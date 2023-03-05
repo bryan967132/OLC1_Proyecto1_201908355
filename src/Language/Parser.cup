@@ -118,8 +118,8 @@ parser code
 terminal String RW_CONJ, ID, STRING, CHAR;
 terminal String LBRACKET, RBRACKET;
 terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
-terminal String OR, POSITIVE, KLEENE, CONCAT;
-terminal String LIMIT;
+terminal String OR, POSITIVE, KLEENE, CONCAT, OPTIONAL;
+terminal String LIMIT, SINGLEQUOTE, DOUBLEQUOTE, ENTER;
 
 /* 4. No Terminales*/
 non terminal ini;
@@ -170,6 +170,7 @@ character::=
     OR:or           {:RESULT = or;:} |
     POSITIVE:pl     {:RESULT = pl;:} |
     KLEENE:kl       {:RESULT = kl;:} |
+    OPTIONAL:op     {:RESULT = op;:} |
     CONCAT:cc       {:RESULT = cc;:};
 
 regex::=ids:id PROMPT operations SEMICOLON {:addRegex(id);:};
@@ -182,12 +183,16 @@ operation::=
     CONCAT:cc   {:addElement(cc,Type.CONCAT);:} operation operation |
     OR:or       {:addElement(or,Type.OR);:} operation operation |
     KLEENE:kl   {:addElement(kl,Type.KLEENE);:} operation |
+    OPTIONAL:op {:addElement(op,Type.OPTIONAL);:} operation |
     POSITIVE:pl {:addElement(pl,Type.POSITIVE);:} operation |
     node;
 
 node::=
     LBRACKET ids:id RBRACKET {:addElement(id,Type.ID);:} |
-    STRING:str               {:addElement(str,Type.STRING);:};
+    STRING:str               {:addElement(str,Type.STRING);:} |
+    ENTER:enter              {:addElement(enter,Type.ENTER);:} |
+    DOUBLEQUOTE:dq           {:addElement(dq,Type.DOUBLEQUOTE);:} |
+    SINGLEQUOTE:sq           {:addElement(sq,Type.SINGLEQUOTE);:};
 
 analysis::=
     expression error analysis |
