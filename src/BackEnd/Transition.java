@@ -24,7 +24,7 @@ public class Transition {
         for(Map.Entry<String,Integer> entry : changes.entrySet()) {
             chngs.add(new Change(entry.getValue(),entry.getKey()));
         }
-        String text = "S" + state + (!value.equals("") ? "(" + value + ")" : "") + " {" + nexts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "}" + (accept ? " *" : "");
+        String text = "S" + state + " {" + nexts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "}" + (accept ? " *" : "");
         return text + " ".repeat(25 - text.length()) + " -> " + chngs.stream().map(Object::toString).collect(Collectors.joining(" - "));
     }
 }
