@@ -1,6 +1,7 @@
 package BackEnd;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import Colors.Token;
@@ -11,6 +12,7 @@ public class Tree {
     private ArrayList<Transition> transitions;
     private int i;
     private int id;
+    private int nSt;
     private Node node;
     private Node root;
     private Regex regex;
@@ -20,6 +22,7 @@ public class Tree {
     public Tree(Regex regex) {
         this.i = 1;
         this.id = 0;
+        this.nSt = 0;
         this.leafs = new ArrayList<>();
         this.regex = regex;
         this.stack = new Stack<>();
@@ -66,6 +69,7 @@ public class Tree {
                     node.anulable = node.left.anulable && node.right.anulable;
                     stack.push(node);
                     id ++;
+                    nSt ++;
                     break;
                 case POSITIVE:
                     node = new Node(id,token.lexeme,token.type);
@@ -76,6 +80,14 @@ public class Tree {
                     id ++;
                     break;
                 case KLEENE:
+                    node = new Node(id,token.lexeme,token.type);
+                    node.left = stack.pop();
+                    node.left.parent = node;
+                    node.anulable = true;
+                    stack.push(node);
+                    id ++;
+                    break;
+                case OPTIONAL:
                     node = new Node(id,token.lexeme,token.type);
                     node.left = stack.pop();
                     node.left.parent = node;
@@ -197,39 +209,37 @@ public class Tree {
         return leafs;
     }
     public void calculateTransitions() {
-        transitions.add(new Transition(0,root.value,new HashSet<Integer>(root.firsts)));
-        int position;
-        for(Node node : leafs) {
-            if(node.value.equals("#")) break;
-            position = verifyTransition(node);
-            if(position == -1) {
-                transitions.add(new Transition(transitions.get(transitions.size() - 1).state + 1,node.value,new HashSet<Integer>(node.nexts)));
-                continue;
-            }
-            transitions.get(position).nexts.addAll(node.nexts);
-        }
-        for(Transition transition : transitions) {
+        transitions.add(new Transition(0,"",new HashSet<Integer>(root.firsts)));
+        table = new TransitionTable(transitions,leafs,nSt);
+        table.build();
+        for(Transition transition : table.transitions) {
             if(transition.nexts.contains(root.right.i)) {
                 transition.accept = true;
             }
         }
-        table = new TransitionTable(transitions);
-    }
-    private int verifyTransition(Node node) {
-        for(int i = 1; i < transitions.size(); i ++) {
-            if(transitions.get(i).value == node.value) {
-                return i;
-            }
-        }
-        return -1;
     }
     public TransitionTable getTransitionsTable() {
         return table;
     }
+    public String getDotAFD() {
+        return "digraph AFD {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape=circle];\n\trankdir = LR;" + getStates() + "\n}";
+    }
+    private String getStates() {
+        String nodes = "";
+        for(Transition transition : table.transitions) {
+            for(Map.Entry<String,Integer> entry : transition.changes.entrySet()) {
+                nodes += "\n\tS" + transition.state + " -> S" + entry.getValue() + "[label = \"" + entry.getKey() + "\"];";
+            }
+            if(transition.accept) {
+                nodes += "\n\tS" + transition.state + "[peripheries = 2];";
+            }
+        }
+        return nodes;
+    }
     public String getDot() {
         return "digraph Tree {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape = plaintext fontname=\"Consolas\"];\n\tedge[dir = none];\n\t" + description() + getDotNodes(root,Align.CENTER) + "\n}";
     }
-    public String description() {
+    private String description() {
         return "label=<<font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";
     }
     private String getDotNodes(Node node,Align align) {
@@ -259,13 +269,13 @@ public class Tree {
     private String getLasts(Node node) {
         return node.lasts.size() > 0 ? String.join(",",node.lasts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
     }
-    Token popTokenStack() {
+    private Token popTokenStack() {
         return regex.expression.pop();
     }
-    boolean isEmptyStack() {
+    private boolean isEmptyStack() {
         return regex.expression.isEmpty();
     }
-    enum Align {
+    private enum Align {
         LEFT,
         CENTER,
         RIGHT

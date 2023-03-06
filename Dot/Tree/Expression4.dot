@@ -1,0 +1,31 @@
+digraph Tree {
+	graph[fontname="Consolas" labelloc=t];
+	node[shape = plaintext fontname="Consolas"];
+	edge[dir = none];
+	label=<<font color="#0C7CBA">IDENTIFICADORES</font><br align="left"/><font color="#CC0000">ANULABLES</font><br align="left"/><font color="#CC6600">PRIMEROS</font><br align="left"/><font color="#009900">ÚLTIMOS</font><br align="left"/>>;
+	node12[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td><font color="#CC0000">N</font></td><td></td></tr><tr><td><font color="#CC6600">1,4</font></td><td border="1" style="rounded" port="p12" width="25">.</td><td><font color="#009900">7</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node11[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">1,4</font></td><td border="1" style="rounded" port="p11" width="25">|</td><td><font color="#009900">3,6</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node10[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">1</font></td><td border="1" style="rounded" port="p10" width="25">.</td><td><font color="#009900">3</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node9[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">1</font></td><td border="1" style="rounded" port="p9" width="25">.</td><td><font color="#009900">2</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node8[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">1</font></td><td border="1" style="rounded" port="p8" width="25">a</td><td><font color="#009900">1</font></td></tr><tr><td></td><td><font color="#0C7CBA">1</font></td><td></td></tr></table>>];
+	node9:p9 -> node8:p8;
+	node7[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">2</font></td><td border="1" style="rounded" port="p7" width="25">c</td><td><font color="#009900">2</font></td></tr><tr><td></td><td><font color="#0C7CBA">2</font></td><td></td></tr></table>>];
+	node9:p9 -> node7:p7;
+	node10:p10 -> node9:p9;
+	node6[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">3</font></td><td border="1" style="rounded" port="p6" width="25">c</td><td><font color="#009900">3</font></td></tr><tr><td></td><td><font color="#0C7CBA">3</font></td><td></td></tr></table>>];
+	node10:p10 -> node6:p6;
+	node11:p11 -> node10:p10;
+	node5[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">4</font></td><td border="1" style="rounded" port="p5" width="25">.</td><td><font color="#009900">6</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node4[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">4</font></td><td border="1" style="rounded" port="p4" width="25">.</td><td><font color="#009900">5</font></td></tr><tr><td></td><td></td><td></td></tr></table>>];
+	node3[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td><font color="#CC0000">N</font></td><td></td><td></td></tr><tr><td><font color="#CC6600">4</font></td><td border="1" style="rounded" port="p3" width="25">b</td><td><font color="#009900">4</font></td></tr><tr><td></td><td><font color="#0C7CBA">4</font></td><td></td></tr></table>>];
+	node4:p4 -> node3:p3;
+	node2[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">5</font></td><td border="1" style="rounded" port="p2" width="25">c</td><td><font color="#009900">5</font></td></tr><tr><td></td><td><font color="#0C7CBA">5</font></td><td></td></tr></table>>];
+	node4:p4 -> node2:p2;
+	node5:p5 -> node4:p4;
+	node1[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">6</font></td><td border="1" style="rounded" port="p1" width="25">d</td><td><font color="#009900">6</font></td></tr><tr><td></td><td><font color="#0C7CBA">6</font></td><td></td></tr></table>>];
+	node5:p5 -> node1:p1;
+	node11:p11 -> node5:p5;
+	node12:p12 -> node11:p11;
+	node0[label=<<table border="0" cellspacing="0" cellpadding="3"><tr><td></td><td></td><td><font color="#CC0000">N</font></td></tr><tr><td><font color="#CC6600">7</font></td><td border="1" style="rounded" port="p0" width="25">#</td><td><font color="#009900">7</font></td></tr><tr><td></td><td><font color="#0C7CBA">7</font></td><td></td></tr></table>>];
+	node12:p12 -> node0:p0;
+}

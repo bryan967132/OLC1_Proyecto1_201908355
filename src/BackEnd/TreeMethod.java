@@ -32,11 +32,12 @@ public class TreeMethod {
         System.out.println("TRANSICIONES");
         TransitionTable transitionsTable = tree.getTransitionsTable();
         System.out.println(transitionsTable);
-        exportGraph(regex.id,tree.getDot());
+        exportGraph(regex.id,tree.getDot(),"Tree");
+        exportGraph(regex.id,tree.getDotAFD(),"AFD");
     }
-    public void exportGraph(String id,String content) {
+    public void exportGraph(String id,String content,String file) {
         try {
-            FileOutputStream outputStream = new FileOutputStream("Dot/" + id + ".dot");
+            FileOutputStream outputStream = new FileOutputStream("Dot/" + file + "/" + id + ".dot");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
