@@ -101,7 +101,8 @@ import Components.*;
 
 //Expresiones regulares
 UNUSED=[ \r\t]+
-CHARACTER = [a-zA-Z0-9]
+CHARALPHA = [a-zA-Z]
+CHARNUM = [0-9]
 ID = [a-zA-Z][a-zA-Z0-9\_]*
 STRING = \"(([^\"\\]?|\\.)*)\"
 ASCII = [!-\/:-@\[-`{-\}]
@@ -112,7 +113,8 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 /* 3. Reglas Semanticas */
 
 "CONJ"              {addToken(yytext(),yyline,yychar,Type.RW_CONJ);         return new Symbol(Sym.RW_CONJ,yyline,yychar,yytext());}
-{CHARACTER}         {addToken(yytext(),yyline,yychar,Type.CHAR);            return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+{CHARALPHA}         {addToken(yytext(),yyline,yychar,Type.CHAR);            return new Symbol(Sym.CHAR,yyline,yychar,yytext());}
+{CHARNUM}           {addToken(yytext(),yyline,yychar,Type.CHARNUM);         return new Symbol(Sym.CHARNUM,yyline,yychar,yytext());}
 {ID}                {addToken(yytext(),yyline,yychar,Type.ID);              return new Symbol(Sym.ID,yyline,yychar,yytext());}
 {STRING}            {addToken(yytext(),yyline,yychar,Type.STRING);          return new Symbol(Sym.STRING,yyline,yychar,yytext());}
 "{"                 {addToken(yytext(),yyline,yychar,Type.LBRACKET);        return new Symbol(Sym.LBRACKET,yyline,yychar,yytext());}

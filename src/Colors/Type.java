@@ -2,6 +2,7 @@ package Colors;
 public enum Type {
     RW_CONJ,
     CHAR,
+    CHARNUM,
     ID,
     STRING,
     LBRACKET,

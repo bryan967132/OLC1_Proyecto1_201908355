@@ -8,28 +8,29 @@ package Language;
 /** CUP generated class containing symbol constants. */
 public class Sym {
   /* terminals */
-  public static final int PROMPT = 11;
-  public static final int SEMICOLON = 8;
-  public static final int OR = 13;
-  public static final int POSITIVE = 14;
+  public static final int PROMPT = 12;
+  public static final int SEMICOLON = 9;
+  public static final int OR = 14;
+  public static final int POSITIVE = 15;
   public static final int CHAR = 5;
-  public static final int CONCAT = 16;
-  public static final int SINGLEQUOTE = 19;
-  public static final int LBRACKET = 6;
-  public static final int COLON = 9;
-  public static final int ENTER = 21;
+  public static final int CONCAT = 17;
+  public static final int SINGLEQUOTE = 20;
+  public static final int LBRACKET = 7;
+  public static final int COLON = 10;
+  public static final int ENTER = 22;
   public static final int ID = 3;
-  public static final int DOUBLEQUOTE = 20;
-  public static final int LIMIT = 18;
-  public static final int RBRACKET = 7;
-  public static final int TILDE = 12;
-  public static final int KLEENE = 15;
+  public static final int DOUBLEQUOTE = 21;
+  public static final int LIMIT = 19;
+  public static final int RBRACKET = 8;
+  public static final int TILDE = 13;
+  public static final int KLEENE = 16;
   public static final int STRING = 4;
-  public static final int COMMA = 10;
+  public static final int COMMA = 11;
   public static final int RW_CONJ = 2;
   public static final int EOF = 0;
+  public static final int CHARNUM = 6;
   public static final int error = 1;
-  public static final int OPTIONAL = 17;
+  public static final int OPTIONAL = 18;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -37,6 +38,7 @@ public class Sym {
   "ID",
   "STRING",
   "CHAR",
+  "CHARNUM",
   "LBRACKET",
   "RBRACKET",
   "SEMICOLON",

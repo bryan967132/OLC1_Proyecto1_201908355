@@ -22,7 +22,7 @@ parser code
 
 /* 3. Terminales*/
 
-terminal String RW_CONJ, ID, STRING, CHAR;
+terminal String RW_CONJ, ID, STRING, CHAR, CHARNUM;
 terminal String LBRACKET, RBRACKET;
 terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
 terminal String OR, POSITIVE, KLEENE, CONCAT, OPTIONAL;
@@ -69,6 +69,7 @@ specific::=
 
 character::=
     CHAR:ch         {:RESULT = ch;:} |
+    CHARNUM:ch      {:RESULT = ch;:} |
     LBRACKET:lb     {:RESULT = lb;:} |
     RBRACKET:rb     {:RESULT = rb;:} |
     SEMICOLON:sm    {:RESULT = sm;:} |

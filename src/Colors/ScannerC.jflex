@@ -36,7 +36,8 @@ import Colors.WordPainter;
 
 //Expresiones regulares
 UNUSED=[ \r\t]+
-CHARACTER = [a-zA-Z0-9]
+CHARALPHA = [a-zA-Z]
+CHARNUM = [0-9]
 ID = [a-zA-Z][a-zA-Z0-9\_]*
 STRING = \"(([^\"\\]?|\\.)*)\"
 ASCII = [!-\/:-@\[-`{-\}]
@@ -47,7 +48,8 @@ COMMENTM = "<!"([^<!>]*)?"!>"
 /* 3. Reglas Semanticas */
 
 "CONJ"              {return new Symbol(Sym.RW_CONJ,yychar,yylength(),yytext());}
-{CHARACTER}         {return new Symbol(Sym.CHAR,yychar,yylength(),yytext());}
+{CHARALPHA}         {return new Symbol(Sym.CHAR,yychar,yylength(),yytext());}
+{CHARNUM}           {return new Symbol(Sym.CHARNUM,yychar,yylength(),yytext());}
 {ID}                {return new Symbol(Sym.ID,yychar,yylength(),yytext());}
 {STRING}            {return new Symbol(Sym.STRING,yychar,yylength(),yytext());}
 "{"                 {return new Symbol(Sym.LBRACKET,yychar,yylength(),yytext());}
