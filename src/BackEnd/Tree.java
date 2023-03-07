@@ -12,7 +12,6 @@ public class Tree {
     private ArrayList<Transition> transitions;
     private int i;
     private int id;
-    private int nSt;
     private Node node;
     private Node root;
     private Regex regex;
@@ -22,7 +21,6 @@ public class Tree {
     public Tree(Regex regex) {
         this.i = 1;
         this.id = 0;
-        this.nSt = 0;
         this.leafs = new ArrayList<>();
         this.regex = regex;
         this.stack = new Stack<>();
@@ -38,8 +36,26 @@ public class Tree {
                     stack.push(node);
                     id ++;
                     break;
-                case STRING:
+                case ENTER:
                     node = new Node(id,token.lexeme,Type.LEAF);
+                    node.anulable = false;
+                    stack.push(node);
+                    id ++;
+                    break;
+                case DOUBLEQUOTE:
+                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node.anulable = false;
+                    stack.push(node);
+                    id ++;
+                    break;
+                case SINGLEQUOTE:
+                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node.anulable = false;
+                    stack.push(node);
+                    id ++;
+                    break;
+                case STRING:
+                    node = new Node(id,token.lexeme.replace("\"",""),Type.LEAF);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
@@ -69,7 +85,6 @@ public class Tree {
                     node.anulable = node.left.anulable && node.right.anulable;
                     stack.push(node);
                     id ++;
-                    nSt ++;
                     break;
                 case POSITIVE:
                     node = new Node(id,token.lexeme,token.type);
@@ -148,7 +163,7 @@ public class Tree {
             }
             calculateLasts(node.left);
             calculateLasts(node.right);
-            if(node.type == Type.OR || node.type == Type.POSITIVE || node.type == Type.KLEENE) {
+            if(node.type == Type.OR || node.type == Type.POSITIVE || node.type == Type.KLEENE || node.type == Type.OPTIONAL) {
                 node.lasts.addAll(node.left.lasts);
                 if(node.type == Type.OR) {
                     node.lasts.addAll(node.right.lasts);
@@ -185,11 +200,11 @@ public class Tree {
                 }
                 return;
             }
-            if(node2.parent.type == Type.OR) {
+            if(node2.parent.type == Type.OR || node2.parent.type == Type.OPTIONAL) {
                 calculateNexts(node1,node2.parent);
                 return;
             }
-            if(node2.parent.type == Type.KLEENE) {
+            if(node2.parent.type == Type.KLEENE || node2.parent.type == Type.POSITIVE) {
                 node1.nexts.addAll(node2.parent.firsts);
                 calculateNexts(node1,node2.parent);
             }
@@ -210,7 +225,7 @@ public class Tree {
     }
     public void calculateTransitions() {
         transitions.add(new Transition(0,"",new HashSet<Integer>(root.firsts)));
-        table = new TransitionTable(transitions,leafs,nSt);
+        table = new TransitionTable(transitions,leafs);
         table.build();
         for(Transition transition : table.transitions) {
             if(transition.nexts.contains(root.right.i)) {

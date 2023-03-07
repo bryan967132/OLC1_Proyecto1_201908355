@@ -18,11 +18,11 @@ public class TreeMethodTest {
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token("*",Type.KLEENE));
         regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("a",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
-        regex.expression.push(new Token("a",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
@@ -37,14 +37,14 @@ public class TreeMethodTest {
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("a",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
         regex.expression.push(new Token("*",Type.KLEENE));
-        regex.expression.push(new Token("b",Type.ID));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
         regex.expression.push(new Token("*",Type.KLEENE));
         regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("b",Type.ID));
-        regex.expression.push(new Token("a",Type.ID));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
@@ -58,12 +58,12 @@ public class TreeMethodTest {
         regex.id = "Expression3";
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("a",Type.ID));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
         regex.expression.push(new Token("*",Type.KLEENE));
         regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("a",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
-        regex.expression.push(new Token("b",Type.ID));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
@@ -78,19 +78,37 @@ public class TreeMethodTest {
         regex.expression.push(new Token("|",Type.OR));
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("a",Type.ID));
-        regex.expression.push(new Token("c",Type.ID));
-        regex.expression.push(new Token("c",Type.ID));
+        regex.expression.push(new Token("\"a\"",Type.STRING));
+        regex.expression.push(new Token("\"c\"",Type.STRING));
+        regex.expression.push(new Token("\"c\"",Type.STRING));
         regex.expression.push(new Token(".",Type.CONCAT));
         regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("b",Type.ID));
-        regex.expression.push(new Token("c",Type.ID));
-        regex.expression.push(new Token("d",Type.ID));
+        regex.expression.push(new Token("\"b\"",Type.STRING));
+        regex.expression.push(new Token("\"c\"",Type.STRING));
+        regex.expression.push(new Token("\"d\"",Type.STRING));
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
         tree = new TreeMethod(regex);
         tree.build();
         System.out.println("-----------------------------------------------------");
+        // .+numero?."."+numero
+        // numero+("."numero+)?
+        System.out.println(".+numero?.\".\"+numero - numero+(\".\"numero+)?");
+        regex = new Regex();
+        regex.id = "Numeros";
+        regex.expression.push(new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("+",Type.POSITIVE));
+        regex.expression.push(new Token("numero",Type.ID));
+        regex.expression.push(new Token("?",Type.OPTIONAL));
+        regex.expression.push(new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("\".\"",Type.STRING));
+        regex.expression.push(new Token("+",Type.POSITIVE));
+        regex.expression.push(new Token("numero",Type.ID));
+
+        regex.expression.add(0,new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("#",Type.END));
+        tree = new TreeMethod(regex);
+        tree.build();
     }
 }

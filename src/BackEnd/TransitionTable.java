@@ -6,19 +6,16 @@ public class TransitionTable {
     ArrayList<Transition> transitions = new ArrayList<>();
     ArrayList<Transition> tmpTrnst = new ArrayList<>();
     HashSet<String> terminals = new HashSet<>();
-    int nSt;
-    public TransitionTable(ArrayList<Transition> transitions,ArrayList<Node> nexts,int nSt) {
+    public TransitionTable(ArrayList<Transition> transitions,ArrayList<Node> nexts) {
         this.transitions = transitions;
         this.nexts = nexts;
-        this.nSt = nSt;
     }
     public void build() {
         addTerminals();
         build(0);
-        //changes();
     }
     private void build(int i) {
-        if(i < nSt) {
+        if(i < transitions.size()) {
             int position;
             Node next;
             Transition newTrnst;
@@ -68,34 +65,3 @@ public class TransitionTable {
         return cadena;
     }
 }
-/*private void changes() {
-    String terminal;
-    int toState;
-    for(Transition transition : transitions) {
-        for(Integer next : transition.nexts) {
-            terminal = getTerminal(next);
-            if(!terminal.equals("#")) {
-                toState = getToState(terminal);
-                if(toState != -1) {
-                    transition.changes.put(terminal,toState);
-                }
-            }
-        }
-    }
-}
-private String getTerminal(int next) {
-    for(Node node : nexts) {
-        if(next == node.i) {
-            return node.value;
-        }
-    }
-    return null;
-}
-private int getToState(String terminal) {
-    for(Transition transition : transitions) {
-        if(transition.value == terminal) {
-            return transition.state;
-        }
-    }
-    return -1;
-}*/
