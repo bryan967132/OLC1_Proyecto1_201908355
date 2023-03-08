@@ -1,7 +1,4 @@
-package BackEnd;
-
-import java.util.Objects;
-
+package TreeMethod;
 public class Change {
     String terminal;
     int toState;

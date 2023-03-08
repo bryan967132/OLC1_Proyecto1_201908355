@@ -1,4 +1,4 @@
-package BackEnd;
+package TreeMethod;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class Tree {
                     id ++;
                     break;
                 case CONCAT:
-                    node = new Node(id,token.lexeme,token.type);
+                    node = new Node(id,".",token.type);
                     node.left = stack.pop();
                     node.left.parent = node;
                     node.right = stack.pop();

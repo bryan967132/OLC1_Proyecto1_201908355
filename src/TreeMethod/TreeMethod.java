@@ -1,12 +1,14 @@
-package BackEnd;
+package TreeMethod;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Stack;
 import Colors.Token;
+import Controller.Set;
 import Controller.Regex;
 public class TreeMethod {
+    ArrayList<Set> sets;
     Regex regex;
     Stack<Token> stack;
     Token token;
@@ -14,6 +16,13 @@ public class TreeMethod {
     Token token2;
     Tree tree;
     public TreeMethod(Regex regex) {
+        this.regex = regex;
+        tree = new Tree(regex);
+    }
+    public TreeMethod(ArrayList<Set> sets) {
+        this.sets = sets;
+    }
+    public void setRegex(Regex regex) {
         this.regex = regex;
         tree = new Tree(regex);
     }

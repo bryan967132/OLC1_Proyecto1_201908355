@@ -1,13 +1,24 @@
 package Tests;
-import BackEnd.TreeMethod;
+import java.util.ArrayList;
 import Colors.Token;
 import Colors.Type;
+import Controller.Set;
 import Controller.Regex;
+import TreeMethod.TreeMethod;
 public class TreeMethodTest {
     static Regex regex;
     static TreeMethod tree;
     public static void main(String[] args) {
+        ArrayList<Set> sets = new ArrayList<>();
+        Set set = new Set();
+        set.id = "numero";
+        set.startChar = "0";
+        set.endChar = "9";
+        sets.add(set);
+        System.out.println(set);
+        tree = new TreeMethod(sets);
         System.out.println("-----------------------------------------------------");
+        {
         // ...*|ababb
         // (a|b)*abb
         System.out.println("...*|ababb - (a|b)*abb");
@@ -26,9 +37,11 @@ public class TreeMethodTest {
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
-        tree = new TreeMethod(regex);
+        tree.setRegex(regex);
         tree.build();
+        }
         System.out.println("-----------------------------------------------------");
+        {
         // ...ab*b*|ba
         // abb*(b|a)*
         System.out.println("...ab*b*|ba - abb*(b|a)*");
@@ -48,9 +61,11 @@ public class TreeMethodTest {
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
-        tree = new TreeMethod(regex);
+        tree.setRegex(regex);
         tree.build();
+        }
         System.out.println("-----------------------------------------------------");
+        {
         // ..a*|abb
         // a(a|b)*b
         System.out.println("..a*|abb - a(a|b)*b");
@@ -67,9 +82,11 @@ public class TreeMethodTest {
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
-        tree = new TreeMethod(regex);
+        tree.setRegex(regex);
         tree.build();
+        }
         System.out.println("-----------------------------------------------------");
+        {
         // |..acc..bcd
         // (acc|bcd)
         System.out.println("|..acc..bcd - (acc|bcd)");
@@ -89,8 +106,9 @@ public class TreeMethodTest {
 
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
-        tree = new TreeMethod(regex);
+        tree.setRegex(regex);
         tree.build();
+        }
         System.out.println("-----------------------------------------------------");
         // .+numero?."."+numero
         // numero+("."numero+)?
@@ -105,10 +123,10 @@ public class TreeMethodTest {
         regex.expression.push(new Token("\".\"",Type.STRING));
         regex.expression.push(new Token("+",Type.POSITIVE));
         regex.expression.push(new Token("numero",Type.ID));
-
+        
         regex.expression.add(0,new Token(".",Type.CONCAT));
         regex.expression.push(new Token("#",Type.END));
-        tree = new TreeMethod(regex);
+        tree.setRegex(regex);
         tree.build();
     }
 }
