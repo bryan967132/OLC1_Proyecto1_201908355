@@ -31,31 +31,31 @@ public class Tree {
             token = popTokenStack();
             switch(token.type) {
                 case ID:
-                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node = new Node(id,token.lexeme,Type.LEAF,Type.ID);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case ENTER:
-                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node = new Node(id,token.lexeme,Type.LEAF,Type.ENTER);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case DOUBLEQUOTE:
-                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node = new Node(id,token.lexeme,Type.LEAF,Type.DOUBLEQUOTE);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case SINGLEQUOTE:
-                    node = new Node(id,token.lexeme,Type.LEAF);
+                    node = new Node(id,token.lexeme,Type.LEAF,Type.SINGLEQUOTE);
                     node.anulable = false;
                     stack.push(node);
                     id ++;
                     break;
                 case STRING:
-                    node = new Node(id,token.lexeme.replace("\"",""),Type.LEAF);
+                    node = new Node(id,token.lexeme.replace("\"",""),Type.LEAF,Type.STRING);
                     node.anulable = false;
                     stack.push(node);
                     id ++;

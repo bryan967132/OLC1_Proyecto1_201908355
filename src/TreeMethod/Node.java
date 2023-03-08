@@ -14,10 +14,17 @@ public class Node {
     Node right;
     String value;
     Type type;
+    Type type1;
     public Node(int id,String value,Type type) {
         this.id = id;
         this.value = value;
         this.type = type;
+    }
+    public Node(int id,String value,Type type,Type type1) {
+        this.id = id;
+        this.value = value;
+        this.type = type;
+        this.type1 = type1;
     }
     public String toString() {
         return i + " │ " + value + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");
