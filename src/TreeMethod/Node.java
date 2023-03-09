@@ -26,7 +26,10 @@ public class Node {
         this.type = type;
         this.type1 = type1;
     }
+    private String terminals(String terminal) {
+        return (terminal.equals(" ") ? "\\s" : (terminal.equals("\n") ? "\\n" : terminal));
+    }
     public String toString() {
-        return i + " │ " + value + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");
+        return i + " │ " + terminals(value) + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");
     }
 }
