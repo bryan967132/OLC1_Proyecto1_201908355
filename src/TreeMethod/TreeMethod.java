@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Stack;
 import Colors.Token;
+import Colors.Type;
 import Controller.Set;
 import Controller.Regex;
 public class TreeMethod {
+    ArrayList<Boolean> validator;
     Map<String,Set> sets;
     Regex regex;
     Stack<Token> stack;
@@ -16,6 +18,7 @@ public class TreeMethod {
     Token token1;
     Token token2;
     Tree tree;
+    TransitionTable transitionsTable;
     public TreeMethod(Regex regex) {
         this.regex = regex;
         tree = new Tree(regex);
@@ -45,14 +48,45 @@ public class TreeMethod {
     public void transitionsTable() {
         tree.calculateTransitions();
         System.out.println("TRANSICIONES");
-        TransitionTable transitionsTable = tree.getTransitionsTable();
+        transitionsTable = tree.getTransitionsTable();
         System.out.println(transitionsTable);
     }
     public void buildAFD() {
         exportGraph(regex.id,tree.getDotAFD(),"AFD");
     }
-    public void validateString() {
-        
+    public String validateString(String string) {
+        return "La Cadena: " + string + (!validate(string) ? " no" : "") + " es Válida";
+    }
+    public boolean validate(String string) {
+        validator = new ArrayList<>();
+        Transition transition = null;
+        Change chng;
+        int state = 0;
+        Set set;
+        for(int i = 0; i < string.length(); i ++) {
+            transition = transitionsTable.transitions.get(state);
+            for(Map.Entry<String,Change> change : transition.changes.entrySet()) {
+                chng = change.getValue();
+                if(chng.type == Type.ID) {
+                    set = sets.get(chng.terminal);
+                    if(set.validate(string.charAt(i))) {
+                        validator.add(true);
+                        state = chng.toState;
+                    }
+                }
+                else if(chng.type == Type.STRING) {
+                    if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
+                        validator.add(true);
+                        state = chng.toState;
+                    }
+                }
+            }
+        }
+        transition = transitionsTable.transitions.get(state);
+        if(transition.accept && validator.size() == string.length()) {
+            return true;
+        }
+        return false;
     }
     public void exportGraph(String id,String content,String file) {
         try {

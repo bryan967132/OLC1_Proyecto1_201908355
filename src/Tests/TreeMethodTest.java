@@ -13,12 +13,20 @@ public class TreeMethodTest {
         Map<String,Set> sets = new TreeMap<>();
         Set set = new Set();
         set.id = "numero";
-        set.startChar = "0";
-        set.endChar = "9";
+        set.specifics.add('0');
+        set.specifics.add('2');
+        set.specifics.add('4');
+        set.specifics.add('6');
+        set.specifics.add('8');
+        sets.put(set.id,set);
+        set = new Set();
+        set.id = "ceroAcinco";
+        set.startChar = '0';
+        set.endChar = '5';
         sets.put(set.id,set);
         System.out.println(set);
         tree = new TreeMethod(sets);
-        /*System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------");
         {
         // ...*|ababb
         // (a|b)*abb
@@ -43,6 +51,7 @@ public class TreeMethodTest {
         tree.nextsTable();
         tree.transitionsTable();
         tree.buildAFD();
+        System.out.println(tree.validateString("aaababababb"));
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -70,6 +79,7 @@ public class TreeMethodTest {
         tree.nextsTable();
         tree.transitionsTable();
         tree.buildAFD();
+        System.out.println(tree.validateString("abbababa"));
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -94,6 +104,7 @@ public class TreeMethodTest {
         tree.nextsTable();
         tree.transitionsTable();
         tree.buildAFD();
+        System.out.println(tree.validateString("abbbbababbbb"));
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -121,9 +132,10 @@ public class TreeMethodTest {
         tree.nextsTable();
         tree.transitionsTable();
         tree.buildAFD();
+        System.out.println(tree.validateString("bcd"));
         }
-        */System.out.println("-----------------------------------------------------");
-        // .+numero?."."+numero
+        System.out.println("-----------------------------------------------------");
+        {// .+numero?."."+numero
         // numero+("."numero+)?
         System.out.println(".+numero?.\".\"+numero - numero+(\".\"numero+)?");
         regex = new Regex();
@@ -144,5 +156,7 @@ public class TreeMethodTest {
         tree.nextsTable();
         tree.transitionsTable();
         tree.buildAFD();
+        System.out.println(tree.validateString("20.024"));
+        }
     }
 }
