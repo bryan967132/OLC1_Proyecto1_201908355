@@ -8,7 +8,7 @@ public class Transition {
     boolean accept;
     HashSet<Integer> nexts = new HashSet<>();
     int state;
-    Map<String,Integer> changes = new TreeMap<>();
+    Map<String,Change> changes = new TreeMap<>();
     String value;
     public Transition(int state,String value) {
         this.state = state;
@@ -21,8 +21,8 @@ public class Transition {
     }
     public String toString() {
         ArrayList<Change> chngs = new ArrayList<>();
-        for(Map.Entry<String,Integer> entry : changes.entrySet()) {
-            chngs.add(new Change(entry.getValue(),entry.getKey()));
+        for(Map.Entry<String,Change> entry : changes.entrySet()) {
+            chngs.add(entry.getValue());
         }
         String text = "S" + state + " {" + nexts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "}" + (accept ? " *" : "");
         return text + " ".repeat(25 - text.length()) + " -> " + chngs.stream().map(Object::toString).collect(Collectors.joining(" - "));

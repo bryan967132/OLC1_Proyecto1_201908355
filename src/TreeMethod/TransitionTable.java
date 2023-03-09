@@ -1,17 +1,20 @@
 package TreeMethod;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
+import Colors.Type;
 public class TransitionTable {
     ArrayList<Node> nexts = new ArrayList<>();
     ArrayList<Transition> transitions = new ArrayList<>();
     ArrayList<Transition> tmpTrnst = new ArrayList<>();
-    HashSet<String> terminals = new HashSet<>();
+    Map<String,Type> terminals = new TreeMap<>();
     public TransitionTable(ArrayList<Transition> transitions,ArrayList<Node> nexts) {
         this.transitions = transitions;
         this.nexts = nexts;
     }
     public void build() {
         addTerminals();
+        System.out.println(terminals);
         build(0);
     }
     private void build(int i) {
@@ -20,23 +23,23 @@ public class TransitionTable {
             Node next;
             Transition newTrnst;
             Transition transition = transitions.get(i);
-            for(String terminal : terminals) {
-                newTrnst = new Transition(transitions.size(),terminal);
+            for(Map.Entry<String,Type> terminal : terminals.entrySet()) {
+                newTrnst = new Transition(transitions.size(),terminal.getKey());
                 for(int nxt : transition.nexts) {
                     next = nexts.get(nxt - 1);
-                    if(next.value.equals(terminal)) {
+                    if(next.value.equals(terminal.getKey())) {
                         newTrnst.nexts.addAll(next.nexts);
                     }
                 }
                 position = existTransition(newTrnst);
                 if(position == -1) {
                     if(newTrnst.nexts.size() > 0) {
-                        transition.changes.put(terminal,transitions.size());
+                        transition.changes.put(terminal.getKey(),new Change(transitions.size(),terminal.getKey(),terminal.getValue()));
                         transitions.add(newTrnst);
                     }
                 }
                 else {
-                    transition.changes.put(terminal,position);
+                    transition.changes.put(terminal.getKey(),new Change(position,terminal.getKey(),terminal.getValue()));
                 }
             }
             build(i + 1);
@@ -53,7 +56,7 @@ public class TransitionTable {
     private void addTerminals() {
         for(Node next : nexts) {
             if(!next.value.equals("#")) {
-                terminals.add(next.value);
+                terminals.put(next.value,next.type1);
             }
         }
     }

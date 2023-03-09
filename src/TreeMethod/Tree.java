@@ -242,8 +242,9 @@ public class Tree {
     private String getStates() {
         String nodes = "";
         for(Transition transition : table.transitions) {
-            for(Map.Entry<String,Integer> entry : transition.changes.entrySet()) {
-                nodes += "\n\tS" + transition.state + " -> S" + entry.getValue() + "[label = \"" + entry.getKey() + "\"];";
+            for(Map.Entry<String,Change> entry : transition.changes.entrySet()) {
+                Change chng = entry.getValue();
+                nodes += "\n\tS" + transition.state + " -> S" + chng.toState + "[label = \"" + chng.terminal + "\"];";
             }
             if(transition.accept) {
                 nodes += "\n\tS" + transition.state + "[peripheries = 2];";

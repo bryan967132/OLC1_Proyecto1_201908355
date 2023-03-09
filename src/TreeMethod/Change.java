@@ -1,12 +1,15 @@
 package TreeMethod;
+import Colors.Type;
 public class Change {
-    String terminal;
     int toState;
-    public Change(int toState,String terminal) {
-        this.terminal = terminal;
+    String terminal;
+    Type type;
+    public Change(int toState,String terminal,Type type) {
         this.toState = toState;
+        this.terminal = terminal;
+        this.type = type;
     }
     public String toString() {
-        return "S" + toState + ":" + terminal;
+        return "S" + toState + ":" + terminal + "/" + type;
     }
 }

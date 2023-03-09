@@ -1,5 +1,7 @@
 package Tests;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import Colors.Token;
 import Colors.Type;
 import Controller.Set;
@@ -9,15 +11,15 @@ public class TreeMethodTest {
     static Regex regex;
     static TreeMethod tree;
     public static void main(String[] args) {
-        ArrayList<Set> sets = new ArrayList<>();
+        Map<String,Set> sets = new TreeMap<>();
         Set set = new Set();
         set.id = "numero";
         set.startChar = "0";
         set.endChar = "9";
-        sets.add(set);
+        sets.put(set.id,set);
         System.out.println(set);
         tree = new TreeMethod(sets);
-        System.out.println("-----------------------------------------------------");
+        /*System.out.println("-----------------------------------------------------");
         {
         // ...*|ababb
         // (a|b)*abb
@@ -39,6 +41,9 @@ public class TreeMethodTest {
         regex.expression.push(new Token("#",Type.END));
         tree.setRegex(regex);
         tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -63,6 +68,9 @@ public class TreeMethodTest {
         regex.expression.push(new Token("#",Type.END));
         tree.setRegex(regex);
         tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -84,6 +92,9 @@ public class TreeMethodTest {
         regex.expression.push(new Token("#",Type.END));
         tree.setRegex(regex);
         tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
         }
         System.out.println("-----------------------------------------------------");
         {
@@ -108,8 +119,11 @@ public class TreeMethodTest {
         regex.expression.push(new Token("#",Type.END));
         tree.setRegex(regex);
         tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
         }
-        System.out.println("-----------------------------------------------------");
+        */System.out.println("-----------------------------------------------------");
         // .+numero?."."+numero
         // numero+("."numero+)?
         System.out.println(".+numero?.\".\"+numero - numero+(\".\"numero+)?");
@@ -128,5 +142,8 @@ public class TreeMethodTest {
         regex.expression.push(new Token("#",Type.END));
         tree.setRegex(regex);
         tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
     }
 }
