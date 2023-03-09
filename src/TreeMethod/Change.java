@@ -9,7 +9,10 @@ public class Change {
         this.terminal = terminal;
         this.type = type;
     }
+    private String terminals(String terminal) {
+        return (terminal.equals(" ") ? "\\s" : (terminal.equals("\n") ? "\\n" : terminal));
+    }
     public String toString() {
-        return "S" + toState + ":" + terminal + "/" + type;
+        return "S" + toState + ":" + terminals(terminal);
     }
 }

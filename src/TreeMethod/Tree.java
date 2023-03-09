@@ -244,7 +244,7 @@ public class Tree {
         for(Transition transition : table.transitions) {
             for(Map.Entry<String,Change> entry : transition.changes.entrySet()) {
                 Change chng = entry.getValue();
-                nodes += "\n\tS" + transition.state + " -> S" + chng.toState + "[label = \"" + chng.terminal + "\"];";
+                nodes += "\n\tS" + transition.state + " -> S" + chng.toState + "[label = \"" + terminals(chng.terminal) + "\"];";
             }
             if(transition.accept) {
                 nodes += "\n\tS" + transition.state + "[peripheries = 2];";
@@ -257,6 +257,9 @@ public class Tree {
     }
     private String description() {
         return "label=<<font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";
+    }
+    private String terminals(String terminal) {
+        return (terminal.equals(" ") ? "&#92;&#92;s" : (terminal.equals("\n") ? "&#92;&#92;n" : terminal));
     }
     private String getDotNodes(Node node,Align align) {
         String dot = "";
@@ -274,7 +277,7 @@ public class Tree {
         return dot;
     }
     private String getStructN(Node node,Align align) {
-        return "node" + node.id + "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td><font color=\"#CC6600\">" + getFirsts(node) + "</font></td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\" width=\"25\">" + node.value + "</td><td><font color=\"#009900\">" + getLasts(node) + "</font></td></tr><tr><td></td><td>" + (node.i > 0 ? "<font color=\"#0C7CBA\">" + node.i + "</font>" : "") + "</td><td></td></tr></table>>];";
+        return "node" + node.id + "[label=<<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr>" + getAnulable(node,align) + "</tr><tr><td><font color=\"#CC6600\">" + getFirsts(node) + "</font></td><td border=\"1\" style=\"rounded\" port=\"p" + node.id + "\" width=\"25\">" + terminals(node.value) + "</td><td><font color=\"#009900\">" + getLasts(node) + "</font></td></tr><tr><td></td><td>" + (node.i > 0 ? "<font color=\"#0C7CBA\">" + node.i + "</font>" : "") + "</td><td></td></tr></table>>];";
     }
     private String getAnulable(Node node,Align align) {
         return "<td>" + (align == Align.LEFT ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td><td>" + (align == Align.CENTER ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td><td>" + (align == Align.RIGHT ? (node.anulable ? "<font color=\"#CC0000\">A</font>" : "<font color=\"#CC0000\">N</font>") : "") + "</td>";

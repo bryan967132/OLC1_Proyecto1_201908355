@@ -55,7 +55,7 @@ public class TreeMethod {
         exportGraph(regex.id,tree.getDotAFD(),"AFD");
     }
     public String validateString(String string) {
-        return "La Cadena: " + string + (!validate(string) ? " no" : "") + " es Válida";
+        return "La Cadena: " + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!validate(string) ? " no" : "") + " es Válida";
     }
     public boolean validate(String string) {
         validator = new ArrayList<>();
@@ -75,6 +75,24 @@ public class TreeMethod {
                     }
                 }
                 else if(chng.type == Type.STRING) {
+                    if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
+                        validator.add(true);
+                        state = chng.toState;
+                    }
+                }
+                else if(chng.type == Type.SINGLEQUOTE) {
+                    if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
+                        validator.add(true);
+                        state = chng.toState;
+                    }
+                }
+                else if(chng.type == Type.DOUBLEQUOTE) {
+                    if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
+                        validator.add(true);
+                        state = chng.toState;
+                    }
+                }
+                else if(chng.type == Type.ENTER) {
                     if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
                         validator.add(true);
                         state = chng.toState;
