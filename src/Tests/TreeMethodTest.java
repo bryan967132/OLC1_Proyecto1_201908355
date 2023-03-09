@@ -1,5 +1,4 @@
 package Tests;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import Colors.Token;

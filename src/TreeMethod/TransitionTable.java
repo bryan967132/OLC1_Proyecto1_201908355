@@ -14,7 +14,6 @@ public class TransitionTable {
     }
     public void build() {
         addTerminals();
-        System.out.println(terminals);
         build(0);
     }
     private void build(int i) {
