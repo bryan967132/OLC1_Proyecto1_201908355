@@ -283,11 +283,11 @@ public class Parser extends java_cup.runtime.lr_parser {
         return exe + "SUCCESSFULLY RUN";
     }
     private void addRange(String start,String end) {
-        set.startChar = start;
-        set.endChar = end;
+        set.startChar = start.charAt(0);
+        set.endChar = end.charAt(0);
     }
     private void addSpecific(String ch) {
-        set.specifics.add(ch);
+        set.specifics.add(ch.charAt(0));
     }
     private void addSet(String id) {
         set.id = id;

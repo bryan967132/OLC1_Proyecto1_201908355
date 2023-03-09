@@ -1,11 +1,12 @@
 package Controller;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 public class Set {
     public String id;
-    public String startChar;
-    public String endChar;
-    public ArrayList<String> specifics = new ArrayList<>();
+    public char startChar;
+    public char endChar;
+    public ArrayList<Character> specifics = new ArrayList<>();
     public String toString() {
-        return "CONJUNTO --------------- ID: " + id + (specifics.size() > 0 ? " ".repeat(20 - id.length()) + "SPECIFICS: " + String.join(", ",specifics) : " ".repeat(20 - id.length()) + "STARTCHAR: " + startChar + "\t\t\tENDCHAR: " + endChar);
+        return "CONJUNTO --------------- ID: " + id + (specifics.size() > 0 ? " ".repeat(20 - id.length()) + "SPECIFICS: " + specifics.stream().map(Object::toString).collect(Collectors.joining(", ")) : " ".repeat(20 - id.length()) + "STARTCHAR: " + startChar + "\t\t\tENDCHAR: " + endChar);
     }
 }
