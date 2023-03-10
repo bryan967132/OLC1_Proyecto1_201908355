@@ -72,8 +72,10 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         console.setEditable(false);
         console.setForeground(Colors.WHITE);
         console.setBackground(Colors.DARKECLIPSE);
+        console.setFont(new java.awt.Font("Consolas", 0, 11));
         console.setBounds(220,550,1120,140);
         console.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
+        console.setText("EXREGAN:\n->");
         //graphics
         graphics.setBackground(Colors.WHITE);
         graphics.setBounds(790,105,550,425);
@@ -128,7 +130,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
     void execute() {
         try {
             controller.setFormat(editorArea.editor);
-            controller.analyze(editorArea.editor.getText());
+            controller.analyze(editorArea.editor,console);
         }
         catch (Exception e1) {}
     }

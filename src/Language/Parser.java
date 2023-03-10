@@ -256,7 +256,8 @@ public class Parser extends java_cup.runtime.lr_parser {
                 new ErrorS(
                     sym.left,
                     sym.right,
-                    sym.value
+                    sym.value,
+                    Sym.terminalNames[sym.sym]
                 )
             )
         );
@@ -281,6 +282,19 @@ public class Parser extends java_cup.runtime.lr_parser {
             return exe + "\n";
         }
         return exe + "SUCCESSFULLY RUN";
+    }
+    public String getStrErrors() {
+        String exe = "";
+        for(int i = 0; i < errors.size(); i ++) {
+            exe += "-> " + errors.get(i) + "\n";
+        }
+        return exe + "\n";
+    }
+    public boolean isSuccessExecution() {
+        if(errors.size() > 0) {
+            return false;
+        }
+        return true;
     }
     private void addRange(String start,String end) {
         set.startChar = start.charAt(0);

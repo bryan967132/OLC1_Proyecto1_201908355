@@ -26,6 +26,26 @@ public class Controller {
         }
         catch(Exception e) {}
     }
+    public void analyze(JTextPane editor,JTextPane console) {
+        try {
+            StyledDocument doc = editor.getStyledDocument();
+            String input = doc.getText(0,doc.getLength());
+            Scanner scanner = new Scanner(
+                new BufferedReader(
+                    new StringReader(input)
+                )
+            );
+            Parser parser = new Parser(scanner);
+            parser.parse();
+            if(parser.isSuccessExecution()) {
+                console.setText("EXREGAN:\n-> Successfully Input Analysis.");
+                return;
+            }
+            console.setText("EXREGAN:\n" + parser.getStrErrors());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     public void analyze(String input) {
         try {
             Scanner scanner = new Scanner(
