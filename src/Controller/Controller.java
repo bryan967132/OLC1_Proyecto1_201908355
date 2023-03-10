@@ -8,7 +8,9 @@ import Colors.ScannerC;
 import Colors.WordPainter;
 import Language.Parser;
 import Language.Scanner;
+import TreeMethod.TreeMethod;
 public class Controller {
+    TreeMethod treeMthod;
     public void setFormat(JTextPane editor) {
         try {
             StyledDocument doc = editor.getStyledDocument();
@@ -38,6 +40,7 @@ public class Controller {
             Parser parser = new Parser(scanner);
             parser.parse();
             if(parser.isSuccessExecution()) {
+                
                 console.setText("EXREGAN:\n-> Successfully Input Analysis.");
                 return;
             }
