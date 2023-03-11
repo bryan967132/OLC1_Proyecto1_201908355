@@ -3,8 +3,11 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.JLabel;
@@ -15,13 +18,22 @@ import Colors.*;
 import Templates.Button;
 import Controller.Controller;
 import java.awt.event.KeyListener;
-public class IDE extends JPanel implements ActionListener,KeyListener {
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
     Controller controller;
     Button analyzeInput;
+    double zoomFactor = 1.05; // factor de zoom
     EditorArea editorArea;
-    int posCaret;
+    Icon icono;
+    ImageIcon image;
+    int posCaret,posXImg,posYImg,posXLabImg,posYLabImg;
     JLabel cursorPosition;
+    JLabel img;
     JPanel editorAreaContent;
     JPanel editorAreaContentFalse;
     JPanel graphics;
@@ -80,6 +92,17 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         graphics.setBackground(Colors.WHITE);
         graphics.setBounds(790,105,550,425);
         graphics.setBorder(BorderFactory.createEmptyBorder());
+        graphics.setLayout(null);
+
+        img = new JLabel();
+		image = new ImageIcon("ARBOLES_201908355/frase.png");
+		icono = new ImageIcon(image.getImage().getScaledInstance(image.getIconWidth(),image.getIconHeight(), Image.SCALE_DEFAULT));
+        img.setIcon(icono);
+        img.setBounds(0,0,icono.getIconWidth(),icono.getIconHeight());
+        graphics.add(img);
+        graphics.addMouseListener(this);
+        graphics.addMouseWheelListener(this);
+        graphics.addMouseMotionListener(this);
         //analyzeInput
         analyzeInput.locationSize(220,56,30,30);
         analyzeInput.text(Colors.WHITE,15);
@@ -95,29 +118,6 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         this.add(graphics);
         this.add(analyzeInput);
     }
-    void cursorPosition() {
-        editorArea.editor.addCaretListener(
-            new CaretListener() {
-                public void caretUpdate(CaretEvent e) {
-                    try {
-                        posCaret = e.getDot();
-                        int row = 1,col = 1;
-                        int lastRow = -1;
-                        String text = editorArea.editor.getText().replaceAll("\r","");
-                        for(int i = 0; i < posCaret; i ++) {
-                            if(text.charAt(i) == '\n') {
-                                row ++;
-                                lastRow = i;
-                            }
-                        }
-                        col = posCaret - lastRow;
-                        cursorPosition.setText(row + " : " + col);
-                    }
-                    catch(Exception e1) {}
-                }
-            }
-            );
-        }
     void addToolBar() {
         toolbar = new ToolBar(w);
         toolbar.setBounds(0,0,1390,40);
@@ -160,4 +160,61 @@ public class IDE extends JPanel implements ActionListener,KeyListener {
         }
         catch(Exception e1) {}
     }
+    void cursorPosition() {
+        editorArea.editor.addCaretListener(
+            new CaretListener() {
+                public void caretUpdate(CaretEvent e) {
+                    try {
+                        posCaret = e.getDot();
+                        int row = 1,col = 1;
+                        int lastRow = -1;
+                        String text = editorArea.editor.getText().replaceAll("\r","");
+                        for(int i = 0; i < posCaret; i ++) {
+                            if(text.charAt(i) == '\n') {
+                                row ++;
+                                lastRow = i;
+                            }
+                        }
+                        col = posCaret - lastRow;
+                        cursorPosition.setText(row + " : " + col);
+                    }
+                    catch(Exception e1) {}
+                }
+            }
+        );
+    }
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int notches = e.getWheelRotation();
+        if (notches < 0) {
+            // zoom in
+            zoomFactor *= 1.05;
+        } else {
+            // zoom out
+            zoomFactor /= 1.05;
+        }
+        int w = image.getIconWidth();
+        int h = image.getIconHeight();
+        img.removeAll();
+        icono = new ImageIcon(image.getImage().getScaledInstance((int) (w * zoomFactor),(int) (h * zoomFactor), Image.SCALE_DEFAULT));
+        img.setIcon(icono);
+        img.setSize(icono.getIconWidth(),icono.getIconHeight());
+        graphics.revalidate();
+        graphics.repaint();
+    }
+    public void mouseDragged(MouseEvent e) {
+        int dx = e.getX() - posXImg;
+        int dy = e.getY() - posYImg;
+        img.setLocation(posXLabImg + dx,posYLabImg + dy);
+    }
+    public void mouseMoved(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+        posXImg = e.getX();
+        posYImg = e.getY();
+        posXLabImg = img.getX();
+        posYLabImg = img.getY();
+    }
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
 }
