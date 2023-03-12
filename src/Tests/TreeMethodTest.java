@@ -88,7 +88,7 @@ public class TreeMethodTest {
         tree = new TreeMethod(sets);
         System.out.println("-----------------------------------------------------");
         // ."C"."O"."M"."P"."I"."1" ? + | | {letra} {digito} " "
-        // "COMPI1"((letra | digito | \s)+)?
+        // "COMPI1"((letra|digito|\s)+)?
         {
         System.out.println(".\"C\".\"O\".\"M\".\"P\".\"I\".\"1\" ? + | | {letra} {digito} \" \" - \"COMPI1\"((letra|digito|\\s)+)?");
         regex = new Regex();
@@ -153,5 +153,35 @@ public class TreeMethodTest {
         tree.buildAFD();
         }
         System.out.println(tree.validateString("\'cadena entre\ncomilla simple\'"));
+
+        System.out.println("\n\n-----------------------------------------------------");
+        // . ? | + {digito} * {letra} ? . * {digito} + {letra}
+        // (digito+|letra*)?(digito*letra+)?
+        System.out.println(". ? | + {digito} * {letra} ? . * {digito} + {letra} - (digito+|letra*)?(digito*letra+)?");
+        regex = new Regex();
+        regex.id = "Kleene";
+        regex.expression.push(new Token(".",Type.CONCAT));
+        
+        regex.expression.push(new Token("?",Type.OPTIONAL));
+        regex.expression.push(new Token("|",Type.OR));
+        regex.expression.push(new Token("+",Type.POSITIVE));
+        regex.expression.push(new Token("digito",Type.ID));
+        regex.expression.push(new Token("*",Type.KLEENE));
+        regex.expression.push(new Token("letra",Type.ID));
+
+        regex.expression.push(new Token("?",Type.OPTIONAL));
+        regex.expression.push(new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("*",Type.KLEENE));
+        regex.expression.push(new Token("digito",Type.ID));
+        regex.expression.push(new Token("+",Type.POSITIVE));
+        regex.expression.push(new Token("letra",Type.ID));
+
+        regex.expression.add(0,new Token(".",Type.CONCAT));
+        regex.expression.push(new Token("#",Type.END));
+        tree.setRegex(regex);
+        tree.build();
+        tree.nextsTable();
+        tree.transitionsTable();
+        tree.buildAFD();
     }
 }
