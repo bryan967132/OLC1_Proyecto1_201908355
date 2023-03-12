@@ -8,84 +8,80 @@ public class ThompsonTest {
     public static void main(String[] args) {
         ThompsonMethod thompsonMethod = new ThompsonMethod();
         System.out.println("-----------------------------------------------------\n\n");
-        // ."C"."O"."M"."P"."I"."1" ? + | | {letra} {digito} " "
-        // "COMPI1"((letra | digito | \s)+)?
+        // . | {minuscula} {mayuscula} . + | | | {simbolos} {minuscula} {mayuscula} {numero} . "@" . + | {minuscula} {mayuscula} . ".". "c" . "o" "m";
+        // (minuscula|mayuscula)+(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com
         {
-        System.out.println(".\"C\".\"O\".\"M\".\"P\".\"I\".\"1\" ? + | | {letra} {digito} \" \" - \"COMPI1\"((letra|digito|\\s)+)?");
-        regex = new Regex();
-        regex.id = "frase";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"C\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"O\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"M\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"P\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"I\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"1\"",Type.STRING));
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("letra",Type.ID));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("\" \"",Type.STRING));
+            System.out.println("(minuscula|mayuscula)(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com");
+            regex = new Regex();
+            regex.id = "correoElectronico";
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("simbolos",Type.ID));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token("numero",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"@\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\".\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"c\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"o\"",Type.STRING));
+            regex.expression.push(new Token("\"m\"",Type.STRING));
 
-        thompsonMethod.setRegex(regex);
-        thompsonMethod.build();
-        thompsonMethod.buildAFND();
+            thompsonMethod.setRegex(regex);
+            thompsonMethod.build();
+            thompsonMethod.buildAFND();
         }
         System.out.println("\n\n-----------------------------------------------------");
-        // . \' . + | | | | \n {minus} {mayus} {digito} " " \'
-        // \'(\n|minus|mayus|digito|\s)+\'
+        // . "h" . "t" . "t" . "p" . ? "s" . ":" . "/" . "/" . + {minuscula} . "." + {minuscula}
+        // http(s)?://(minuscula)+.(minuscula)+
         {
-        System.out.println(". \\' . + | | | | \\n {minus} {mayus} {digito} \" \" \\' - \\'(\\n|minus|mayus|digito|\\s)+\\'");
-        regex = new Regex();
-        regex.id = "cadena";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\'",Type.SINGLEQUOTE));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("\n",Type.ENTER));
-        regex.expression.push(new Token("minus",Type.ID));
-        regex.expression.push(new Token("mayus",Type.ID));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("\" \"",Type.STRING));
-        regex.expression.push(new Token("\'",Type.SINGLEQUOTE));
+            System.out.println("http(s)?://(minuscula)+.(minuscula)+");
+            regex = new Regex();
+            regex.id = "url";
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"h\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"t\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"t\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"p\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("?",Type.OPTIONAL));
+            regex.expression.push(new Token("\"s\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\":\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"/\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"/\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\".\"",Type.STRING));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("minuscula",Type.ID));
 
-        thompsonMethod.setRegex(regex);
-        thompsonMethod.build();
-        thompsonMethod.buildAFND();
-    }
-    System.out.println("\n\n-----------------------------------------------------");
-        regex = new Regex();
-        regex.id = "Kleene";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("*",Type.KLEENE));
-        regex.expression.push(new Token("letra",Type.ID));
-        
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("*",Type.KLEENE));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("letra",Type.ID));
-        
-        thompsonMethod.setRegex(regex);
-        thompsonMethod.build();
-        thompsonMethod.buildAFND();
+            thompsonMethod.setRegex(regex);
+            thompsonMethod.build();
+            thompsonMethod.buildAFND();
+        }
         System.out.println("\n\n-----------------------------------------------------");
     }
 }

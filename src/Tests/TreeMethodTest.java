@@ -12,7 +12,7 @@ public class TreeMethodTest {
     public static void main(String[] args) {
         Map<String,Set> sets = new TreeMap<>();
         Set set = new Set();
-        set.id = "mayus";
+        set.id = "mayuscula";
         //A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
         {set.specifics.add('A');
         set.specifics.add('B');
@@ -43,145 +43,120 @@ public class TreeMethodTest {
         sets.put(set.id,set);
         System.out.println(set);
         set = new Set();
-        set.id = "minus";
-        //a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
-        {set.specifics.add('a');
-        set.specifics.add('b');
-        set.specifics.add('c');
-        set.specifics.add('d');
-        set.specifics.add('e');
-        set.specifics.add('f');
-        set.specifics.add('g');
-        set.specifics.add('h');
-        set.specifics.add('i');
-        set.specifics.add('j');
-        set.specifics.add('k');
-        set.specifics.add('l');
-        set.specifics.add('m');
-        set.specifics.add('n');
-        set.specifics.add('o');
-        set.specifics.add('p');
-        set.specifics.add('q');
-        set.specifics.add('r');
-        set.specifics.add('s');
-        set.specifics.add('t');
-        set.specifics.add('u');
-        set.specifics.add('v');
-        set.specifics.add('w');
-        set.specifics.add('x');
-        set.specifics.add('y');
-        set.specifics.add('z');}
-        sets.put(set.id,set);
-        System.out.println(set);
-        set = new Set();
-        set.id = "letra";
+        set.id = "minuscula";
+        //a~z
         set.startChar = 'a';
         set.endChar = 'z';
         sets.put(set.id,set);
         System.out.println(set);
         set = new Set();
-        set.id = "digito";
-        set.startChar = '0';
-        set.endChar = '9';
+        set.id = "numero";
+        //0,1,2,3,4,5,6,7,8,9
+        {set.specifics.add('0');
+        set.specifics.add('1');
+        set.specifics.add('2');
+        set.specifics.add('3');
+        set.specifics.add('4');
+        set.specifics.add('5');
+        set.specifics.add('6');
+        set.specifics.add('7');
+        set.specifics.add('8');
+        set.specifics.add('9');}
+        sets.put(set.id,set);
+        System.out.println(set);
+        set = new Set();
+        set.id = "simbolos";
+        //-,_
+        {set.specifics.add('-');
+        set.specifics.add('_');}
         sets.put(set.id,set);
         System.out.println(set);
         tree = new TreeMethod(sets);
         System.out.println("-----------------------------------------------------");
-        // ."C"."O"."M"."P"."I"."1" ? + | | {letra} {digito} " "
-        // "COMPI1"((letra|digito|\s)+)?
+        // . | {minuscula} {mayuscula} . + | | | {simbolos} {minuscula} {mayuscula} {numero} . "@" . + | {minuscula} {mayuscula} . ".". "c" . "o" "m";
+        // (minuscula|mayuscula)+(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com
         {
-        System.out.println(".\"C\".\"O\".\"M\".\"P\".\"I\".\"1\" ? + | | {letra} {digito} \" \" - \"COMPI1\"((letra|digito|\\s)+)?");
-        regex = new Regex();
-        regex.id = "frase";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"C\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"O\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"M\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"P\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"I\"",Type.STRING));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\"1\"",Type.STRING));
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("letra",Type.ID));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("\" \"",Type.STRING));
+            System.out.println("(minuscula|mayuscula)(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com");
+            regex = new Regex();
+            regex.id = "correoElectronico";
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("simbolos",Type.ID));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token("numero",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"@\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("|",Type.OR));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token("mayuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\".\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"c\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"o\"",Type.STRING));
+            regex.expression.push(new Token("\"m\"",Type.STRING));
 
-        regex.expression.add(0,new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("#",Type.END));
-        tree.setRegex(regex);
-        tree.build();
-        tree.nextsTable();
-        tree.transitionsTable();
-        tree.buildAFD();
+            regex.expression.add(0,new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("#",Type.END));
+            tree.setRegex(regex);
+            tree.build();
+            tree.nextsTable();
+            tree.transitionsTable();
+            tree.buildAFD();
         }
-        System.out.println(tree.validateString("COMPI1 sale con 100"));
+        System.out.println(tree.validateString("lachalana666@ingusac.com"));
         System.out.println("-----------------------------------------------------");
-        // . \' . + | | | | \n {minus} {mayus} {digito} " " \'
-        // \'(\n|minus|mayud|digito|\s)+\'
+        // . "h" . "t" . "t" . "p" . ? "s" . ":" . "/" . "/" . + {minuscula} . "." + {minuscula}
+        // http(s)?://(minuscula)+.(minuscula)+
         {
-        System.out.println(". \\' . + | | | | \\n {minus} {mayus} {digito} \" \" \\' - \\'(\\n|minus|mayus|digito|\\s)+\\'");
-        regex = new Regex();
-        regex.id = "cadena";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("\'",Type.SINGLEQUOTE));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("\n",Type.ENTER));
-        regex.expression.push(new Token("minus",Type.ID));
-        regex.expression.push(new Token("mayus",Type.ID));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("\" \"",Type.STRING));
-        regex.expression.push(new Token("\'",Type.SINGLEQUOTE));
+            System.out.println("http(s)?://(minuscula)+.(minuscula)+");
+            regex = new Regex();
+            regex.id = "url";
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"h\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"t\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"t\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"p\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("?",Type.OPTIONAL));
+            regex.expression.push(new Token("\"s\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\":\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"/\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\"/\"",Type.STRING));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("minuscula",Type.ID));
+            regex.expression.push(new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("\".\"",Type.STRING));
+            regex.expression.push(new Token("+",Type.POSITIVE));
+            regex.expression.push(new Token("minuscula",Type.ID));
 
-        regex.expression.add(0,new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("#",Type.END));
-        tree.setRegex(regex);
-        tree.build();
-        tree.nextsTable();
-        tree.transitionsTable();
-        tree.buildAFD();
+            regex.expression.add(0,new Token(".",Type.CONCAT));
+            regex.expression.push(new Token("#",Type.END));
+            tree.setRegex(regex);
+            tree.build();
+            tree.nextsTable();
+            tree.transitionsTable();
+            tree.buildAFD();
         }
-        System.out.println(tree.validateString("\'cadena entre\ncomilla simple\'"));
-
+        System.out.println(tree.validateString("https://facebook.com"));
         System.out.println("\n\n-----------------------------------------------------");
-        // . ? | + {digito} * {letra} ? . * {digito} + {letra}
-        // (digito+|letra*)?(digito*letra+)?
-        System.out.println(". ? | + {digito} * {letra} ? . * {digito} + {letra} - (digito+|letra*)?(digito*letra+)?");
-        regex = new Regex();
-        regex.id = "Kleene";
-        regex.expression.push(new Token(".",Type.CONCAT));
-        
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token("|",Type.OR));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("*",Type.KLEENE));
-        regex.expression.push(new Token("letra",Type.ID));
-
-        regex.expression.push(new Token("?",Type.OPTIONAL));
-        regex.expression.push(new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("*",Type.KLEENE));
-        regex.expression.push(new Token("digito",Type.ID));
-        regex.expression.push(new Token("+",Type.POSITIVE));
-        regex.expression.push(new Token("letra",Type.ID));
-
-        regex.expression.add(0,new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("#",Type.END));
-        tree.setRegex(regex);
-        tree.build();
-        tree.nextsTable();
-        tree.transitionsTable();
-        tree.buildAFD();
     }
 }
