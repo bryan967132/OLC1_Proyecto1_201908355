@@ -29,7 +29,7 @@ terminal String OR, POSITIVE, KLEENE, CONCAT, OPTIONAL;
 terminal String LIMIT, SINGLEQUOTE, DOUBLEQUOTE, ENTER;
 
 /* 4. No Terminales*/
-non terminal ini;
+non terminal ini, body, declarations, evaluations;
 non terminal instructions,instruction;
 non terminal set, elements;
 non terminal specific, regex;
@@ -45,7 +45,13 @@ non terminal String ids;
 
 start with ini;
 
-ini::=LBRACKET instructions LIMIT:l {:painter.LIMIT(lleft,lright);:} analysis RBRACKET;
+ini::=LBRACKET body RBRACKET;
+
+body::=instructions declarations | /*empty*/;
+
+declarations::=LIMIT:l {:painter.LIMIT(lleft,lright);:} evaluations | /*empty*/;
+
+evaluations::=analysis | /*empty*/;
 
 instructions::=
     instruction error instructions |
@@ -97,7 +103,7 @@ operation::=
 
 node::=
     LBRACKET ids:nd RBRACKET {:painter.VARIABLEUSE(ndleft,ndright);:} |
-    STRING:nd                {:painter.STRING(ndleft,ndright);:} |
+    STRING:nd                {:if(nd.equals("\"\"")) {syntax_error(((java_cup.runtime.Symbol) CUP$ParserC$stack.peek()));return ((java_cup.runtime.Symbol) CUP$ParserC$stack.peek());}painter.STRING(ndleft,ndright);:} |
     ENTER:nd                 {:painter.SPECIALCHAR(ndleft,ndright);:} |
     DOUBLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:} |
     SINGLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:};

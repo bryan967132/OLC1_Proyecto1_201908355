@@ -13,11 +13,11 @@ public class ErrorS {
     public void print() {
         System.out.println(
             "Syntax Error" + (token != null ? " in Line " + line + " Column " + column : "") +
-            ". This Component was not expected: " + (token != null ? token : "EOF") + "."
+            ". This Component was not expected: " + (token != null ? type + " = " + token : "EOF") + "."
         );
     }
     public String toString() {
         return "Syntax Error" + (token != null ? " in Line " + line + " Column " + column : "") +
-            ". This Component was not expected: " + (token != null ? type + " = " + token : "EOF") + ".";
+            ". This Component was not expected: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";
     }
 }
