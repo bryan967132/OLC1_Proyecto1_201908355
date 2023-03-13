@@ -152,7 +152,7 @@ non terminal String ids;
 
 start with ini;
 
-ini::=LBRACKET body RBRACKET;
+ini::=LBRACKET body RBRACKET | /*empty*/;
 
 body::=instructions declarations | /*empty*/;
 

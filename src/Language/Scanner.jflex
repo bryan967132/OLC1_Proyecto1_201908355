@@ -41,7 +41,13 @@ import Components.*;
             }
         );
     }
-    public String getTokens() {
+    public boolean thereAreTokens() {
+        if(tokens.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+    public String getStrTokens() {
         String tokensTab = "TOKENS\n";
         tokensTab += "Lexeme                   Line  Column  Type\n";
         if(tokens.size() > 0) {
@@ -52,7 +58,7 @@ import Components.*;
         else tokensTab += "No Tokens\n";
         return tokensTab + "\n";
     }
-    public String getErrors() {
+    public String getStrErrors() {
         String errorsTab = "ERRORS\n";
         errorsTab += "Line  Column  Description\n";
         if(errors.size() > 0) {

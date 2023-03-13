@@ -20,8 +20,8 @@ public class ScannerAnalysisTest {
             do {
                 sym = scanner.next_token();
             } while(sym.value != null);
-            System.out.println(scanner.getTokens());
-            System.out.println(scanner.getErrors());
+            System.out.println(scanner.getStrTokens());
+            System.out.println(scanner.getStrErrors());
         } catch (Exception e) {
             System.out.println(e);
         }
