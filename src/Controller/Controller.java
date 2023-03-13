@@ -39,9 +39,13 @@ public class Controller {
             );
             Parser parser = new Parser(scanner);
             parser.parse();
+            //if(scanner)
             if(parser.isSuccessExecution()) {
-                
-                console.setText("EXREGAN:\n-> Successfully Input Analysis.");
+                if(parser.getExcecution().size() > 0) {
+                    console.setText("EXREGAN:\n-> Successfully Input Analysis.");
+                    return;
+                }
+                console.setText("EXREGAN:\n->");
                 return;
             }
             console.setText("EXREGAN:\n" + parser.getStrErrors());

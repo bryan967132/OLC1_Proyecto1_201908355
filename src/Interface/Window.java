@@ -1,6 +1,6 @@
 package Interface;
 import javax.swing.JFrame;
-import Colors.Colors;
+import Templates.Colors;
 public class Window extends JFrame {
     IDE ide;
     public Window() {

@@ -19,7 +19,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
-import Colors.Colors;
+import Templates.Colors;
 public class EditorArea extends JPanel {
     JTextPane editor;
     JScrollPane scroll;

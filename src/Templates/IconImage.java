@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 public class IconImage extends JLabel {
 	private static final long serialVersionUID = 1L;
 	public IconImage(String imagen,int l) {
-        this.setBounds(1,1,l-2,l-2);
+        this.setBounds(4,4,l-8,l-8);
 		ImageIcon img = new ImageIcon(imagen);
 		Icon icono = new ImageIcon(img.getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_DEFAULT));
         this.setIcon(icono);

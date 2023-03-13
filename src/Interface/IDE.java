@@ -1,7 +1,5 @@
 package Interface;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -10,23 +8,26 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.xml.transform.Templates;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import java_cup.runtime.Symbol;
-import Colors.*;
-import Templates.Button;
-import Controller.Controller;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
+import Colors.*;
+import Controller.Controller;
+import Templates.Button;
+import Templates.Colors;
+import Templates.Icons;
+public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
     Controller controller;
-    Button analyzeInput;
+    Button analyzeInput,analyzeStrings,saveOLC;
     double zoomFactor = 1.05; // factor de zoom
     EditorArea editorArea;
     Icon icono;
@@ -60,7 +61,9 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         cursorPosition = new JLabel();
         console = new JTextPane();
         graphics = new JPanel();
-        analyzeInput = new Button("►");
+        analyzeInput = new Button();
+        analyzeStrings = new Button();
+        saveOLC = new Button();
     }
     void defineComponents() {
         //projects
@@ -105,10 +108,22 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         graphics.addMouseMotionListener(this);
         //analyzeInput
         analyzeInput.locationSize(220,56,30,30);
-        analyzeInput.text(Colors.WHITE,15);
+        analyzeInput.Icon(Icons.PLAY);
         analyzeInput.setDesign(Colors.GREEN2);
         analyzeInput.setHoverColor(Colors.GREEN3);
-        analyzeInput.addActionListener(this);
+        analyzeInput.addMouseListener(this);
+        //analyzeStrings
+        analyzeStrings.locationSize(255,56,30,30);
+        analyzeStrings.Icon(Icons.EYE);
+        analyzeStrings.setDesign(Colors.GREEN2);
+        analyzeStrings.setHoverColor(Colors.GREEN3);
+        analyzeStrings.addMouseListener(this);
+        //saveOLC
+        saveOLC.locationSize(290,56,30,30);
+        saveOLC.Icon(Icons.SAVE);
+        saveOLC.setDesign(Colors.GREEN2);
+        saveOLC.setHoverColor(Colors.GREEN3);
+        saveOLC.addMouseListener(this);
     }
     void addComponents() {
         this.add(projects);
@@ -117,6 +132,8 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         this.add(console);
         this.add(graphics);
         this.add(analyzeInput);
+        this.add(analyzeStrings);
+        this.add(saveOLC);
     }
     void addToolBar() {
         toolbar = new ToolBar(w);
@@ -140,25 +157,12 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         }
         catch (Exception e1) {}
     }
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == analyzeInput) {
-            execute();
-        }
-    }
-    public void keyTyped(KeyEvent e) {
-        
-    }
+    public void keyTyped(KeyEvent e) {}
     public void keyPressed(KeyEvent e) {
-        try {
-            setFormat();
-        }
-        catch(Exception e1) {}
+        setFormat();
     }
     public void keyReleased(KeyEvent e) {
-        try {
-            setFormat();
-        }
-        catch(Exception e1) {}
+        setFormat();
     }
     void cursorPosition() {
         editorArea.editor.addCaretListener(
@@ -207,7 +211,11 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         img.setLocation(posXLabImg + dx,posYLabImg + dy);
     }
     public void mouseMoved(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource() == analyzeInput) {
+            execute();
+        }
+    }
     public void mousePressed(MouseEvent e) {
         posXImg = e.getX();
         posYImg = e.getY();

@@ -2,14 +2,12 @@ package Templates;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-public class FunctionButton extends JButton implements MouseListener {
+import javax.swing.JPanel;
+public class FunctionButton extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	boolean activado = false;
 	Color hoverColor;
 	int x,y,w,mov,animSize,animSpeed;
-	JLabel titulo;
 	public FunctionButton() {
 		this.addMouseListener(this);
 		this.setBackground(null);
@@ -23,9 +21,7 @@ public class FunctionButton extends JButton implements MouseListener {
 		this.setVisible(true);
 	}
 	public void text(String txt,int tamano) {
-		this.setBorder(null);
-		titulo = new Label(0,0,this.getWidth(),this.getHeight(),txt,tamano);
-		this.add(titulo);
+		this.add(new Label(0,0,this.getWidth(),this.getHeight(),txt,tamano));
 	}
 	public void setHoverColor(Color color) {
 		hoverColor = color;

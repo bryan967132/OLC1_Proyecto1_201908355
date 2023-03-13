@@ -5,6 +5,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+import Templates.Colors;
 public class WordPainter {
     public JTextPane box;
     private StyleContext sc;

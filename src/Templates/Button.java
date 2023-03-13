@@ -8,34 +8,29 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-public class Button extends JButton implements MouseListener {
+import javax.swing.JPanel;
+public class Button extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	boolean activado = false;
 	Color backgroundColor,hoverColor,tmpColor;
-	int x,y,w,mov,animSize,animSpeed;
 	String texto;
-	JLabel titulo;
+	public Button() {}
 	public Button(String texto) {
 		this.texto = texto;
 	}
 	public void locationSize(int x,int y,int w,int h) {
-		this.x = x;
-		this.y = y;
-		this.w = w;
 		this.setBounds(x,y,w,h);
 		this.setLayout(null);
 		this.setVisible(true);
 	}
 	public void text(Color color,int tamano) {
-		titulo = new Label(0,0,this.getWidth(),this.getHeight(),texto,color,tamano);
-		this.add(titulo);
+		this.add(new Label(0,0,this.getWidth(),this.getHeight(),texto,color,tamano));
+	}
+	public void Icon(String icon) {
+		this.add(new IconImage(icon,6,6,this.getWidth() - 12,this.getHeight() - 12));
 	}
 	public void setDesign(Color colorFondo) {
 		this.setOpaque(false);
-        this.setContentAreaFilled(false);
-        this.setBorderPainted(false);
         this.setPreferredSize(new Dimension(100, 50));
         backgroundColor = colorFondo;
 		tmpColor = backgroundColor;
