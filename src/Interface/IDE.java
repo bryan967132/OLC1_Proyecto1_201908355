@@ -22,7 +22,6 @@ import Colors.*;
 import Controller.Controller;
 import Templates.Button;
 import Templates.Colors;
-import Templates.IconFile;
 import Templates.Icons;
 public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
@@ -32,6 +31,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     EditorArea editorArea;
     Icon icono;
     ImageIcon image;
+    int indexFilePJ = -1;
     int posCaret,posXImg,posYImg,posXLabImg,posYLabImg;
     JLabel cursorPosition;
     JLabel img;
@@ -42,6 +42,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     JTextPane console;
     String input;
     Symbol sym;
+    Tag tag;
     ToolBar toolbar;
     Window w;
     WordPainter painter;
@@ -54,8 +55,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         addComponents();
         addToolBar();
         cursorPosition();
-        //pruebas
-        addProjectsFile();
+        lookPJFiles();
     }
     void initComponents() {
         projects = new JPanel();
@@ -110,35 +110,41 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         graphics.addMouseWheelListener(this);
         graphics.addMouseMotionListener(this);
         //analyzeInput
-        analyzeInput.locationSize(220,56,30,30);
+        analyzeInput.locationSize(440,56,30,30);
         analyzeInput.Icon(Icons.PLAY);
         analyzeInput.setDesign(Colors.GREEN2);
         analyzeInput.setHoverColor(Colors.GREEN3);
         analyzeInput.addMouseListener(this);
         //analyzeStrings
-        analyzeStrings.locationSize(255,56,30,30);
+        analyzeStrings.locationSize(475,56,30,30);
         analyzeStrings.Icon(Icons.EYE);
         analyzeStrings.setDesign(Colors.GREEN2);
         analyzeStrings.setHoverColor(Colors.GREEN3);
         analyzeStrings.addMouseListener(this);
         //saveOLC
-        saveOLC.locationSize(290,56,30,30);
+        saveOLC.locationSize(510,56,30,30);
         saveOLC.Icon(Icons.SAVE);
         saveOLC.setDesign(Colors.GREEN2);
         saveOLC.setHoverColor(Colors.GREEN3);
         saveOLC.addMouseListener(this);
     }
-    void addProjectsFile() {
-
-        ArrayList<IconFile> projects = new ArrayList<>();
-        for(int i = 0; i < 12; i ++) {
-            projects.add(new IconFile("Proyecto" + i + ".olc"));
-            projects.get(i).locationSize(0,i * 25 + 25,this.projects.getWidth(),25);
-            projects.get(i).text(Colors.WHITE,12);
-            projects.get(i).setHoverColor(Colors.LIGHTECLIPSE);
-            projects.get(i).addMouseListener(this);
-            this.projects.add(projects.get(i));
+    public void updateTag() {
+        if(tag != null) {
+            tag.removeAll();
+			this.remove(tag);
+		}
+		tag = new Tag(indexFilePJ,this,controller);
+        this.add(tag);
+		this.repaint();
+    }
+    public void lookPJFiles() {
+        projects.removeAll();
+        for(int i = 0; i < controller.countPJ(); i ++) {
+            controller.pjs.get(i).locationSize(0,i * 25 + 25,this.projects.getWidth(),25);
+            controller.pjs.get(i).setHoverColor(Colors.LIGHTECLIPSE);
+            projects.add(controller.pjs.get(i));
         }
+        projects.repaint();
     }
     void addComponents() {
         this.add(projects);
@@ -151,7 +157,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         this.add(saveOLC);
     }
     void addToolBar() {
-        toolbar = new ToolBar(w);
+        toolbar = new ToolBar(controller,this,w);
         toolbar.setBounds(0,0,1390,40);
         this.add(toolbar);
     }

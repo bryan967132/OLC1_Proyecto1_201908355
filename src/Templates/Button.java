@@ -42,7 +42,7 @@ public class Button extends JPanel implements MouseListener {
 	protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
+        Shape shape = new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),getHeight(),getHeight());
         g2d.setColor(backgroundColor);
         g2d.fill(shape);
         super.paintComponent(g);

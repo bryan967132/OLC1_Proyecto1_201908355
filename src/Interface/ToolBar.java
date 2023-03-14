@@ -1,19 +1,28 @@
 package Interface;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import Controller.Controller;
 import Templates.Colors;
 import Templates.Button;
 import Templates.FunctionButton;
 public class ToolBar extends JPanel implements MouseListener {
-    FunctionButton close,minimize;
     Button newOLC,openOLC,saveAsOLC;
+    Controller controller;
+    FunctionButton close,minimize;
     IDE ide;
+    JFileChooser file;
     JPanel div;
     Window w;
-    public ToolBar(Window w) {
+    public ToolBar(Controller controller,IDE ide,Window w) {
         this.w = w;
-        this.ide = this.w.ide;
+        this.ide = ide;
+        this.controller = this.ide.controller;
         init();
         addOpenOLC();
         addNewOLC();
@@ -77,8 +86,39 @@ public class ToolBar extends JPanel implements MouseListener {
         minimize.addMouseListener(this);
         this.add(minimize);
     }
+    private void chooseFile() {
+        try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		}
+        this.file = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.olc)", "olc");
+        file.setFileFilter(filtro);
+        int seleccion = file.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File olcFile = file.getSelectedFile();
+            int index = controller.existPJFile(olcFile.getAbsolutePath());
+            if(index == -1) {
+                controller.pjs.add(new IconFile(controller.countPJ(),olcFile,ide,controller));
+                ide.lookPJFiles();
+                controller.pjs.get(controller.countPJ() - 1).lookCode();
+            }
+            else {
+                controller.pjs.get(index).lookCode();
+            }
+        }
+    }
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource() == close) {
+        if(e.getSource() == openOLC) {
+            chooseFile();
+        }
+        else if(e.getSource() == newOLC) {
+            
+        }
+        else if(e.getSource() == saveAsOLC) {
+            
+        }
+        else if(e.getSource() == close) {
             System.exit(0);
         }
         else if(e.getSource() == minimize) {

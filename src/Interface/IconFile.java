@@ -61,7 +61,7 @@ public class IconFile extends JPanel implements MouseListener {
 		ide.editorArea.editor.setText(controller.readInput(path));
         ide.setFormat();
 		ide.indexFilePJ = id;
-		System.out.println(ide.indexFilePJ);
+		ide.updateTag();
 	}
 	public String toString() {
 		return "FILENAME: " + texto + "\nPATH: " + path;
