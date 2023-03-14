@@ -31,7 +31,7 @@ public class IconFile extends JPanel implements MouseListener {
 		this.add(new PJName(50,0,this.getWidth() - 70,this.getHeight(),texto,tamano));
 	}
 	private void Icon() {
-		this.add(new IconImage(Icons.EXPEDIENT,15,3,this.getHeight() - 6,this.getHeight() - 6));
+		this.add(new IconImage(Icons.FILE1,15,3,this.getHeight() - 6,this.getHeight() - 6));
 	}
 	public void setHoverColor(Color color) {
 		hoverColor = color;

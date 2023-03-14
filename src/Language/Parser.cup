@@ -210,7 +210,7 @@ operation::=
 
 node::=
     LBRACKET ids:id RBRACKET {:addElement(id,Type.ID);:} |
-    STRING:str               {:if(str.equals("\"\"")) {syntax_error(((java_cup.runtime.Symbol) CUP$Parser$stack.peek()));return ((java_cup.runtime.Symbol) CUP$Parser$stack.peek());}addElement(str,Type.STRING);:} |
+    STRING:str               {:addElement(str,Type.STRING);:} |
     ENTER:enter              {:addElement(enter,Type.ENTER);:} |
     DOUBLEQUOTE:dq           {:addElement(dq,Type.DOUBLEQUOTE);:} |
     SINGLEQUOTE:sq           {:addElement(sq,Type.SINGLEQUOTE);:};

@@ -904,7 +904,7 @@ painter.OPERATOR(opleft,opright);
 		int ndleft = ((java_cup.runtime.Symbol)CUP$ParserC$stack.peek()).left;
 		int ndright = ((java_cup.runtime.Symbol)CUP$ParserC$stack.peek()).right;
 		String nd = (String)((java_cup.runtime.Symbol) CUP$ParserC$stack.peek()).value;
-		if(nd.equals("\"\"")) {syntax_error(((java_cup.runtime.Symbol) CUP$ParserC$stack.peek()));return ((java_cup.runtime.Symbol) CUP$ParserC$stack.peek());}painter.STRING(ndleft,ndright);
+		painter.STRING(ndleft,ndright);
               CUP$ParserC$result = parser.getSymbolFactory().newSymbol("node",12, ((java_cup.runtime.Symbol)CUP$ParserC$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserC$stack.peek()), RESULT);
             }
           return CUP$ParserC$result;

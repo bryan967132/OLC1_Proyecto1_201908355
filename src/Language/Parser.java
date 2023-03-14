@@ -925,7 +925,7 @@ addElement(pl,Type.POSITIVE);
 		int strleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int strright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String str = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		if(str.equals("\"\"")) {syntax_error(((java_cup.runtime.Symbol) CUP$Parser$stack.peek()));return ((java_cup.runtime.Symbol) CUP$Parser$stack.peek());}addElement(str,Type.STRING);
+		addElement(str,Type.STRING);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("node",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

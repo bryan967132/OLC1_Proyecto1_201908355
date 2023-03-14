@@ -103,7 +103,7 @@ operation::=
 
 node::=
     LBRACKET ids:nd RBRACKET {:painter.VARIABLEUSE(ndleft,ndright);:} |
-    STRING:nd                {:if(nd.equals("\"\"")) {syntax_error(((java_cup.runtime.Symbol) CUP$ParserC$stack.peek()));return ((java_cup.runtime.Symbol) CUP$ParserC$stack.peek());}painter.STRING(ndleft,ndright);:} |
+    STRING:nd                {:painter.STRING(ndleft,ndright);:} |
     ENTER:nd                 {:painter.SPECIALCHAR(ndleft,ndright);:} |
     DOUBLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:} |
     SINGLEQUOTE:nd           {:painter.SPECIALCHAR(ndleft,ndright);:};
