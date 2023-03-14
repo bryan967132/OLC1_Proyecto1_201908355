@@ -3,10 +3,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import Templates.Colors;
+import Templates.Button;
 import Templates.FunctionButton;
 public class ToolBar extends JPanel implements MouseListener {
     FunctionButton close,minimize;
-    FunctionButton newOLC,openOLC,saveAsOLC;
+    Button newOLC,openOLC,saveAsOLC;
     IDE ide;
     JPanel div;
     Window w;
@@ -22,25 +23,28 @@ public class ToolBar extends JPanel implements MouseListener {
         addDivisor();
     }
     private void addOpenOLC() {
-        openOLC = new FunctionButton();
+        openOLC = new Button("Abrir");
         openOLC.locationSize(20,5,50,25);
-        openOLC.text("Abrir",14);
+        openOLC.text(Colors.WHITE,14);
+        openOLC.setDesign(Colors.MEDIUMECLIPSE1);
         openOLC.setHoverColor(Colors.MEDIUMECLIPSE2);
         openOLC.addMouseListener(this);
         this.add(openOLC);
     }
     private void addNewOLC() {
-        newOLC = new FunctionButton();
+        newOLC = new Button("Nuevo");
         newOLC.locationSize(72,5,60,25);
-        newOLC.text("Nuevo",14);
+        newOLC.text(Colors.WHITE,14);
+        newOLC.setDesign(Colors.MEDIUMECLIPSE1);
         newOLC.setHoverColor(Colors.MEDIUMECLIPSE2);
         newOLC.addMouseListener(this);
         this.add(newOLC);
     }
     private void addSaveAsOLC() {
-        saveAsOLC = new FunctionButton();
+        saveAsOLC = new Button("Guardar Como");
         saveAsOLC.locationSize(134,5,110,25);
-        saveAsOLC.text("Guardar Como",14);
+        saveAsOLC.text(Colors.WHITE,14);
+        saveAsOLC.setDesign(Colors.MEDIUMECLIPSE1);
         saveAsOLC.setHoverColor(Colors.MEDIUMECLIPSE2);
         saveAsOLC.addMouseListener(this);
         this.add(saveAsOLC);

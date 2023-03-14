@@ -1,10 +1,13 @@
 package Interface;
 import javax.swing.JFrame;
+import Controller.Controller;
 import Templates.Colors;
 public class Window extends JFrame {
+    Controller controller;
     IDE ide;
-    public Window() {
+    public Window(Controller controller) {
         super("ExReganUSAC");
+        this.controller = controller;
         init();
         initComponents();
     }

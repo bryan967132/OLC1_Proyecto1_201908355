@@ -8,7 +8,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.xml.transform.Templates;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -23,6 +22,7 @@ import Colors.*;
 import Controller.Controller;
 import Templates.Button;
 import Templates.Colors;
+import Templates.IconFile;
 import Templates.Icons;
 public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
@@ -47,15 +47,17 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     WordPainter painter;
     public IDE(Window w) {
         this.w = w;
+        this.controller = w.controller;
         init();
         initComponents();
         defineComponents();
         addComponents();
         addToolBar();
         cursorPosition();
+        //pruebas
+        addProjectsFile();
     }
     void initComponents() {
-        controller = new Controller();
         projects = new JPanel();
         editorAreaContent = new JPanel();
         cursorPosition = new JLabel();
@@ -67,8 +69,9 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     }
     void defineComponents() {
         //projects
-        projects.setBackground(Colors.LIGHTECLIPSE);
+        projects.setBackground(Colors.MEDIUMECLIPSE2);
         projects.setBounds(40,105,160,585);
+        projects.setLayout(null);
         //editorArea
         editorAreaContent.setLayout(new BorderLayout());
         editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
@@ -124,6 +127,18 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         saveOLC.setDesign(Colors.GREEN2);
         saveOLC.setHoverColor(Colors.GREEN3);
         saveOLC.addMouseListener(this);
+    }
+    void addProjectsFile() {
+
+        ArrayList<IconFile> projects = new ArrayList<>();
+        for(int i = 0; i < 12; i ++) {
+            projects.add(new IconFile("Proyecto" + i + ".olc"));
+            projects.get(i).locationSize(0,i * 25 + 25,this.projects.getWidth(),25);
+            projects.get(i).text(Colors.WHITE,12);
+            projects.get(i).setHoverColor(Colors.LIGHTECLIPSE);
+            projects.get(i).addMouseListener(this);
+            this.projects.add(projects.get(i));
+        }
     }
     void addComponents() {
         this.add(projects);

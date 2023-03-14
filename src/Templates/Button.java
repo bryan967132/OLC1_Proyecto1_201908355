@@ -24,7 +24,7 @@ public class Button extends JPanel implements MouseListener {
 		this.setVisible(true);
 	}
 	public void text(Color color,int tamano) {
-		this.add(new Label(0,0,this.getWidth(),this.getHeight(),texto,color,tamano));
+		this.add(new Label(0,0,this.getWidth(),this.getHeight(),texto,tamano));
 	}
 	public void Icon(String icon) {
 		this.add(new IconImage(icon,6,6,this.getWidth() - 12,this.getHeight() - 12));
