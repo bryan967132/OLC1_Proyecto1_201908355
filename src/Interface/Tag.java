@@ -27,16 +27,20 @@ public class Tag extends Button {
         close.locationSize(this.getWidth() - 25,0,25,25);
         close.text(Colors.WHITE,15);
         close.setDesign(Colors.MEDIUMECLIPSE2);
-        close.setHoverColor(Colors.MEDIUMECLIPSE1);
+        close.setHoverColor(Colors.LIGHTECLIPSE);
         close.addMouseListener(this);
         this.add(close);
 	}
+    public void close() {
+        this.removeAll();
+        ide.indexFilePJ = -1;
+        ide.editorArea.editor.setText("");
+        ide.remove(this);
+        ide.repaint();
+    }
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == close) {
-            this.removeAll();
-            ide.editorArea.editor.setText("");
-            ide.remove(this);
-            ide.repaint();
+            close();
         }
     }
     public void mousePressed(MouseEvent e) {}

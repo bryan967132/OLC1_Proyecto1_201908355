@@ -23,6 +23,7 @@ import Controller.Controller;
 import Templates.Button;
 import Templates.Colors;
 import Templates.Icons;
+import Templates.Label;
 public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
     Controller controller;
@@ -139,8 +140,9 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     }
     public void lookPJFiles() {
         projects.removeAll();
+        projects.add(new Label(0,5,projects.getWidth(),25,"Proyectos",16));
         for(int i = 0; i < controller.countPJ(); i ++) {
-            controller.pjs.get(i).locationSize(0,i * 25 + 25,this.projects.getWidth(),25);
+            controller.pjs.get(i).locationSize(0,i * 25 + 30,this.projects.getWidth(),25);
             controller.pjs.get(i).setHoverColor(Colors.LIGHTECLIPSE);
             projects.add(controller.pjs.get(i));
         }

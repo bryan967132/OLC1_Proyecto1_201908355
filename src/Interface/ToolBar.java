@@ -1,19 +1,28 @@
 package Interface;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.StyledDocument;
 import Controller.Controller;
 import Templates.Colors;
 import Templates.Button;
 import Templates.FunctionButton;
+import Templates.Icons;
 public class ToolBar extends JPanel implements MouseListener {
     Button newOLC,openOLC,saveAsOLC;
     Controller controller;
+    File olcFile,auxiliar;
     FunctionButton close,minimize;
     IDE ide;
     JFileChooser file;
@@ -92,11 +101,11 @@ public class ToolBar extends JPanel implements MouseListener {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 		}
         this.file = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.olc)", "olc");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos OLC (*.olc)", "olc");
         file.setFileFilter(filtro);
         int seleccion = file.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File olcFile = file.getSelectedFile();
+            olcFile = file.getSelectedFile();
             int index = controller.existPJFile(olcFile.getAbsolutePath());
             if(index == -1) {
                 controller.pjs.add(new IconFile(controller.countPJ(),olcFile,ide,controller));
@@ -108,15 +117,68 @@ public class ToolBar extends JPanel implements MouseListener {
             }
         }
     }
+    private void createFile(String content) {
+        try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		}
+        this.file = new JFileChooser();
+        this.file.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int seleccion = file.showDialog(null,"Seleccionar Directorio");
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            olcFile = file.getSelectedFile();
+            String name;
+            String message = "Nombre del Archivo OLC [.olc]:";
+            String path;
+            ImageIcon icon = new ImageIcon(Icons.FILE1);
+            Image img = icon.getImage();
+            img = img.getScaledInstance(40,40,Image.SCALE_DEFAULT);
+            icon = new ImageIcon(img);
+            do {
+                
+                name = (String) JOptionPane.showInputDialog(null,message,"Nuevo Proyecto",JOptionPane.PLAIN_MESSAGE,icon,null,null);
+                if(name == null) break;
+                else if(name.replace(" ","").equals("")) {
+                    message = "Debe Ingresar un Nombre.\nNombre del Archivo OLC [.olc]:";
+                    continue;
+                }
+                path = olcFile.getAbsolutePath() + "\\" + name + ".olc";
+                auxiliar = new File(path);
+                if(!auxiliar.exists()) {
+                    try {
+                        BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(
+                                new FileOutputStream(auxiliar),
+                                "utf-8"
+                            )
+                        );
+                        writer.write(content);
+                        writer.close();
+                        controller.pjs.add(new IconFile(controller.countPJ(),auxiliar,ide,controller));
+                        ide.lookPJFiles();
+                        controller.pjs.get(controller.countPJ() - 1).lookCode();
+                    }
+                    catch(Exception e1) {}
+                    break;
+                }
+                message = "El nuevo archivo no puede llamarse\ncon el mismo nombre de uno existente\nen el mismo directorio.\nNombre del Archivo OLC [.olc]:";
+            } while(true);
+        }
+    }
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == openOLC) {
             chooseFile();
         }
         else if(e.getSource() == newOLC) {
-            
+            createFile("");
         }
         else if(e.getSource() == saveAsOLC) {
-            
+            try {
+                StyledDocument doc = ide.editorArea.editor.getStyledDocument();
+                String input = doc.getText(0,doc.getLength());
+                createFile(input);
+            }
+            catch(Exception e1) {}
         }
         else if(e.getSource() == close) {
             System.exit(0);
