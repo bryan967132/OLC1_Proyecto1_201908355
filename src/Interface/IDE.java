@@ -238,6 +238,11 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         if(e.getSource() == analyzeInput) {
             execute();
         }
+        else if(e.getSource() == saveOLC) {
+            if(indexFilePJ != -1) {
+                controller.saveOLCPJ(indexFilePJ,editorArea.editor);
+            }
+        }
     }
     public void mousePressed(MouseEvent e) {
         posXImg = e.getX();

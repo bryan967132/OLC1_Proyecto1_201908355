@@ -1,14 +1,15 @@
 package Controller;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
 import Colors.ParserC;
@@ -86,6 +87,22 @@ public class Controller {
             Parser parser = new Parser(scanner);
             parser.parse();
             System.out.println(parser.getStrExecution());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public void saveOLCPJ(int index,JTextPane editor) {
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                    new FileOutputStream(pjs.get(index).path),
+                    "utf-8"
+                )
+            );
+            StyledDocument doc = editor.getStyledDocument();
+            String input = doc.getText(0,doc.getLength());
+            writer.write(input);
+            writer.close();
         } catch (Exception e) {
             System.out.println(e);
         }
