@@ -109,6 +109,8 @@ public class ToolBar extends JPanel implements MouseListener {
             int index = controller.existPJFile(olcFile.getAbsolutePath());
             if(index == -1) {
                 controller.pjs.add(new IconFile(controller.countPJ(),olcFile,ide,controller));
+                controller.serialize();
+                controller.deserialize(ide);
                 ide.lookPJFiles();
                 controller.pjs.get(controller.countPJ() - 1).lookCode();
             }
@@ -155,6 +157,8 @@ public class ToolBar extends JPanel implements MouseListener {
                         writer.write(content);
                         writer.close();
                         controller.pjs.add(new IconFile(controller.countPJ(),auxiliar,ide,controller));
+                        controller.serialize();
+                        controller.deserialize(ide);
                         ide.lookPJFiles();
                         controller.pjs.get(controller.countPJ() - 1).lookCode();
                     }

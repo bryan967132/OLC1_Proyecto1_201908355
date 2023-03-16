@@ -17,7 +17,7 @@ public class IconFile extends JPanel implements MouseListener {
 	Controller controller;
 	File file;
 	IDE ide;
-	int id;
+	public int id;
 	String texto;
 	public String name,path;
 	public IconFile() {
@@ -64,7 +64,7 @@ public class IconFile extends JPanel implements MouseListener {
 		ide.updateTag();
 	}
 	public String toString() {
-		return "FILENAME: " + texto + "\nPATH: " + path;
+		return "FILENAME: " + name + "\nPATH: " + path;
 	}
 	public void mouseEntered(MouseEvent e) {
         this.setBackground(hoverColor);

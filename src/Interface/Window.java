@@ -15,6 +15,8 @@ public class Window extends JFrame {
         ide = new IDE(this);
         this.getContentPane().setBackground(Colors.LIGHTECLIPSE);
         this.getContentPane().add(ide);
+        controller.deserialize(ide);
+        ide.lookPJFiles();
     }
     void init() {
         this.setUndecorated(true);

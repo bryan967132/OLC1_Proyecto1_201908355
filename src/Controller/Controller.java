@@ -2,15 +2,21 @@ package Controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
 import Colors.ParserC;
 import Colors.ScannerC;
 import Colors.WordPainter;
+import Interface.IDE;
 import Interface.IconFile;
+import Interface.Path;
 import Language.Parser;
 import Language.Scanner;
 import TreeMethod.TreeMethod;
@@ -105,5 +111,33 @@ public class Controller {
             System.out.println(e);
         }
         return "";
+    }
+    public void serialize() {
+        try {
+            Path[] pjs1 = new Path[pjs.size()];
+            for(int i = 0; i < pjs.size(); i ++) {
+                pjs1[i] = new Path(pjs.get(i).id,pjs.get(i).path);
+            }
+            FileOutputStream file = new FileOutputStream("bin/Files");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(pjs1);
+            output.close();
+            file.close();
+        }
+        catch(Exception e) {}
+    }
+    public void deserialize(IDE ide) {
+        try {
+            FileInputStream file = new FileInputStream("bin/Files");
+            ObjectInputStream input = new ObjectInputStream(file);
+            Path[] pjs1 = (Path[]) input.readObject();
+            input.close();
+            file.close();
+            pjs = new ArrayList<>();
+            for(Path path : pjs1) {
+                pjs.add(new IconFile(path.id,new File(path.path),ide,this));
+            }
+        }
+        catch (Exception e) {}
     }
 }
