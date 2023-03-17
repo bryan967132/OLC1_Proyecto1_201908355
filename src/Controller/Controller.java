@@ -65,7 +65,13 @@ public class Controller {
             parser.parse();
             if(parser.isSuccessExecution()) {
                 if(parser.getExcecution().size() > 0) {
-                    console.setText("EXREGAN:\n-> Successfully Input Analysis.");
+                    console.setText("EXREGAN:\n-> Análisis de Entrada Exitoso.");
+                    System.out.println("---CONJUNTOS---");
+                    System.out.println(parser.getStrSets());
+                    System.out.println("---EXPRESIONES REGULARES---");
+                    System.out.println(parser.getStrRegexs());
+                    System.out.println("---EXPRESIONES---");
+                    System.out.println(parser.getStrExpression());
                     return;
                 }
                 console.setText("EXREGAN:\n->");

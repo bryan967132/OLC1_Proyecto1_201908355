@@ -118,7 +118,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         analyzeInput.addMouseListener(this);
         //analyzeStrings
         analyzeStrings.locationSize(475,56,30,30);
-        analyzeStrings.Icon(Icons.EYE);
+        analyzeStrings.Icon(Icons.CHECK);
         analyzeStrings.setDesign(Colors.GREEN2);
         analyzeStrings.setHoverColor(Colors.GREEN3);
         analyzeStrings.addMouseListener(this);
@@ -236,7 +236,12 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     public void mouseMoved(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == analyzeInput) {
-            execute();
+            if(indexFilePJ != -1) {
+                execute();
+            }
+            else {
+                console.setText("EXREGAN:\n->");
+            }
         }
         else if(e.getSource() == saveOLC) {
             if(indexFilePJ != -1) {

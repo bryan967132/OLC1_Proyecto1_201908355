@@ -6,6 +6,8 @@
 package Language;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import java_cup.runtime.*;
 import Colors.Token;
 import Colors.Type;
@@ -251,8 +253,8 @@ public class Parser extends java_cup.runtime.lr_parser {
     ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Expression> expressions = new ArrayList<>();
-    ArrayList<Regex> regexs = new ArrayList<>();
-    ArrayList<Set> sets = new ArrayList<>();
+    Map<String,Regex> regexs = new TreeMap<>();
+    Map<String,Set> sets = new TreeMap<>();
     Expression expression = new Expression();
     Regex regex = new Regex();
     Set set = new Set();
@@ -270,7 +272,7 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
         errors.add(
-            new Instruction("Unrecovered Syntax Error.")
+            new Instruction("Error Sintáctico sin recuperar.")
         );
     }
     public ArrayList<Instruction> getExcecution() {
@@ -311,17 +313,17 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
     private void addSet(String id) {
         set.id = id;
-        sets.add(set);
+        sets.put(set.id,set);
         flowExe.add(new Instruction(set));
         set = new Set();
     }
-    public ArrayList<Set> getSets() {
+    public Map<String,Set> getSets() {
         return sets;
     }
     public String getStrSets() {
         String str = "";
-        for(Set set : sets) {
-            str += set + "\n";
+        for(Map.Entry<String,Set> set : sets.entrySet()) {
+            str += set.getValue() + "\n";
         }
         return str;
     }
@@ -330,19 +332,17 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
     private void addRegex(String id) {
         regex.id = id;
-        regexs.add(regex);
-        regex.expression.add(0,new Token(".",Type.CONCAT));
-        regex.expression.push(new Token("#",Type.CONCAT));
+        regexs.put(regex.id,regex);
         flowExe.add(new Instruction(regex));
         regex = new Regex();
     }
-    public ArrayList<Regex> getRegexs() {
+    public Map<String,Regex> getRegexs() {
         return regexs;
     }
     public String getStrRegexs() {
         String str = "";
-        for(Regex regex : regexs) {
-            str += regex + "\n";
+        for(Map.Entry<String,Regex> regex : regexs.entrySet()) {
+            str += regex.getValue() + "\n";
         }
         return str;
     }
@@ -352,6 +352,13 @@ public class Parser extends java_cup.runtime.lr_parser {
         expressions.add(expression);
         flowExe.add(new Instruction(expression));
         expression = new Expression();
+    }
+    public String getStrExpression() {
+        String str = "";
+        for(Expression expr : expressions) {
+            str += expr + "\n";
+        }
+        return str;
     }
 
 

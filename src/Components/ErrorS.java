@@ -16,8 +16,12 @@ public class ErrorS {
             ". This Component was not expected: " + (token != null ? type + " = " + token : "EOF") + "."
         );
     }
-    public String toString() {
+    /*public String toString() {
         return "Syntax Error" + (token != null ? " in Line " + line + " Column " + column : "") +
             ". This Component was not expected: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";
+    }*/
+    public String toString() {
+        return "Error Sintáctico" + (token != null ? " en Línea " + line + " Columna " + column : "") +
+            ". No se esperaba este componente: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";
     }
 }

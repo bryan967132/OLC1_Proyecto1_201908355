@@ -19,6 +19,6 @@ public class Set {
         return false;
     }
     public String toString() {
-        return "CONJUNTO --------------- ID: " + id + (specifics.size() > 0 ? " ".repeat(20 - id.length()) + "SPECIFICS: " + specifics.stream().map(Object::toString).collect(Collectors.joining(", ")) : " ".repeat(20 - id.length()) + "STARTCHAR: " + startChar + "\t\t\tENDCHAR: " + endChar);
+        return "CONJUNTO --------------- ID: " + id + (specifics.size() > 0 ? " ".repeat(20 - id.length()) + "SPECIFICS: " + specifics.stream().map(Object::toString).collect(Collectors.joining(", ")) : " ".repeat(20 - id.length()) + "STARTCHAR: " + startChar + " ".repeat(20 - id.length()) + "ENDCHAR: " + endChar);
     }
 }
