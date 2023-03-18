@@ -42,10 +42,8 @@ public class TreeMethod {
     public void buildNextsTable() {
         tree.calculateNexts();
         System.out.println("SIGUIENTES");
-        ArrayList<Node> nexts = tree.getNexts();
-        for(int i = 0; i < nexts.size(); i ++) {
-            System.out.println(nexts.get(i));
-        }
+        NextsTable nexts = tree.getNexts();
+        System.out.println(nexts);
     }
     public void buildTransitionsTable() {
         tree.calculateTransitions();

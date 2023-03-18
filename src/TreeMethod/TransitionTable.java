@@ -60,10 +60,10 @@ public class TransitionTable {
         }
     }
     public String toString() {
-        String cadena = "";
+        String string = "";
         for(Transition transition : transitions) {
-            cadena += transition + "\n";
+            string += transition + "\n";
         }
-        return cadena;
+        return string;
     }
 }
