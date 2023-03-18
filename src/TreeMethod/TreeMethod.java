@@ -42,8 +42,8 @@ public class TreeMethod {
     public void buildNextsTable() {
         tree.calculateNexts();
         System.out.println("SIGUIENTES");
-        NextsTable nexts = tree.getNexts();
-        System.out.println(nexts);
+        NextsTable nextsTable = tree.getNexts();
+        exportGraph(id + "_" + regex.id,nextsTable.getDot(regex.id),"Nexts");
     }
     public void buildTransitionsTable() {
         tree.calculateTransitions();

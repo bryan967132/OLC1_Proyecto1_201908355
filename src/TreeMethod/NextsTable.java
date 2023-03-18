@@ -53,6 +53,14 @@ public class NextsTable {
             fillLeafs(node.right);
         }
     }
+    public String getDot(String name) {
+        String dot = "digraph Nexts {\nnode[shape = none fontname=\"Arial\"];\nlabel=\"Expresion Regular: " + name + "\";\nlabelloc=\"t\";\ntable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n<tr><td colspan=\"2\" bgcolor=\"#009900\"><font color=\"#FFFFFF\">Hoja</font></td><td  bgcolor=\"#009900\"><font color=\"#FFFFFF\">Siguientes</font></td></tr>";
+        for(Node node : leafs) {
+            dot += "\n" + node.getDot();
+        }
+        dot += "\n</table>>];\n}";
+        return dot;
+    }
     public String toString() {
         String string = "";
         for(Node node : leafs) {

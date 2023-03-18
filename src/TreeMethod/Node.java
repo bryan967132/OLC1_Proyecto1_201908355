@@ -29,6 +29,9 @@ public class Node {
     private String terminals(String terminal) {
         return (terminal.equals(" ") ? "\\s" : (terminal.equals("\n") ? "\\n" : terminal));
     }
+    public String getDot() {
+        return "<tr><td width=\"20\">" + i + "</td><td width=\"100\">" + terminals(value) + "</td><td width=\"100\">" + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-") + "</td></tr>";
+    }
     public String toString() {
         return i + " │ " + terminals(value) + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");
     }
