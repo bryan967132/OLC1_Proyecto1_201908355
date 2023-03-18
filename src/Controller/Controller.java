@@ -23,6 +23,7 @@ import Language.Scanner;
 import TreeMethod.TreeMethod;
 public class Controller {
     public ArrayList<IconFile> pjs = new ArrayList<>();
+    GraphsBuilder grphsBldr = new GraphsBuilder();
     TreeMethod treeMthod;
     public int existPJFile(String path) {
         for(int i = 0; i < pjs.size(); i ++) {
@@ -52,7 +53,7 @@ public class Controller {
         }
         catch(Exception e) {}
     }
-    public void analyze(JTextPane editor,JTextPane console) {
+    public void analyze(int index,JTextPane editor,JTextPane console) {
         try {
             StyledDocument doc = editor.getStyledDocument();
             String input = doc.getText(0,doc.getLength());
@@ -64,17 +65,13 @@ public class Controller {
             Parser parser = new Parser(scanner);
             parser.parse();
             if(parser.isSuccessExecution()) {
+                IconFile current = pjs.get(index);
                 if(parser.getExcecution().size() > 0) {
-                    console.setText("EXREGAN:\n-> Análisis de Entrada Exitoso.");
-                    System.out.println("---CONJUNTOS---");
-                    System.out.println(parser.getStrSets());
-                    System.out.println("---EXPRESIONES REGULARES---");
-                    System.out.println(parser.getStrRegexs());
-                    System.out.println("---EXPRESIONES---");
-                    System.out.println(parser.getStrExpression());
+                    console.setText("EXREGAN: " + current.name + "\n-> Análisis de Entrada Exitoso.");
+                    grphsBldr.buildTreeMethod(index,pjs.get(index),parser.getSets(),parser.getRegexs());
                     return;
                 }
-                console.setText("EXREGAN:\n->");
+                console.setText("EXREGAN: " + current.name + "\n->");
                 return;
             }
             console.setText("EXREGAN:\n" + parser.getStrErrors());

@@ -170,7 +170,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     void execute() {
         try {
             controller.setFormat(editorArea.editor);
-            controller.analyze(editorArea.editor,console);
+            controller.analyze(indexFilePJ,editorArea.editor,console);
         }
         catch (Exception e1) {}
     }

@@ -14,7 +14,7 @@ public class Tree {
     private int id;
     private Node node;
     private Node root;
-    private Regex regex;
+    private Stack<Token> expression;
     private Stack<Node> stack;
     private Token token;
     private TransitionTable table;
@@ -22,7 +22,7 @@ public class Tree {
         this.i = 1;
         this.id = 0;
         this.leafs = new ArrayList<>();
-        this.regex = regex;
+        this.expression = clone(regex.expression);
         this.stack = new Stack<>();
         this.transitions = new ArrayList<>();
     }
@@ -289,10 +289,19 @@ public class Tree {
         return node.lasts.size() > 0 ? String.join(",",node.lasts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
     }
     private Token popTokenStack() {
-        return regex.expression.pop();
+        return expression.pop();
     }
     private boolean isEmptyStack() {
-        return regex.expression.isEmpty();
+        return expression.isEmpty();
+    }
+    private Stack<Token> clone(Stack<Token> expression) {
+        Stack<Token> expressionClone = new Stack<>();
+        expressionClone.push(new Token(".",Type.CONCAT));
+        for(Token token : expression) {
+            expressionClone.push(token);
+        }
+        expressionClone.push(new Token("#",Type.END));
+        return expressionClone;
     }
     private enum Align {
         LEFT,

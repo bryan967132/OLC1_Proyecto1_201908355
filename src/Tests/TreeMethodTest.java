@@ -109,10 +109,10 @@ public class TreeMethodTest {
 
             regex.expression.add(0,new Token(".",Type.CONCAT));
             regex.expression.push(new Token("#",Type.END));
-            tree.setRegex(regex);
+            tree.setRegex(0,regex);
             tree.build();
-            tree.nextsTable();
-            tree.transitionsTable();
+            tree.buildNextsTable();
+            tree.buildTransitionsTable();
             tree.buildAFD();
         }
         System.out.println(tree.validateString("lachalana666@ingusac.com"));
@@ -150,10 +150,10 @@ public class TreeMethodTest {
 
             regex.expression.add(0,new Token(".",Type.CONCAT));
             regex.expression.push(new Token("#",Type.END));
-            tree.setRegex(regex);
+            tree.setRegex(0,regex);
             tree.build();
-            tree.nextsTable();
-            tree.transitionsTable();
+            tree.buildNextsTable();
+            tree.buildTransitionsTable();
             tree.buildAFD();
         }
         System.out.println(tree.validateString("https://facebook.com"));

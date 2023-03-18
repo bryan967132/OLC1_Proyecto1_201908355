@@ -11,6 +11,7 @@ import Controller.Set;
 import Controller.Regex;
 public class TreeMethod {
     ArrayList<Boolean> validator;
+    int id;
     Map<String,Set> sets;
     Regex regex;
     Stack<Token> stack;
@@ -26,7 +27,8 @@ public class TreeMethod {
     public TreeMethod(Map<String,Set> sets) {
         this.sets = sets;
     }
-    public void setRegex(Regex regex) {
+    public void setRegex(int id,Regex regex) {
+        this.id = id;
         this.regex = regex;
         tree = new Tree(regex);
     }
@@ -35,9 +37,9 @@ public class TreeMethod {
         tree.createIDNodes();
         tree.calculateFirsts();
         tree.calculateLasts();
-        exportGraph(regex.id,tree.getDot(),"Tree");
+        exportGraph(id + "_" + regex.id,tree.getDot(),"Tree");
     }
-    public void nextsTable() {
+    public void buildNextsTable() {
         tree.calculateNexts();
         System.out.println("SIGUIENTES");
         ArrayList<Node> nexts = tree.getNexts();
@@ -45,14 +47,14 @@ public class TreeMethod {
             System.out.println(nexts.get(i));
         }
     }
-    public void transitionsTable() {
+    public void buildTransitionsTable() {
         tree.calculateTransitions();
         System.out.println("TRANSICIONES");
         transitionsTable = tree.getTransitionsTable();
         System.out.println(transitionsTable);
     }
     public void buildAFD() {
-        exportGraph(regex.id,tree.getDotAFD(),"AFD");
+        exportGraph(id + "_" + regex.id,tree.getDotAFD(),"AFD");
     }
     public String validateString(String string) {
         return "La Cadena: " + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!validate(string) ? " no" : "") + " es Válida";
