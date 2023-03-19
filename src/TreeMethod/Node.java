@@ -30,7 +30,7 @@ public class Node {
         return (terminal.equals(" ") ? "\\s" : (terminal.equals("\n") ? "\\n" : terminal));
     }
     public String getDot() {
-        return "<tr><td width=\"20\">" + i + "</td><td width=\"100\">" + terminals(value) + "</td><td width=\"100\">" + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-") + "</td></tr>";
+        return "\n\t\t<tr>\n\t\t\t<td>" + i + "</td>\n\t\t\t<td>" + terminals(value) + "</td>\n\t\t\t<td>" + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-") + "</td>\n\t\t</tr>";
     }
     public String toString() {
         return i + " │ " + terminals(value) + " -> " + (nexts != null ? nexts.stream().map(Object::toString).collect(Collectors.joining(", ")):"-");

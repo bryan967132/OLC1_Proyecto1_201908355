@@ -37,12 +37,13 @@ public class TreeMethod {
         tree.createIDNodes();
         tree.calculateFirsts();
         tree.calculateLasts();
-        exportGraph(id + "_" + regex.id,tree.getDot(),"Tree");
+        exportGraph(id + "_" + regex.id,tree.getDot(regex.id),"Tree");
     }
     public void buildNextsTable() {
         tree.calculateNexts();
         System.out.println("SIGUIENTES");
         NextsTable nextsTable = tree.getNexts();
+        System.out.println(nextsTable);
         exportGraph(id + "_" + regex.id,nextsTable.getDot(regex.id),"Nexts");
     }
     public void buildTransitionsTable() {
@@ -52,7 +53,7 @@ public class TreeMethod {
         System.out.println(transitionsTable);
     }
     public void buildAFD() {
-        exportGraph(id + "_" + regex.id,tree.getDotAFD(),"AFD");
+        exportGraph(id + "_" + regex.id,tree.getDotAFD(regex.id),"AFD");
     }
     public String validateString(String string) {
         return "La Cadena: " + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!validate(string) ? " no" : "") + " es Válida";
