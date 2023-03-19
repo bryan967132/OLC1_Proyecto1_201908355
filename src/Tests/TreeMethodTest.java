@@ -75,7 +75,7 @@ public class TreeMethodTest {
         System.out.println("-----------------------------------------------------");
         // . | {minuscula} {mayuscula} . + | | | {simbolos} {minuscula} {mayuscula} {numero} . "@" . + | {minuscula} {mayuscula} . ".". "c" . "o" "m";
         // (minuscula|mayuscula)+(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com
-        {
+        /*{
             System.out.println("(minuscula|mayuscula)(simbolos|minuscula|mayuscula|numero)+@(minuscula|mayuscula)+.com");
             regex = new Regex();
             regex.id = "correoElectronico";
@@ -107,15 +107,13 @@ public class TreeMethodTest {
             regex.expression.push(new Token("\"o\"",Type.STRING));
             regex.expression.push(new Token("\"m\"",Type.STRING));
 
-            regex.expression.add(0,new Token(".",Type.CONCAT));
-            regex.expression.push(new Token("#",Type.END));
             tree.setRegex(0,regex);
             tree.build();
             tree.buildNextsTable();
             tree.buildTransitionsTable();
             tree.buildAFD();
-        }
-        System.out.println(tree.validateString("lachalana666@ingusac.com"));
+        }*/
+        //System.out.println(tree.validateString("lachalana666@ingusac.com"));
         System.out.println("-----------------------------------------------------");
         // . "h" . "t" . "t" . "p" . ? "s" . ":" . "/" . "/" . + {minuscula} . "." + {minuscula}
         // http(s)?://(minuscula)+.(minuscula)+
@@ -148,8 +146,6 @@ public class TreeMethodTest {
             regex.expression.push(new Token("+",Type.POSITIVE));
             regex.expression.push(new Token("minuscula",Type.ID));
 
-            regex.expression.add(0,new Token(".",Type.CONCAT));
-            regex.expression.push(new Token("#",Type.END));
             tree.setRegex(0,regex);
             tree.build();
             tree.buildNextsTable();

@@ -1,13 +1,11 @@
 package TreeMethod;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
-import Colors.Type;
 public class TransitionTable {
     ArrayList<Node> nexts = new ArrayList<>();
     ArrayList<Transition> transitions = new ArrayList<>();
     ArrayList<Transition> tmpTrnst = new ArrayList<>();
-    Map<String,Type> terminals = new TreeMap<>();
+    ArrayList<Terminal> terminals = new ArrayList<>();
     public TransitionTable(ArrayList<Transition> transitions,ArrayList<Node> nexts) {
         this.transitions = transitions;
         this.nexts = nexts;
@@ -22,23 +20,23 @@ public class TransitionTable {
             Node next;
             Transition newTrnst;
             Transition transition = transitions.get(i);
-            for(Map.Entry<String,Type> terminal : terminals.entrySet()) {
-                newTrnst = new Transition(transitions.size(),terminal.getKey());
+            for(Terminal terminal : terminals) {
+                newTrnst = new Transition(transitions.size(),terminal.value);
                 for(int nxt : transition.nexts) {
                     next = nexts.get(nxt - 1);
-                    if(next.value.equals(terminal.getKey())) {
+                    if(next.value.equals(terminal.value)) {
                         newTrnst.nexts.addAll(next.nexts);
                     }
                 }
                 position = existTransition(newTrnst);
                 if(position == -1) {
                     if(newTrnst.nexts.size() > 0) {
-                        transition.changes.put(terminal.getKey(),new Change(transitions.size(),terminal.getKey(),terminal.getValue()));
+                        transition.changes.put(terminal.value,new Change(transitions.size(),terminal.value,terminal.type));
                         transitions.add(newTrnst);
                     }
                 }
                 else {
-                    transition.changes.put(terminal.getKey(),new Change(position,terminal.getKey(),terminal.getValue()));
+                    transition.changes.put(terminal.value,new Change(position,terminal.value,terminal.type));
                 }
             }
             build(i + 1);
@@ -53,11 +51,48 @@ public class TransitionTable {
         return -1;
     }
     private void addTerminals() {
+        Terminal newTerminal;
         for(Node next : nexts) {
             if(!next.value.equals("#")) {
-                terminals.put(next.value,next.type1);
+                newTerminal = new Terminal(next.value,next.type1);
+                if(!verifyTerminal(newTerminal)) {
+                    terminals.add(newTerminal);
+                }
             }
         }
+    }
+    private boolean verifyTerminal(Terminal newTerminal) {
+        for(Terminal terminal : terminals) {
+            if(terminal.value.equals(newTerminal.value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public String getDot(String name) {
+        String dot = "digraph Transitions {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=none fontname=\"Arial\"];\n\tlabel=\"Expresion Regular: " + name + "\";\n\ttable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"3\">";
+        dot += "\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" rowspan=\"2\"><font color=\"#FFFFFF\">Estados</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" colspan=\"9\"><font color=\"#FFFFFF\">Terminales</font></td>\n\t\t</tr>";
+        dot += "\n\t\t<tr>";
+        for(int i = 0; i < terminals.size(); i ++) {
+            dot += "\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">" + terminals.get(i).value + "</font></td>";
+        }
+        dot += "\n\t\t</tr>";
+        Map<String,Change> chngs;
+        Change aux;
+        for(int i = 0; i < transitions.size(); i ++) {
+            chngs = transitions.get(i).changes;
+            dot += "\n\t\t<tr>";
+            dot += "\n\t\t\t<td align=\"left\">" + transitions.get(i).getState() + "</td>";
+            for(int j = 0; j < terminals.size(); j ++) {
+                aux = chngs.get(terminals.get(j).value);
+                System.out.printf("%-4s",aux != null ? "S" + aux.toState  : "-");
+                dot += "\n\t\t\t<td>" + (aux != null ? "S" + aux.toState  : "-") + "</td>";
+            }
+            dot += "\n\t\t</tr>";
+            System.out.println();
+        }
+        dot += "\n\t</table>>];\n}";
+        return dot;
     }
     public String toString() {
         String string = "";

@@ -51,6 +51,7 @@ public class TreeMethod {
         System.out.println("TRANSICIONES");
         transitionsTable = tree.getTransitionsTable();
         System.out.println(transitionsTable);
+        exportGraph(id + "_" + regex.id,transitionsTable.getDot(regex.id),"Transitions");
     }
     public void buildAFD() {
         exportGraph(id + "_" + regex.id,tree.getDotAFD(regex.id),"AFD");
@@ -65,6 +66,7 @@ public class TreeMethod {
         int state = 0;
         Set set;
         for(int i = 0; i < string.length(); i ++) {
+            System.out.println(string.charAt(i));
             transition = transitionsTable.transitions.get(state);
             for(Map.Entry<String,Change> change : transition.changes.entrySet()) {
                 chng = change.getValue();
@@ -102,6 +104,7 @@ public class TreeMethod {
             }
         }
         transition = transitionsTable.transitions.get(state);
+        System.out.println("Estado " + transition.state + " aceptación: " + transition.accept);
         if(transition.accept && validator.size() == string.length()) {
             return true;
         }

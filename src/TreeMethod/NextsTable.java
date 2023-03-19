@@ -54,7 +54,7 @@ public class NextsTable {
         }
     }
     public String getDot(String name) {
-        String dot = "digraph Nexts {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=none fontname=\"Arial\"];\n\tlabel=\"Expresion Regular: " + name + "\";\n\ttable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"30\"><font color=\"#FFFFFF\">No</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">Hoja</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">Siguientes</font></td>\n\t\t</tr>";
+        String dot = "digraph Nexts {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=none fontname=\"Arial\"];\n\tlabel=\"Expresion Regular: " + name + "\";\n\ttable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"3\">\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"30\"><font color=\"#FFFFFF\">No</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">Hoja</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">Siguientes</font></td>\n\t\t</tr>";
         for(Node node : leafs) {
             dot += node.getDot();
         }

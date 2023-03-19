@@ -19,6 +19,9 @@ public class Transition {
         this.nexts = nexts;
         this.value = value;
     }
+    public String getState() {
+        return "S" + state + " {" + nexts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "}" + (accept ? " *" : "");
+    }
     public String toString() {
         ArrayList<Change> chngs = new ArrayList<>();
         for(Map.Entry<String,Change> entry : changes.entrySet()) {
