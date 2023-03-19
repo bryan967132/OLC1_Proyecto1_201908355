@@ -196,7 +196,7 @@ public class Tree {
         return table;
     }
     public String getDotAFD(String name) {
-        return "digraph AFD {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=circle fontname=\"Arial\"];\n\tedge[fontname=\"Arial\"];\n\trankdir = LR;\n\tlabel=\"Expresion Regular: " + name + "\";" + getStates() + "\n}";
+        return "digraph AFD {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=circle fontname=\"Arial\"];\n\tedge[fontname=\"Arial\"];\n\trankdir = LR;\n\tlabel=\"Expresión Regular: " + name + "\";" + getStates() + "\n}";
     }
     private String getStates() {
         String nodes = "";
@@ -212,7 +212,7 @@ public class Tree {
         return nodes;
     }
     public String getDot(String name) {
-        return "digraph Tree {\n\tgraph[fontname=\"Arial\" labelloc=t];\n\tnode[shape = plaintext fontname=\"Arial\"];\n\tedge[dir = none];\n\t" + description(name) + getDotNodes(root,Align.CENTER) + "\n}";
+        return "digraph Tree {\n\tgraph[fontname=\"Arial\" labelloc=t];\n\tnode[shape=plaintext fontname=\"Arial\"];\n\tedge[dir=none];\n\t" + description(name) + getDotNodes(root,Align.CENTER) + "\n}";
     }
     private String description(String name) {
         return "label=<EXPRESIÓN REGULAR: " + name + "<br/><font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";

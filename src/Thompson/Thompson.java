@@ -84,7 +84,7 @@ public class Thompson {
         start.last.accept = true;
     }
     public String getDot(String name) {
-        return "digraph AFN {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape=circle];\n\trankdir = LR;\n\tlabel=\"" + name + "\"" + structs.getDot(start) + "\n}";
+        return "digraph AFN {\n\tgraph[fontname=\"Arial\" labelloc=t];\n\tnode[shape=circle fontname=\"Arial\"];\n\tedge[fontname=\"Arial\"];\n\trankdir = LR;\n\tlabel=\"Expresión Regular: " + name + "\"" + structs.getDot(start) + "\n}";
     }
     private Token popTokenStack() {
         return expression.pop();
