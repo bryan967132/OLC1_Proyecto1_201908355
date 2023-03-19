@@ -83,8 +83,8 @@ public class Thompson {
         start = stack.pop();
         start.last.accept = true;
     }
-    public String getDot() {
-        return "digraph AFN {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape=circle];\n\trankdir = LR;" + structs.getDot(start) + "\n}";
+    public String getDot(String name) {
+        return "digraph AFN {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape=circle];\n\trankdir = LR;\n\tlabel=\"" + name + "\"" + structs.getDot(start) + "\n}";
     }
     private Token popTokenStack() {
         return expression.pop();
