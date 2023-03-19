@@ -1,18 +1,21 @@
 package Controller;
 import java.util.Map;
 import java.util.TreeMap;
-
 import Interface.IconFile;
-import Thompson.Thompson;
+import Thompson.ThompsonMethod;
 import TreeMethod.TreeMethod;
 public class GraphsBuilder {
     Map<String,TreeMethod> strctsTree = new TreeMap<>();
-    Thompson thompson;
+    ThompsonMethod thompson;
     TreeMethod treeMethod;
     public void buildTreeMethod(int id,IconFile iconFile,Map<String,Set> sets,Map<String,Regex> regexs) {
+        thompson = new ThompsonMethod();
         treeMethod = new TreeMethod(sets);
         for(Map.Entry<String,Regex> regex : regexs.entrySet()) {
             System.out.println(regex.getValue());
+            thompson.setRegex(id,regex.getValue());
+            thompson.build();
+            thompson.buildAFND();
             treeMethod.setRegex(id,regex.getValue());
             treeMethod.build();
             treeMethod.buildNextsTable();

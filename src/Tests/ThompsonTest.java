@@ -42,7 +42,7 @@ public class ThompsonTest {
             regex.expression.push(new Token("\"o\"",Type.STRING));
             regex.expression.push(new Token("\"m\"",Type.STRING));
 
-            thompsonMethod.setRegex(regex);
+            thompsonMethod.setRegex(0,regex);
             thompsonMethod.build();
             thompsonMethod.buildAFND();
         }
@@ -78,7 +78,7 @@ public class ThompsonTest {
             regex.expression.push(new Token("+",Type.POSITIVE));
             regex.expression.push(new Token("minuscula",Type.ID));
 
-            thompsonMethod.setRegex(regex);
+            thompsonMethod.setRegex(0,regex);
             thompsonMethod.build();
             thompsonMethod.buildAFND();
         }

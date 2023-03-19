@@ -6,13 +6,14 @@ public class Thompson {
     private int id;
     private Node node;
     private Node start;
-    private Regex regex;
     private Stack<Node> stack;
+    private Stack<Token> expression;
     private Structs structs;
     private Token token;
+    public Thompson() {}
     public Thompson(Regex regex) {
         this.id = 0;
-        this.regex = regex;
+        this.expression = clone(regex.expression);
         this.stack = new Stack<>();
         this.structs = new Structs();
     }
@@ -86,9 +87,16 @@ public class Thompson {
         return "digraph AFN {\n\tgraph[fontname=\"Consolas\" labelloc=t];\n\tnode[shape=circle];\n\trankdir = LR;" + structs.getDot(start) + "\n}";
     }
     private Token popTokenStack() {
-        return regex.expression.pop();
+        return expression.pop();
     }
     private boolean isEmptyStack() {
-        return regex.expression.isEmpty();
+        return expression.isEmpty();
+    }
+    private Stack<Token> clone(Stack<Token> expression) {
+        Stack<Token> expressionClone = new Stack<>();
+        for(Token token : expression) {
+            expressionClone.push(token);
+        }
+        return expressionClone;
     }
 }

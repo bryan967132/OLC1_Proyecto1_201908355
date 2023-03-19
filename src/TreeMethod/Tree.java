@@ -14,8 +14,8 @@ public class Tree {
     private NextsTable nexts;
     private Node node;
     private Node root;
-    private Stack<Token> expression;
     private Stack<Node> stack;
+    private Stack<Token> expression;
     private Token token;
     private TransitionTable table;
     public Tree(Regex regex) {

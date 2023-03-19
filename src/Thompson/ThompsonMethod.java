@@ -6,7 +6,9 @@ import Controller.Regex;
 public class ThompsonMethod {
     private Regex regex;
     private Thompson thompson;
-    public void setRegex(Regex regex) {
+    private int id;
+    public void setRegex(int id,Regex regex) {
+        this.id = id;
         this.regex = regex;
         this.thompson = new Thompson(regex);
     }
@@ -14,7 +16,7 @@ public class ThompsonMethod {
         thompson.build();
     }
     public void buildAFND() {
-        exportGraph(regex.id,thompson.getDot(),"AFN");
+        exportGraph(id + "_" + regex.id,thompson.getDot(),"AFN");
     }
     public void exportGraph(String id,String content,String file) {
         try {
