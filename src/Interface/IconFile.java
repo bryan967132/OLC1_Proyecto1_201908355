@@ -6,8 +6,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import Controller.Controller;
 import Templates.Colors;
@@ -70,10 +70,17 @@ public class IconFile extends JPanel implements MouseListener {
 		this.addMouseListener(this);
 	}
 	public void lookCode() {
-		ide.editorArea.editor.setText(controller.readInput(path));
-        ide.setFormat();
-		ide.indexFilePJ = id;
-		ide.updateTag();
+		String text = controller.readInput(path);
+		if(!text.equals("java.io.FileNotFoundException")) {
+			ide.editorArea.editor.setText(controller.readInput(path));
+			ide.setFormat();
+			ide.indexFilePJ = id;
+			ide.updateTag();
+			return;
+		}
+		JOptionPane.showMessageDialog(null,"No se encontró el archivo.","Archivo no encontrado.",JOptionPane.ERROR_MESSAGE);
+		controller.pjs.remove(id);
+		ide.lookPJFiles();
 	}
 	public String toString() {
 		return "FILENAME: " + name + "\nPATH: " + path;

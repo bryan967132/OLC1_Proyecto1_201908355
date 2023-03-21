@@ -171,9 +171,8 @@ public class Controller {
             fis.close();
             return text;
         } catch (Exception e) {
-            System.out.println(e);
+            return "java.io.FileNotFoundException";
         }
-        return "";
     }
     public void serialize() {
         try {
