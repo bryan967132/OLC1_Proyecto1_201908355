@@ -42,7 +42,7 @@ public class Thompson {
                     id ++;
                     break;
                 case STRING:
-                    node = new Node(String.valueOf(id),token.lexeme);
+                    node = new Node(String.valueOf(id),token.lexeme.replace("\"",""));
                     stack.push(node);
                     id ++;
                     break;

@@ -6,33 +6,24 @@ import Thompson.ThompsonMethod;
 import TreeMethod.TreeMethod;
 public class GraphsBuilder {
     Map<String,TreeMethod> strctsTree = new TreeMap<>();
-    ThompsonMethod thompson;
+    ThompsonMethod thompsonMethod;
     TreeMethod treeMethod;
     public void buildTreeMethod(int id,IconFile iconFile,Map<String,Set> sets,Map<String,Regex> regexs) {
-        thompson = new ThompsonMethod();
-        treeMethod = new TreeMethod(sets);
+        iconFile.treesM = new TreeMap<>();
+        iconFile.thompsonsM = new TreeMap<>();
         for(Map.Entry<String,Regex> regex : regexs.entrySet()) {
-            System.out.println(regex.getValue());
-            thompson.setRegex(id,regex.getValue());
-            thompson.build();
-            thompson.buildAFND();
+            treeMethod = new TreeMethod(sets);
             treeMethod.setRegex(id,regex.getValue());
             treeMethod.build();
             treeMethod.buildNextsTable();
             treeMethod.buildTransitionsTable();
             treeMethod.buildAFD();
-        }
-    }
-    private void buildDot(String typeDot,String typePng,String name) {
-        try {
-            String graphviz_path = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
-            String dot_path = "Dot/" + typeDot + "/" + name + ".dot";
-            String png_path =  typePng + "/" + name + ".png" ;
-            ProcessBuilder pBuilder = new ProcessBuilder(graphviz_path, "-Tpng", "-o", png_path, dot_path);
-            pBuilder.redirectErrorStream(true);
-            pBuilder.start();
-        } catch (Exception e) {
-            e.printStackTrace();
+            thompsonMethod = new ThompsonMethod();
+            thompsonMethod.setRegex(id,regex.getValue());
+            thompsonMethod.build();
+            thompsonMethod.buildAFND();
+            iconFile.treesM.put(regex.getKey(),treeMethod);
+            iconFile.thompsonsM.put(regex.getKey(),thompsonMethod);
         }
     }
 }

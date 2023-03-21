@@ -5,12 +5,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import Controller.Controller;
 import Templates.Colors;
 import Templates.IconImage;
 import Templates.Icons;
+import Thompson.ThompsonMethod;
+import TreeMethod.TreeMethod;
 public class IconFile extends JPanel implements MouseListener {
     private static final long serialVersionUID = 1L;
 	ArrayList<String> trees = new ArrayList<>();
@@ -24,6 +28,8 @@ public class IconFile extends JPanel implements MouseListener {
 	File file;
 	IDE ide;
 	public int id;
+	public Map<String,TreeMethod> treesM;
+	public Map<String,ThompsonMethod> thompsonsM;
 	String texto;
 	public String name,path;
 	public IconFile() {

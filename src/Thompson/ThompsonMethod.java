@@ -1,4 +1,5 @@
 package Thompson;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -17,6 +18,7 @@ public class ThompsonMethod {
     }
     public void buildAFND() {
         exportGraph(id + "_" + regex.id,thompson.getDot(regex.id),"AFND");
+        buildPNG("AFND","AFND_201908355",id + "_" + regex.id);
     }
     public void exportGraph(String id,String content,String file) {
         try {
@@ -27,6 +29,22 @@ public class ThompsonMethod {
             outputStream.close();
         }
         catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void buildPNG(String typeDot,String typePng,String name) {
+        try {
+            File file = new File(typePng);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            String graphviz_path = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
+            String dot_path = "Dot/" + typeDot + "/" + name + ".dot";
+            String png_path =  typePng + "/" + name + ".png" ;
+            ProcessBuilder pBuilder = new ProcessBuilder(graphviz_path, "-Tpng", "-o", png_path, dot_path);
+            pBuilder.redirectErrorStream(true);
+            pBuilder.start();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -168,17 +168,11 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         this.setLayout(null);
     }
     void execute() {
-        try {
-            controller.setFormat(editorArea.editor);
-            controller.analyze(indexFilePJ,editorArea.editor,console);
-        }
-        catch (Exception e1) {}
+        controller.setFormat(editorArea.editor);
+        controller.analyze(indexFilePJ,editorArea.editor,console);
     }
     void setFormat() {
-        try {
-            controller.setFormat(editorArea.editor);
-        }
-        catch (Exception e1) {}
+        controller.setFormat(editorArea.editor);
     }
     public void keyTyped(KeyEvent e) {}
     public void keyPressed(KeyEvent e) {
@@ -238,6 +232,14 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         if(e.getSource() == analyzeInput) {
             if(indexFilePJ != -1) {
                 execute();
+            }
+            else {
+                console.setText("EXREGAN:\n->");
+            }
+        }
+        else if(e.getSource() == analyzeStrings) {
+            if(indexFilePJ != -1) {
+                controller.validateString(indexFilePJ,editorArea.editor,console);
             }
             else {
                 console.setText("EXREGAN:\n->");

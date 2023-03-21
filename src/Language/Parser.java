@@ -353,6 +353,9 @@ public class Parser extends java_cup.runtime.lr_parser {
         flowExe.add(new Instruction(expression));
         expression = new Expression();
     }
+    public ArrayList<Expression> getExpressions() {
+        return expressions;
+    }
     public String getStrExpression() {
         String str = "";
         for(Expression expr : expressions) {

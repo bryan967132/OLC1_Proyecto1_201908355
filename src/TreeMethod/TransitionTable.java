@@ -73,8 +73,10 @@ public class TransitionTable {
         String dot = "digraph Transitions {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=none fontname=\"Arial\"];\n\tlabel=\"Expresion Regular: " + name + "\";\n\ttable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"3\">";
         dot += "\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" rowspan=\"2\"><font color=\"#FFFFFF\">Estados</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" colspan=\"9\"><font color=\"#FFFFFF\">Terminales</font></td>\n\t\t</tr>";
         dot += "\n\t\t<tr>";
+        String title;
         for(int i = 0; i < terminals.size(); i ++) {
-            dot += "\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">" + terminals.get(i).value + "</font></td>";
+            title = terminals.get(i).value;
+            dot += "\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">" + (title.equals(" ") ? "\\\\s" : title) + "</font></td>";
         }
         dot += "\n\t\t</tr>";
         Map<String,Change> chngs;
@@ -85,14 +87,30 @@ public class TransitionTable {
             dot += "\n\t\t\t<td align=\"left\">" + transitions.get(i).getState() + "</td>";
             for(int j = 0; j < terminals.size(); j ++) {
                 aux = chngs.get(terminals.get(j).value);
-                System.out.printf("%-4s",aux != null ? "S" + aux.toState  : "-");
                 dot += "\n\t\t\t<td>" + (aux != null ? "S" + aux.toState  : "-") + "</td>";
             }
             dot += "\n\t\t</tr>";
-            System.out.println();
         }
         dot += "\n\t</table>>];\n}";
         return dot;
+    }
+    public String toStringM() {
+        String string = "";
+        Map<String,Change> chngs;
+        Change aux;
+        String m_ij;
+        for(int i = 0; i < transitions.size(); i ++) {
+            chngs = transitions.get(i).changes;
+            m_ij = "S" + i;
+            string += m_ij + " ".repeat(5 - m_ij.length());
+            for(int j = 0; j < terminals.size(); j ++) {
+                aux = chngs.get(terminals.get(j).value);
+                m_ij = aux != null ? "S" + aux.toState  : "-";
+                string += m_ij + " ".repeat(4 - m_ij.length());
+            }
+            string += "\n";
+        }
+        return string;
     }
     public String toString() {
         String string = "";

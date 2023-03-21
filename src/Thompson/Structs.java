@@ -115,29 +115,29 @@ public class Structs {
     public String getDot(Node node) {
         String dot = "";
         if(node.accept) {
-            dot += "\n    N_" + node.id + "[label = \"\" peripheries = 2];";
+            dot += "\n\tN_" + node.id + "[label = \"\" peripheries = 2];";
         }
         else {
-            dot += "\n    N_" + node.id + "[label = \"\"];";
+            dot += "\n\tN_" + node.id + "[label = \"\"];";
         }
         if(node.frst != null) {
             dot += getDot(node.frst);
-            dot += "\n    N_" + node.id + " -> N_" + node.frst.id + "[label = \"" + getValue(node.frst.value) + "\"];";
+            dot += "\n\tN_" + node.id + " -> N_" + node.frst.id + "[label = \"" + getValue(node.frst.value) + "\"];";
         }
         if(node.scnd != null) {
             dot += getDot(node.scnd);
-            dot += "\n    N_" + node.id + " -> N_" + node.scnd.id + "[label = \"" + getValue(node.scnd.value) + "\"];";
+            dot += "\n\tN_" + node.id + " -> N_" + node.scnd.id + "[label = \"" + getValue(node.scnd.value) + "\"];";
         }
         if(node.exit != null) {
             dot += getDot(node.exit);
-            dot += "\n    N_" + node.id + " -> N_" + node.exit.id + "[label = \"" + getValue(node.exit.value) + "\"];";
+            dot += "\n\tN_" + node.id + " -> N_" + node.exit.id + "[label = \"" + getValue(node.exit.value) + "\"];";
         }
         if(node.jmps != null) {
-            dot += "\n    N_" + node.id + " -> N_" + node.jmps.id + "[label = \"" + getValue(node.jmps.value) + "\"];";
+            dot += "\n\tN_" + node.id + " -> N_" + node.jmps.id + "[label = \"" + getValue(node.jmps.value) + "\"];";
         }
         return dot;
     }
     private String getValue(String value) {
-        return (value.equals("\" \"") ? "\\\\s" : (value.equals("\n") ? "\\\\n" : value.replace("\"","")));
+        return (value == null ? "&epsilon;" : (value.equals("\" \"") ? "\\\\s" : (value.equals("\n") ? "\\\\n" : value)));
     }
 }

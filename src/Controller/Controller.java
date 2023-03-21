@@ -79,6 +79,49 @@ public class Controller {
             System.out.println(e);
         }
     }
+    public Parser getExpresions(int index,JTextPane editor) {
+        try {
+            StyledDocument doc = editor.getStyledDocument();
+            String input = doc.getText(0,doc.getLength());
+            Scanner scanner = new Scanner(
+                new BufferedReader(
+                    new StringReader(input)
+                )
+            );
+            Parser parser = new Parser(scanner);
+            parser.parse();
+            return parser;
+        }
+        catch(Exception e) {}
+        return null;
+    }
+    public void validateString(int index,JTextPane editor,JTextPane console) {
+        IconFile currentFile = pjs.get(index);
+        if(currentFile.treesM == null && currentFile.treesM.size() > 0) {
+            console.setText("EXREGAN: " + currentFile.name + "\n-> Aún no hay autómatas creados para validar cadenas.");
+            return;
+        }
+        Parser currentParser = getExpresions(index,editor);
+        if(currentParser.isSuccessExecution()) {
+            if(currentParser.getExpressions().size() > 0) {
+                String consoleOut = "EXREGAN: " + currentFile.name;
+                TreeMethod currenTreeMethod;
+                for(Expression expression : currentParser.getExpressions()) {
+                    currenTreeMethod = currentFile.treesM.get(expression.id);
+                    consoleOut += "\n-> " + (
+                        currenTreeMethod != null
+                        ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
+                        : "No se declaró la expresión regular \"" + expression.id + "\"."
+                    );
+                }
+                console.setText(consoleOut);
+                return;
+            }
+            console.setText("EXREGAN: " + currentFile.name + "\n-> Sin cadenas para analizar.");
+            return;
+        }
+        console.setText("EXREGAN:\n" + currentParser.getStrErrors());
+    }
     public void analyze(String input) {
         try {
             Scanner scanner = new Scanner(
