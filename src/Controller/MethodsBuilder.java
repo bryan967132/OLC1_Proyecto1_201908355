@@ -4,11 +4,11 @@ import java.util.TreeMap;
 import Interface.IconFile;
 import Thompson.ThompsonMethod;
 import TreeMethod.TreeMethod;
-public class GraphsBuilder {
+public class MethodsBuilder {
     Map<String,TreeMethod> strctsTree = new TreeMap<>();
     ThompsonMethod thompsonMethod;
     TreeMethod treeMethod;
-    public void buildTreeMethod(int id,IconFile iconFile,Map<String,Set> sets,Map<String,Regex> regexs) {
+    public void buildethods(int id,IconFile iconFile,Map<String,Set> sets,Map<String,Regex> regexs) {
         iconFile.treesM = new TreeMap<>();
         iconFile.thompsonsM = new TreeMap<>();
         for(Map.Entry<String,Regex> regex : regexs.entrySet()) {
