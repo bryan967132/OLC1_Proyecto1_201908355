@@ -1,16 +1,22 @@
 package Interface;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java_cup.runtime.Symbol;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -24,23 +30,26 @@ import Templates.Button;
 import Templates.Colors;
 import Templates.Icons;
 import Templates.Label;
-public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
+import Templates.RadioButton;
+public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
     ArrayList<Token> code;
     Controller controller;
     Button analyzeInput,analyzeStrings,saveOLC;
+    public JComboBox<String> regexCB;
     double zoomFactor = 1.05; // factor de zoom
     EditorArea editorArea;
-    Icon icono;
-    ImageIcon image;
+    public Icon icono;
+    public ImageIcon image;
     int indexFilePJ = -1;
     int posCaret,posXImg,posYImg,posXLabImg,posYLabImg;
     JLabel cursorPosition;
-    JLabel img;
+    public JLabel img;
     JPanel editorAreaContent;
     JPanel editorAreaContentFalse;
-    JPanel graphics;
+    public JPanel graphics;
     JPanel projects;
     JTextPane console;
+    public RadioButton treesR,nextsR,transitionsR,afdsR,afndsR;
     String input;
     Symbol sym;
     Tag tag;
@@ -57,6 +66,8 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         addToolBar();
         cursorPosition();
         lookPJFiles();
+        initManagerGraphs();
+        hideManagerGraphs();
     }
     void initComponents() {
         projects = new JPanel();
@@ -67,6 +78,15 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         analyzeInput = new Button();
         analyzeStrings = new Button();
         saveOLC = new Button();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {}
+        treesR = new RadioButton();
+        nextsR = new RadioButton();
+        transitionsR = new RadioButton();
+        afdsR = new RadioButton();
+        afndsR = new RadioButton();
+        regexCB = new JComboBox<>();
     }
     void defineComponents() {
         //projects
@@ -100,16 +120,6 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         graphics.setBounds(790,105,550,425);
         graphics.setBorder(BorderFactory.createEmptyBorder());
         graphics.setLayout(null);
-
-        img = new JLabel();
-		image = new ImageIcon("ARBOLES_201908355/frase.png");
-		icono = new ImageIcon(image.getImage().getScaledInstance(image.getIconWidth(),image.getIconHeight(), Image.SCALE_DEFAULT));
-        img.setIcon(icono);
-        img.setBounds(0,0,icono.getIconWidth(),icono.getIconHeight());
-        graphics.add(img);
-        graphics.addMouseListener(this);
-        graphics.addMouseWheelListener(this);
-        graphics.addMouseMotionListener(this);
         //analyzeInput
         analyzeInput.locationSize(440,56,30,30);
         analyzeInput.Icon(Icons.PLAY);
@@ -128,6 +138,60 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         saveOLC.setDesign(Colors.GREEN2);
         saveOLC.setHoverColor(Colors.GREEN3);
         saveOLC.addMouseListener(this);
+    }
+    public void initManagerGraphs() {
+        ButtonGroup group = new ButtonGroup();
+
+        treesR.setText("Árbol",Colors.WHITE,12);
+        treesR.setBoundsR(790,50,53,15);
+        treesR.setSelected(true);
+        treesR.addActionListener(this);
+        group.add(treesR);
+        this.add(treesR);
+
+        nextsR.setText("Siguientes",Colors.WHITE,12);
+        nextsR.setBoundsR(790,65,84,15);
+        nextsR.addActionListener(this);
+        group.add(nextsR);
+        this.add(nextsR);
+
+        transitionsR.setText("Transiciones",Colors.WHITE,12);
+        transitionsR.setBoundsR(790,80,94,15);
+        transitionsR.addActionListener(this);
+        group.add(transitionsR);
+        this.add(transitionsR);
+
+        afdsR.setText("AFD",Colors.WHITE,12);
+        afdsR.setBoundsR(890,50,44,15);
+        afdsR.addActionListener(this);
+        group.add(afdsR);
+        this.add(afdsR);
+
+        afndsR.setText("AFND",Colors.WHITE,12);
+        afndsR.setBoundsR(890,65,52,15);
+        afndsR.addActionListener(this);
+        group.add(afndsR);
+        this.add(afndsR);
+
+        regexCB.setBounds(1000,60,190,22);
+        regexCB.addActionListener(this);
+        this.add(regexCB);
+    }
+    public void hideManagerGraphs() {
+        treesR.setVisible(false);
+        nextsR.setVisible(false);
+        transitionsR.setVisible(false);
+        afdsR.setVisible(false);
+        afndsR.setVisible(false);
+        regexCB.setVisible(false);
+    }
+    public void showManagerGraphs() {
+        treesR.setVisible(true);
+        nextsR.setVisible(true);
+        transitionsR.setVisible(true);
+        afdsR.setVisible(true);
+        afndsR.setVisible(true);
+        regexCB.setVisible(true);
     }
     public void updateTag() {
         if(tag != null) {
@@ -169,7 +233,7 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
     }
     void execute() {
         controller.setFormat(editorArea.editor);
-        controller.analyze(indexFilePJ,editorArea.editor,console);
+        controller.analyze(this,indexFilePJ,editorArea.editor,console,graphics);
     }
     void setFormat() {
         controller.setFormat(editorArea.editor);
@@ -252,12 +316,21 @@ public class IDE extends JPanel implements KeyListener,MouseWheelListener,MouseL
         }
     }
     public void mousePressed(MouseEvent e) {
-        posXImg = e.getX();
-        posYImg = e.getY();
-        posXLabImg = img.getX();
-        posYLabImg = img.getY();
+        try {
+            posXImg = e.getX();
+            posYImg = e.getY();
+            posXLabImg = img.getX();
+            posYLabImg = img.getY();
+        }
+        catch(Exception e1) {}
     }
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == treesR || e.getSource() == nextsR || e.getSource() == transitionsR || e.getSource() == afdsR || e.getSource() == afndsR || e.getSource() == regexCB) {
+            controller.lookGraphs(this,indexFilePJ);
+        }
+    }
 }

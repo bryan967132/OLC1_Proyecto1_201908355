@@ -41,24 +41,24 @@ public class TreeMethod {
         tree.createIDNodes();
         tree.calculateFirsts();
         tree.calculateLasts();
-        exportDot(id + "_" + regex.id,tree.getDot(regex.id),"Tree");
-        buildPNG("Tree","ARBOLES_201908355",id + "_" + regex.id);
+        exportDot("tree_" + id + "_" + regex.id,tree.getDot(regex.id),"Tree");
+        buildPNG("Tree","ARBOLES_201908355","tree_" + id + "_" + regex.id);
     }
     public void buildNextsTable() {
         tree.calculateNexts();
         nextsTable = tree.getNexts();
-        exportDot(id + "_" + regex.id,nextsTable.getDot(regex.id),"Nexts");
-        buildPNG("Nexts","SIGUIENTES_201908355",id + "_" + regex.id);
+        exportDot("nexts_" + id + "_" + regex.id,nextsTable.getDot(regex.id),"Nexts");
+        buildPNG("Nexts","SIGUIENTES_201908355","nexts_" + id + "_" + regex.id);
     }
     public void buildTransitionsTable() {
         tree.calculateTransitions();
         transitionsTable = tree.getTransitionsTable();
-        exportDot(id + "_" + regex.id,transitionsTable.getDot(regex.id),"Transitions");
-        buildPNG("Transitions","TRANSICIONES_201908355",id + "_" + regex.id);
+        exportDot("transitions_" + id + "_" + regex.id,transitionsTable.getDot(regex.id),"Transitions");
+        buildPNG("Transitions","TRANSICIONES_201908355","transitions_" + id + "_" + regex.id);
     }
     public void buildAFD() {
-        exportDot(id + "_" + regex.id,tree.getDotAFD(regex.id),"AFD");
-        buildPNG("AFD","AFD_201908355",id + "_" + regex.id);
+        exportDot("afd_" + id + "_" + regex.id,tree.getDotAFD(regex.id),"AFD");
+        buildPNG("AFD","AFD_201908355","afd_" + id + "_" + regex.id);
     }
     public void printMethod() {
         System.out.println("SIGUIENTES");

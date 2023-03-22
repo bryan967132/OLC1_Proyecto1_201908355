@@ -1,4 +1,5 @@
 package Controller;
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +11,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
 import Colors.ParserC;
@@ -23,7 +27,7 @@ import Language.Scanner;
 import TreeMethod.TreeMethod;
 public class Controller {
     public ArrayList<IconFile> pjs = new ArrayList<>();
-    GraphsBuilder grphsBldr = new GraphsBuilder();
+    MethodsBuilder mthdsBldr = new MethodsBuilder();
     TreeMethod treeMthod;
     public int existPJFile(String path) {
         for(int i = 0; i < pjs.size(); i ++) {
@@ -53,7 +57,7 @@ public class Controller {
         }
         catch(Exception e) {}
     }
-    public void analyze(int index,JTextPane editor,JTextPane console) {
+    public void analyze(IDE ide,int index,JTextPane editor,JTextPane console,JPanel graphics) {
         try {
             StyledDocument doc = editor.getStyledDocument();
             String input = doc.getText(0,doc.getLength());
@@ -65,19 +69,35 @@ public class Controller {
             Parser parser = new Parser(scanner);
             parser.parse();
             if(parser.isSuccessExecution()) {
-                IconFile current = pjs.get(index);
+                IconFile currentFile = pjs.get(index);
                 if(parser.getExcecution().size() > 0) {
-                    console.setText("EXREGAN: " + current.name + "\n-> Análisis de Entrada Exitoso.");
-                    grphsBldr.buildTreeMethod(index,pjs.get(index),parser.getSets(),parser.getRegexs());
+                    console.setText("EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.");
+                    if(parser.getRegexs().size() > 0) {
+                        mthdsBldr.buildethods(ide,index,pjs.get(index),parser.getSets(),parser.getRegexs());
+                        ide.showManagerGraphs();
+                        lookGraphs(ide,index);
+                    }
                     return;
                 }
-                console.setText("EXREGAN: " + current.name + "\n->");
+                console.setText("EXREGAN: " + currentFile.name + "\n->");
                 return;
             }
             console.setText("EXREGAN:\n" + parser.getStrErrors());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        } catch (Exception e) {}
+    }
+    public void lookGraphs(IDE ide,int index) {
+		ide.regexCB.repaint();
+        ide.graphics.removeAll();
+        ide.img = new JLabel();
+        ide.image = new ImageIcon((ide.treesR.isSelected() ? "ARBOLES_201908355/tree_" : (ide.nextsR.isSelected() ? "SIGUIENTES_201908355/nexts_" : (ide.transitionsR.isSelected() ? "TRANSICIONES_201908355/transitions_" : (ide.afdsR.isSelected() ? "AFD_201908355/afd_" : "AFND_201908355/afnd_")))) + index + "_" + ide.regexCB.getSelectedItem() + ".png");
+        ide.icono = new ImageIcon(ide.image.getImage().getScaledInstance(ide.image.getIconWidth(),ide.image.getIconHeight(),Image.SCALE_DEFAULT));
+        ide.img.setIcon(ide.icono);
+        ide.img.setBounds(0,0,ide.icono.getIconWidth(),ide.icono.getIconHeight());
+        ide.graphics.add(ide.img);
+        ide.graphics.addMouseListener(ide);
+        ide.graphics.addMouseWheelListener(ide);
+        ide.graphics.addMouseMotionListener(ide);
+        ide.graphics.repaint();
     }
     public Parser getExpresions(int index,JTextPane editor) {
         try {
@@ -97,7 +117,7 @@ public class Controller {
     }
     public void validateString(int index,JTextPane editor,JTextPane console) {
         IconFile currentFile = pjs.get(index);
-        if(currentFile.treesM == null && currentFile.treesM.size() > 0) {
+        if(currentFile.treesM == null) {
             console.setText("EXREGAN: " + currentFile.name + "\n-> Aún no hay autómatas creados para validar cadenas.");
             return;
         }
@@ -133,9 +153,7 @@ public class Controller {
             Parser parser = new Parser(scanner);
             parser.parse();
             System.out.println(parser.getStrExecution());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        } catch (Exception e) {}
     }
     public void saveOLCPJ(int index,JTextPane editor) {
         try {
@@ -149,9 +167,7 @@ public class Controller {
             String input = doc.getText(0,doc.getLength());
             writer.write(input);
             writer.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        } catch (Exception e) {}
     }
     public String readInput(String path) {
         try {

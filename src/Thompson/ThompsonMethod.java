@@ -17,8 +17,8 @@ public class ThompsonMethod {
         thompson.build();
     }
     public void buildAFND() {
-        exportGraph(id + "_" + regex.id,thompson.getDot(regex.id),"AFND");
-        buildPNG("AFND","AFND_201908355",id + "_" + regex.id);
+        exportGraph("afnd_" + id + "_" + regex.id,thompson.getDot(regex.id),"AFND");
+        buildPNG("AFND","AFND_201908355","afnd_" + id + "_" + regex.id);
     }
     public void exportGraph(String id,String content,String file) {
         try {

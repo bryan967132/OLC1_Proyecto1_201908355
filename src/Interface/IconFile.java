@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,11 +16,6 @@ import Thompson.ThompsonMethod;
 import TreeMethod.TreeMethod;
 public class IconFile extends JPanel implements MouseListener {
     private static final long serialVersionUID = 1L;
-	ArrayList<String> trees = new ArrayList<>();
-	ArrayList<String> afds = new ArrayList<>();
-	ArrayList<String> afns = new ArrayList<>();
-	ArrayList<String> nexts = new ArrayList<>();
-	ArrayList<String> transitions = new ArrayList<>();
 	boolean activado = false;
 	Color backgroundColor,hoverColor,tmpColor;
 	Controller controller;
@@ -75,6 +69,20 @@ public class IconFile extends JPanel implements MouseListener {
 			ide.editorArea.editor.setText(controller.readInput(path));
 			ide.setFormat();
 			ide.indexFilePJ = id;
+			if(treesM != null && treesM.size() > 0) {
+				ide.regexCB.removeAllItems();
+				for(Map.Entry<String,TreeMethod> method : treesM.entrySet()) {
+					ide.regexCB.addItem(method.getKey());
+				}
+				ide.regexCB.setSelectedItem(treesM.keySet().iterator().next());
+				controller.lookGraphs(ide,id);
+				ide.showManagerGraphs();
+			}
+			else {
+				ide.hideManagerGraphs();
+				ide.graphics.removeAll();
+				ide.graphics.repaint();
+			}
 			ide.updateTag();
 			return;
 		}
