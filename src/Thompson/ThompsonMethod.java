@@ -20,17 +20,19 @@ public class ThompsonMethod {
         exportGraph("afnd_" + id + "_" + regex.id,thompson.getDot(regex.id),"AFND");
         buildPNG("AFND","AFND_201908355","afnd_" + id + "_" + regex.id);
     }
-    public void exportGraph(String id,String content,String file) {
+    public void exportGraph(String id,String content,String type) {
         try {
-            FileOutputStream outputStream = new FileOutputStream("Dot/" + file + "/" + id + ".dot");
+            File file = new File("Dot/" + type);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            FileOutputStream outputStream = new FileOutputStream("Dot/" + type + "/" + id + ".dot");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
             outputStream.close();
         }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
+        catch(IOException e) {}
     }
     private void buildPNG(String typeDot,String typePng,String name) {
         try {
@@ -44,8 +46,6 @@ public class ThompsonMethod {
             ProcessBuilder pBuilder = new ProcessBuilder(graphviz_path, "-Tpng", "-o", png_path, dot_path);
             pBuilder.redirectErrorStream(true);
             pBuilder.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 }

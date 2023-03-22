@@ -51,14 +51,14 @@ public class IconFile extends JPanel implements MouseListener {
 	}
 	public void text(Color color,int tamano) {
         Icon();
-		this.add(new PJName(50,0,this.getWidth() - 50,this.getHeight(),texto,tamano));
+		this.add(new PJName(40,0,this.getWidth() - 30,this.getHeight(),texto,tamano));
 	}
     public void text(String texto,Color color,int tamano) {
         Icon();
-		this.add(new PJName(50,0,this.getWidth() - 50,this.getHeight(),texto,tamano));
+		this.add(new PJName(40,0,this.getWidth() - 30,this.getHeight(),texto,tamano));
 	}
 	private void Icon() {
-		this.add(new IconImage(Icons.FILE1,15,3,this.getHeight() - 6,this.getHeight() - 6));
+		this.add(new IconImage(Icons.FILE1,12,3,this.getHeight() - 6,this.getHeight() - 6));
 	}
 	public void setHoverColor(Color color) {
 		hoverColor = color;

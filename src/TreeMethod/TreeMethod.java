@@ -92,7 +92,10 @@ public class TreeMethod {
         Change chng;
         int state = 0;
         Set set;
+        char character;
+        string = string.replace("\\'","\'").replace("\\\"","\"").replace("\\n","\n");
         for(int i = 0; i < string.length(); i ++) {
+            character = string.charAt(i);
             transition = transitionsTable.transitions.get(state);
             for(Map.Entry<String,Change> change : transition.changes.entrySet()) {
                 chng = change.getValue();
@@ -104,33 +107,38 @@ public class TreeMethod {
                         setNotFound.id = chng.terminal;
                         return false;
                     }
-                    if(set.validate(string.charAt(i))) {
+                    if(set.validate(character)) {
                         validator.add(true);
                         state = chng.toState;
+                        break;
                     }
                 }
                 else if(chng.type == Type.STRING) {
-                    if(chng.terminal.equals(String.valueOf(string.charAt(i)))) {
+                    if(chng.terminal.equals(String.valueOf(character))) {
                         validator.add(true);
                         state = chng.toState;
+                        break;
                     }
                 }
                 else if(chng.type == Type.SINGLEQUOTE) {
-                    if(chng.terminal.replace("\\","").equals(String.valueOf(string.charAt(i)))) {
+                    if(chng.terminal.replace("\\","").equals(String.valueOf(character))) {
                         validator.add(true);
                         state = chng.toState;
+                        break;
                     }
                 }
                 else if(chng.type == Type.DOUBLEQUOTE) {
-                    if(chng.terminal.replace("\\","").equals(String.valueOf(string.charAt(i)))) {
+                    if(chng.terminal.replace("\\","").equals(String.valueOf(character))) {
                         validator.add(true);
                         state = chng.toState;
+                        break;
                     }
                 }
                 else if(chng.type == Type.ENTER) {
-                    if(chng.terminal.replace("\\","").equals(String.valueOf(string.charAt(i)))) {
+                    if(chng.terminal.replace("\\n","\n").equals(String.valueOf(character))) {
                         validator.add(true);
                         state = chng.toState;
+                        break;
                     }
                 }
             }
@@ -141,9 +149,13 @@ public class TreeMethod {
         }
         return false;
     }
-    public void exportDot(String id,String content,String file) {
+    public void exportDot(String id,String content,String type) {
         try {
-            FileOutputStream outputStream = new FileOutputStream("Dot/" + file + "/" + id + ".dot");
+            File file = new File("Dot/" + type);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            FileOutputStream outputStream = new FileOutputStream("Dot/" + type + "/" + id + ".dot");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
@@ -163,8 +175,6 @@ public class TreeMethod {
             ProcessBuilder pBuilder = new ProcessBuilder(graphviz_path, "-Tpng", "-o", png_path, dot_path);
             pBuilder.redirectErrorStream(true);
             pBuilder.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 }
