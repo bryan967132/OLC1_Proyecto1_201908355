@@ -244,7 +244,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-    Scanner s;
+    public Scanner s;
     public Parser(Scanner s) {
         super(s);
         this.s = s;

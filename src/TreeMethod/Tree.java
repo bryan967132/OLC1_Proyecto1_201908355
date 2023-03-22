@@ -218,7 +218,7 @@ public class Tree {
         return "label=<EXPRESIÓN REGULAR: " + name + "<br/><font color=\"#0C7CBA\">IDENTIFICADORES</font><br align=\"left\"/><font color=\"#CC0000\">ANULABLES</font><br align=\"left\"/><font color=\"#CC6600\">PRIMEROS</font><br align=\"left\"/><font color=\"#009900\">ÚLTIMOS</font><br align=\"left\"/>>;";
     }
     private String terminals(String terminal) {
-        return (terminal.equals(" ") ? "&#92;&#92;s" : (terminal.equals("\n") ? "&#92;&#92;n" : terminal));
+        return (terminal.equals(" ") ? "&#92;&#92;s" : (terminal.equals("\\n") ? "&#92;&#92;n" : terminal));
     }
     private String getDotNodes(Node node,Align align) {
         String dot = "";

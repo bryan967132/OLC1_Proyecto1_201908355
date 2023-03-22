@@ -13,7 +13,14 @@ public class ErrorL {
             line,
             column,
             "Unrecognized Character: " + character
-	);
+        );
+    }
+    public String getHTML() {
+        return "<tr>\n" +
+"                    <td>" + character + "</td>\n" +
+"                    <td>" + line + "</td>\n" +
+"                    <td>" + column + "</td>\n" +
+"                </tr>";
     }
     public String toString() {
         return line + " ".repeat(6 - String.valueOf(line).length()) + column + " ".repeat(8 - String.valueOf(column).length()) + "Unrecognized Character: " + character;

@@ -17,8 +17,9 @@ public class TreeMethod {
     Map<String,Set> sets;
     NextsTable nextsTable;
     Regex regex;
-    Stack<Token> stack;
     Set setNotFound;
+    Stack<Token> stack;
+    String json;
     Token token;
     Token token1;
     Token token2;
@@ -71,10 +72,19 @@ public class TreeMethod {
         errorSet = false;
         setNotFound = null;
         boolean isValid = isValid(string);
+        json = "";
         if(!isValid && errorSet && setNotFound != null) {
             return "No se declaró el conjunto \"" + setNotFound.id + "\"";
         }
+        json = "\n\t{";
+        json += "\n\t\t\"Valor\":\"" + (string.contains("\n") ? string.replace("\n","\\n") : string) + "\",";
+        json += "\n\t\t\"ExpresionRegular\":\"" + regex.id + "\",";
+        json += "\n\t\t\"Resultado\":\"Cadena " + (isValid ? "Válida" : "Inválida") + "\"";
+        json += "\n\t}";
         return "La Expresión: \"" + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!isValid ? "\" no" : "\"") + " es Válida con la Expresión Regular \"" + regex.id + "\".";
+    }
+    public String getJSON() {
+        return json;
     }
     private boolean isValid(String string) {
         validator = new ArrayList<>();

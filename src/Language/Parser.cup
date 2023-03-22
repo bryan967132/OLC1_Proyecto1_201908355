@@ -16,7 +16,7 @@ import Controller.Set;
 
 parser code 
 {:
-    Scanner s;
+    public Scanner s;
     public Parser(Scanner s) {
         super(s);
         this.s = s;

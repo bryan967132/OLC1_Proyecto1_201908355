@@ -36,7 +36,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     Controller controller;
     Button analyzeInput,analyzeStrings,saveOLC;
     public JComboBox<String> regexCB;
-    double zoomFactor = 1.05; // factor de zoom
+    public double zoomFactor = 1.05; // factor de zoom
     EditorArea editorArea;
     public Icon icono;
     public ImageIcon image;

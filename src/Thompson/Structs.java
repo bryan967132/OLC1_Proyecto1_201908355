@@ -138,6 +138,6 @@ public class Structs {
         return dot;
     }
     private String getValue(String value) {
-        return (value == null ? "&epsilon;" : (value.equals("\" \"") ? "\\\\s" : (value.equals("\n") ? "\\\\n" : value)));
+        return (value == null ? "&epsilon;" : (value.equals(" ") ? "\\\\s" : (value.equals("\\n") ? "\\\\n" : value)));
     }
 }

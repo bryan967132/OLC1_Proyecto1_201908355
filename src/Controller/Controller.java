@@ -68,8 +68,8 @@ public class Controller {
             );
             Parser parser = new Parser(scanner);
             parser.parse();
+            IconFile currentFile = pjs.get(index);
             if(parser.isSuccessExecution()) {
-                IconFile currentFile = pjs.get(index);
                 if(parser.getExcecution().size() > 0) {
                     console.setText("EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.");
                     if(parser.getRegexs().size() > 0) {
@@ -77,15 +77,24 @@ public class Controller {
                         ide.showManagerGraphs();
                         lookGraphs(ide,index);
                     }
-                    return;
                 }
-                console.setText("EXREGAN: " + currentFile.name + "\n->");
-                return;
+                else {
+                    console.setText("EXREGAN: " + currentFile.name + "\n->");
+                }
             }
-            console.setText("EXREGAN:\n" + parser.getStrErrors());
+            else {
+                console.setText("EXREGAN:\n" + parser.getStrErrors());
+            }
+            if(parser.s.getErrors().size() > 0) {
+                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors());
+            }
         } catch (Exception e) {}
     }
     public void lookGraphs(IDE ide,int index) {
+        ide.zoomFactor = 1.05;
+        ide.graphics.removeMouseListener(ide);
+        ide.graphics.removeMouseWheelListener(ide);
+        ide.graphics.removeMouseMotionListener(ide);
 		ide.regexCB.repaint();
         ide.graphics.removeAll();
         ide.img = new JLabel();
@@ -126,14 +135,25 @@ public class Controller {
             if(currentParser.getExpressions().size() > 0) {
                 String consoleOut = "EXREGAN: " + currentFile.name;
                 TreeMethod currenTreeMethod;
-                for(Expression expression : currentParser.getExpressions()) {
-                    currenTreeMethod = currentFile.treesM.get(expression.id);
-                    consoleOut += "\n-> " + (
-                        currenTreeMethod != null
-                        ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
-                        : "No se declaró la expresión regular \"" + expression.id + "\"."
-                    );
+                currentFile.json = "[";
+                ArrayList<Expression> expressions = currentParser.getExpressions();
+                Expression expression;
+                for(int i = 0; i < expressions.size(); i ++) {
+                    try {
+                        expression = expressions.get(i);
+                        currenTreeMethod = currentFile.treesM.get(expression.id);
+                        consoleOut += "\n-> " + (
+                            currenTreeMethod != null
+                            ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
+                            : "No se declaró la expresión regular \"" + expression.id + "\"."
+                        );
+                        currentFile.json += currentFile.treesM.get(expression.id).getJSON();
+                        if(i < expressions.size() - 1) currentFile.json += ",";
+                    }
+                    catch(Exception e) {}
                 }
+                currentFile.json += "\n]";
+                buildJSON("SALIDAS_201908355","out_" + index + "_" + currentFile.name.replace(".olc",""),currentFile.json);
                 console.setText(consoleOut);
                 return;
             }
@@ -141,6 +161,21 @@ public class Controller {
             return;
         }
         console.setText("EXREGAN:\n" + currentParser.getStrErrors());
+    }
+    private void buildJSON(String type,String name,String content) {
+        try {
+            File file = new File(type);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            FileOutputStream outputStream = new FileOutputStream(type + "/" + name + ".json");
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            outputStreamWriter.write(content);
+            outputStreamWriter.close();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void analyze(String input) {
         try {

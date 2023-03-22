@@ -24,6 +24,7 @@ public class IconFile extends JPanel implements MouseListener {
 	public int id;
 	public Map<String,TreeMethod> treesM;
 	public Map<String,ThompsonMethod> thompsonsM;
+	public String json;
 	String texto;
 	public String name,path;
 	public IconFile() {

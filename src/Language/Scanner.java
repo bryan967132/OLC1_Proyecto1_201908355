@@ -318,6 +318,9 @@ public class Scanner implements java_cup.runtime.Scanner {
         else errorsTab += "No Lexical Errors\n";
         return errorsTab + "\n";
     }
+    public ArrayList<ErrorL> getErrors() {
+        return errors;
+    }
     void concat(String token) {
         operation += token;
     }

@@ -69,6 +69,9 @@ import Components.*;
         else errorsTab += "No Lexical Errors\n";
         return errorsTab + "\n";
     }
+    public ArrayList<ErrorL> getErrors() {
+        return errors;
+    }
     void concat(String token) {
         operation += token;
     }
