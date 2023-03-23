@@ -19,6 +19,7 @@
     5. [AFND](#afnd)
 4. [Reporte De Errores](#4-reporte-de-errores)
 5. [Expresion Regular: Notación Prefija O Polaca](#5-expresión-regular)
+6. [Sintaxis del Lenguaje](#6-sintaxis-del-lenguaje)
 
 ## 1. Opciones Para Archivos
 * ### Abrir Archivo
@@ -110,9 +111,12 @@ El reporte se genera y abre automáticamente al momento del análisis si se dete
 * ### Ejemplos de  Expresiones Regulares en Notación Prefija o Polaca
     |Notación Prefija|Notación Infija|
     |----------------|---------------|
-    |+ \| operando operando|(operando \| operando)+|
+    |+ \| * operando operando|((operando)* \| operando)+|
     |. + operando \| operando operando|(operando)+(operando \| operando)|
-* ## Sintaxis Del Lenguaje
+
+[Subir](#exregan)
+
+## 6. Sintaxis Del Lenguaje
 
 ```java
 {
