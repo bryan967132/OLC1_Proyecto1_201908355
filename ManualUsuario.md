@@ -17,7 +17,8 @@
     3. [Tabla de Transiciones](#tabla-de-transiciones)
     4. [AFD](#afd)
     5. [AFND](#afnd)
-4. [Reporte De Errores](#reporte-de-errores)
+4. [Reporte De Errores](#4-reporte-de-errores)
+5. [Expresion Regular: Notación Prefija O Polaca](#5-expresión-regular)
 
 ## 1. Opciones Para Archivos
 * ### Abrir Archivo
@@ -94,5 +95,43 @@
 ## 4. Reporte De Errores
 El reporte se genera y abre automáticamente al momento del análisis si se detecta errores léxicos o sintácticos o ambos.
 <img title="Reporte de Errores" alt="Reporte de Errores" src="Images/ManualUsuario/ReporteErrorL.png">
+
+[Subir](#exregan)
+
+## 5. Expresión Regular
+* ### Expresion Regular en Notación Polaca
+    Los operadores se escriben antes que los operandos.
+    <br>Ejemplo:<br>
+    * | operando operando
+    * . operando operando
+    * \+ operando
+    * \* operando
+    * ? operando
+* ### Ejemplos de  Expresiones Regulares en Notación Prefija o Polaca
+    |Notación Prefija|Notación Infija|
+    |----------------|---------------|
+    |+ \| operando operando|(operando \| operando)+|
+    |. + operando \| operando operando|(operando)+(operando \| operando)|
+* ## Sintaxis Del Lenguaje
+
+```java
+{
+    CONJ:minuscula->a~z;
+    CONJ:digito->0~9;
+    CONJ:mayuscula->A~Z;
+    CONJ:digito_par->0,2,4,6,8;
+    CONJ:letra->A,b,C,d;
+    CONJ:simbolo->!~&;
+    
+    ExprReg1->.{letra}*|"_"|{letra}{digito};
+    ExpresionReg2->.{digito}."."+{digito};
+    RegEx3->.{digito}*|"_"|{letra}{digito};
+    
+    %%
+    
+    ExpReg1:"primerLexemaCokoa";
+    ExpresionReg2:"34.44";
+}
+```
 
 [Subir](#exregan)
