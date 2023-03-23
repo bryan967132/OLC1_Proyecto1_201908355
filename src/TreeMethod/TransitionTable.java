@@ -71,7 +71,7 @@ public class TransitionTable {
     }
     public String getDot(String name) {
         String dot = "digraph Transitions {\n\tgraph[fontname=\"Arial\" labelloc=\"t\"];\n\tnode[shape=none fontname=\"Arial\"];\n\tlabel=\"Expresion Regular: " + name + "\";\n\ttable[label=<<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"3\">";
-        dot += "\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" rowspan=\"2\"><font color=\"#FFFFFF\">Estados</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" colspan=\"9\"><font color=\"#FFFFFF\">Terminales</font></td>\n\t\t</tr>";
+        dot += "\n\t\t<tr>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" rowspan=\"2\"><font color=\"#FFFFFF\">Estados</font></td>\n\t\t\t<td bgcolor=\"#009900\" width=\"100\" colspan=\"" + terminals.size() + "\"><font color=\"#FFFFFF\">Terminales</font></td>\n\t\t</tr>";
         dot += "\n\t\t<tr>";
         String title;
         for(int i = 0; i < terminals.size(); i ++) {
