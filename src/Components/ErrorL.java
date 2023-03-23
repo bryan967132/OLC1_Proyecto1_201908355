@@ -16,11 +16,7 @@ public class ErrorL {
         );
     }
     public String getHTML() {
-        return "<tr>\n" +
-"                    <td>" + character + "</td>\n" +
-"                    <td>" + line + "</td>\n" +
-"                    <td>" + column + "</td>\n" +
-"                </tr>";
+        return "\t\t\t<tr>\n\t\t\t\t<td>" + character + "</td>\n\t\t\t\t<td>" + line + "</td>\n\t\t\t\t<td>" + column + "</td>\n\t\t\t</tr>\n";
     }
     public String toString() {
         return line + " ".repeat(6 - String.valueOf(line).length()) + column + " ".repeat(8 - String.valueOf(column).length()) + "Unrecognized Character: " + character;

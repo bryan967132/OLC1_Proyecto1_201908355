@@ -11,17 +11,24 @@ import Components.Instruction;
 import Controller.Expression;
 import Controller.Regex;
 import Controller.Set;
+import Interface.IconFile;
+import Controller.ReportHTML;
 
 /* 2. Codigo para el parser, variables y metodos */
 
 parser code 
 {:
     public Scanner s;
+    int index;
+    String nameFile;
     public Parser(Scanner s) {
         super(s);
         this.s = s;
     }
-
+    public void setObjects(int index,String nameFile) {
+        this.index = index;
+        this.nameFile = nameFile;
+    }
     ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Expression> expressions = new ArrayList<>();
@@ -46,6 +53,9 @@ parser code
         errors.add(
             new Instruction("Error Sintáctico sin recuperar.")
         );
+        if(this.s.getErrors().size() > 0 || errors.size() > 0) {
+            new ReportHTML().reportErrors(index,nameFile,this.s.getErrors(),errors);
+        }
     }
     public ArrayList<Instruction> getExcecution() {
         return flowExe;
@@ -69,6 +79,9 @@ parser code
             exe += "-> " + errors.get(i) + "\n";
         }
         return exe + "\n";
+    }
+    public ArrayList<Instruction> getErrors() {
+        return errors;
     }
     public boolean isSuccessExecution() {
         if(errors.size() > 0) {

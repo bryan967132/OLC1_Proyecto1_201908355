@@ -23,6 +23,9 @@ public class Instruction {
     public Instruction(ErrorS error) {
         this.error = error;
     }
+    public String getHTML() {
+        return (error != null ? error.getHTML() : "\t\t\t<td>\n\t\t\t\t" + execution + "\n\t\t\t</td>\n");
+    }
     public String toString() {
         return (expression != null ? expression : (regex != null ? regex : (set != null ? set : (execution != null ? execution : error)))) + "";
     }

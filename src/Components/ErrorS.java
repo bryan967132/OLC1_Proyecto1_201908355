@@ -16,6 +16,9 @@ public class ErrorS {
             ". This Component was not expected: " + (token != null ? type + " = " + token : "EOF") + "."
         );
     }
+    public String getHTML() {
+        return "\t\t\t<tr>\n\t\t\t\t<td>" + toString() + "</td>\n\t\t\t</tr>\n";
+    }
     /*public String toString() {
         return "Syntax Error" + (token != null ? " in Line " + line + " Column " + column : "") +
             ". This Component was not expected: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";

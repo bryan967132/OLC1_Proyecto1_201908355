@@ -16,6 +16,7 @@ import Components.Instruction;
 import Controller.Expression;
 import Controller.Regex;
 import Controller.Set;
+import Controller.ReportHTML;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -245,11 +246,16 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
     public Scanner s;
+    int index;
+    String nameFile;
     public Parser(Scanner s) {
         super(s);
         this.s = s;
     }
-
+    public void setObjects(int index,String nameFile) {
+        this.index = index;
+        this.nameFile = nameFile;
+    }
     ArrayList<Instruction> flowExe = new ArrayList<>();
     ArrayList<Instruction> errors = new ArrayList<>();
     ArrayList<Expression> expressions = new ArrayList<>();
@@ -274,6 +280,12 @@ public class Parser extends java_cup.runtime.lr_parser {
         errors.add(
             new Instruction("Error Sintáctico sin recuperar.")
         );
+        System.out.println(this.s.getErrors().size() + "\n" + errors.size());
+        System.out.println(this.s.getErrors().size() > 0 || errors.size() > 0);
+        if(this.s.getErrors().size() > 0 || errors.size() > 0) {
+            System.out.println("Entra al if");
+            new ReportHTML().reportErrors(index,nameFile,this.s.getErrors(),errors);
+        }
     }
     public ArrayList<Instruction> getExcecution() {
         return flowExe;
@@ -297,6 +309,9 @@ public class Parser extends java_cup.runtime.lr_parser {
             exe += "-> " + errors.get(i) + "\n";
         }
         return exe + "\n";
+    }
+    public ArrayList<Instruction> getErrors() {
+        return errors;
     }
     public boolean isSuccessExecution() {
         if(errors.size() > 0) {

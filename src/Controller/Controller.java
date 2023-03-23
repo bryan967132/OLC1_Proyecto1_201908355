@@ -67,16 +67,19 @@ public class Controller {
                 )
             );
             Parser parser = new Parser(scanner);
-            parser.parse();
             IconFile currentFile = pjs.get(index);
+            parser.setObjects(index,currentFile.name);
+            parser.parse();
             if(parser.isSuccessExecution()) {
                 if(parser.getExcecution().size() > 0) {
-                    console.setText("EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.");
+                    String consoleOut = "EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.";
                     if(parser.getRegexs().size() > 0) {
                         mthdsBldr.buildethods(ide,index,pjs.get(index),parser.getSets(),parser.getRegexs());
                         ide.showManagerGraphs();
                         lookGraphs(ide,index);
+                        consoleOut += "\n-> Autómatas creados.";
                     }
+                    console.setText(consoleOut);
                 }
                 else {
                     console.setText("EXREGAN: " + currentFile.name + "\n->");
@@ -85,8 +88,8 @@ public class Controller {
             else {
                 console.setText("EXREGAN:\n" + parser.getStrErrors());
             }
-            if(parser.s.getErrors().size() > 0) {
-                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors());
+            if(parser.s.getErrors().size() > 0 || parser.getErrors().size() > 0) {
+                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors(),parser.getErrors());
             }
         } catch (Exception e) {}
     }
