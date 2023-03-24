@@ -8,6 +8,8 @@
 3. [Método Del Árbol](#3-método-del-árbol)
 4. [Cálculo De Siguientes](#4-cálculo-de-siguientes)
 5. [Cálculo De Transiciones](#5-cálculo-de-transiciones)
+6. [Método De Thompson](#6-método-de-thompson)
+7. [Método De Thompson](#7-diagrama-de-clases)
 
 ## 1. Análisis Léxico
 * ### Tabla de Tokens
@@ -37,6 +39,8 @@
     |Caracteres Especiales ASCII 33 al 125 excluyendo Caracteres Alfanuméricos|Caracteres !, ", #, ..., {, \|, }|[!-\\/:-@\\[-`{-\\}]|@, [, ], -, \|, +|CHAR|
     |Comentarios Simples|Secuencia de Caracteres precedida de //|\\/\\/([^\r\n]*)?|// comentario simple
     |Comentarios Multilíneas|Secuencia de Caracteres entre <! y !>|\\<\\!([^<!>]*)?\\!\\>|<! comentario multilínea !>|
+
+[Subir](#exregan)
 
 ## 2. Análisis Sintáctico
 * ### Expresion Regular en Notación Polaca
@@ -83,6 +87,9 @@ analysis -> expression analysis | expression
 
 expression -> ID ':' STRING ';'
 ```
+
+[Subir](#exregan)
+
 ## 3. Método Del Árbol
 1. ### Construcción del Árbol
     Implementación en Java: Se implementó haciendo uso de pilas ya que las expresiones regulares en notación prefija se leen de derecha a izquierda para su interpretación y un árbol binario para formar la estructura del árbol.<br><br>
@@ -216,6 +223,9 @@ expression -> ID ':' STRING ';'
         root = stack.pop();
     }
     ```
+
+    [Subir](#exregan)
+
 2. ### Asignación de Etiquetas a los Nodos Hoja
     Asignación de etiquetas de las hojas nodo. Se utilizan los siguientes métodos:
     ```java
@@ -234,6 +244,9 @@ expression -> ID ':' STRING ';'
         }
     }
     ```
+
+    [Subir](#exregan)
+
 3. ### Cálculo de Primeras Posiciones
     Conciciones para los cálculos:
     |Terminal|Primeras Posiciones|
@@ -269,6 +282,9 @@ expression -> ID ':' STRING ';'
         }
     }
     ```
+
+    [Subir](#exregan)
+
 4. ### Cálculo de Últimas Posiciones
     Conciciones para los cálculos:
     |Terminal|Últimas Posiciones|
@@ -306,6 +322,8 @@ expression -> ID ':' STRING ';'
         }
     }
     ```
+
+    [Subir](#exregan)
 
 ## 4. Cálculo De Siguientes
 Conciciones para los cálculos:<br>
@@ -377,6 +395,8 @@ private void fillLeafs(Node node) {
 }
 ```
 
+[Subir](#exregan)
+
 ## 5. Cálculo De Transiciones
 Método implementado desde la clase Tree:
 ```java
@@ -391,7 +411,7 @@ public void calculateTransitions() {
     }
 }
 ```
-Clase Transition Table.
+Se implementó la clase TransitionTable.
 ```java
 ArrayList<Node> nexts = new ArrayList<>();
 ArrayList<Transition> transitions = new ArrayList<>();
@@ -461,3 +481,228 @@ private boolean verifyTerminal(Terminal newTerminal) {
     return false;
 }
 ```
+
+[Subir](#exregan)
+
+## 6. Método De Thompson
+* Construcción de AFND.<br>
+    Se hace uso de la clase Node para construir el autómata.
+    ```java
+    boolean accept;
+    Node exit;
+    Node frst;
+    Node scnd;
+    Node last;
+    Node jmps;
+    String id;
+    String value;
+    public Node() {}
+    public Node(String id,String value) {
+        this.id = id;
+        this.value = value;
+    }
+    ```
+    Se hace uso de la clase Structs para construir la estructura correspondiente a las operaciones Or, Concatenación, Positiva, Kleene y Opcional.
+    * Or
+        ```java
+        public Node OR(String id,Node frst,Node scnd) {
+            Node node = new Node();
+            node.id = id + "_start";
+            node.value = "&epsilon;";
+            if(frst.frst != null) {
+                node.frst = frst;
+                node.frst.last = node.frst.last.exit = new Node(id + "_exit",node.value);
+            }
+            else {
+                node.frst = new Node(id + "_frst",node.value);
+                frst.last = frst.exit = new Node(id + "_exit",node.value);
+                node.frst.frst = frst;
+            }
+            if(scnd.frst != null) {
+                node.scnd = scnd;
+                node.scnd.last.exit = new Node(id + "_exit",node.value);
+            }
+            else {
+                node.scnd = new Node(id + "_scnd",node.value);
+                scnd.exit = new Node(id + "_exit",node.value);
+                node.scnd.frst = scnd;
+            }
+            node.last = frst.last;
+            return node;
+        }
+        ```
+    * Concatenación
+        ```java
+        public Node CONCAT(String id,Node frst,Node scnd) {
+            Node node = new Node();
+            node.id = id + "_start";
+            if(frst.frst != null) {
+                node = frst;
+                if(scnd.frst != null) {
+                    node.last.frst = scnd.frst;
+                    if(scnd.scnd != null) {
+                        node.last.scnd = scnd.scnd;
+                    }
+                    if(scnd.jmps != null) {
+                        node.last.jmps = scnd.jmps;
+                        node.last.jmps.value = "&epsilon;";
+                    }
+                    node.last = scnd.last;
+                }
+                else {
+                    node.last = node.last.exit = scnd;
+                }
+            }
+            else {
+                node.frst = frst;
+                if(scnd.frst != null) {
+                    scnd.value = node.frst.value;
+                    node.frst = scnd;
+                    node.last = scnd.last;
+                }
+                else {
+                    node.last = frst.frst = scnd;
+                }
+            }
+            return node;
+        }
+        ```
+    * Positiva
+        ```java
+        public Node POSITIVE(String id,Node frst) {
+            Node node = new Node();
+            node.id = id + "_start";
+            node.value = "&epsilon;";
+            if(frst.frst != null) {
+                node.frst = frst;
+                frst.last.jmps = frst;
+                node.last = frst.last.exit =  new Node(id + "_exit",node.value);
+            }
+            else {
+                node.frst = new Node(id + "_frst",node.value);
+                node.frst.frst = frst;
+                node.frst.frst.jmps = node.frst;
+                node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
+            }
+            return node;
+        }
+        ```
+    * Kleene
+        ```java
+        public Node KLEENE(String id,Node frst) {
+            Node node = new Node();
+            node.id = id + "_start";
+            node.value = "&epsilon;";
+            if(frst.frst != null) {
+                node.frst = frst;
+                frst.last.jmps = frst;
+                node.last = frst.last.exit = new Node(id + "_exit",node.value);
+            }
+            else {
+                node.frst = new Node(id + "_frst",node.value);
+                node.frst.frst = frst;
+                node.frst.frst.jmps = node.frst;
+                node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
+            }
+            node.jmps = node.last;
+            return node;
+        }
+        ```
+    * Opcional
+        ```java
+        public Node OPTIONAL(String id,Node frst) {
+            Node node = new Node();
+            node.id = id + "_start";
+            node.value = "&epsilon;";
+            if(frst.frst != null) {
+                if(frst.frst.value.equals("&epsilon;") && frst.scnd == null && frst.jmps == null) {
+                    frst = frst.frst;
+                }
+                node.last = frst.last.exit = new Node(id + "_exit",node.value);
+                node.frst = frst;
+            }
+            else {
+                node.frst = new Node(id + "_frst",node.value);
+                node.frst.frst = frst;
+                node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
+            }
+            node.jmps = node.last;
+            return node;
+        }
+        ```
+    Se implementó el método build de la clase Thompson
+    ```java
+    public void build() {
+        while(!isEmptyStack()) {
+            token = popTokenStack();
+            switch(token.type) {
+                case ID:
+                    node = new Node(String.valueOf(id),token.lexeme);
+                    stack.push(node);
+                    id ++;
+                    break;
+                case ENTER:
+                    node = new Node(String.valueOf(id),token.lexeme);
+                    stack.push(node);
+                    id ++;
+                    break;
+                case DOUBLEQUOTE:
+                    node = new Node(String.valueOf(id),token.lexeme);
+                    stack.push(node);
+                    id ++;
+                    break;
+                case SINGLEQUOTE:
+                    node = new Node(String.valueOf(id),token.lexeme);
+                    stack.push(node);
+                    id ++;
+                    break;
+                case STRING:
+                    node = new Node(String.valueOf(id),token.lexeme.replace("\"",""));
+                    stack.push(node);
+                    id ++;
+                    break;
+                case END:
+                    node = new Node(String.valueOf(id),token.lexeme);
+                    stack.push(node);
+                    id ++;   
+                    break;
+                case OR:
+                    node = structs.OR(String.valueOf(id),stack.pop(),stack.pop());
+                    stack.push(node);
+                    id ++;
+                    break;
+                case CONCAT:
+                    node = structs.CONCAT(String.valueOf(id),stack.pop(),stack.pop());
+                    stack.push(node);
+                    id ++;
+                    break;
+                case POSITIVE:
+                    node = structs.POSITIVE(String.valueOf(id),stack.pop());
+                    stack.push(node);
+                    id ++;
+                    break;
+                case KLEENE:
+                    node = structs.KLEENE(String.valueOf(id),stack.pop());
+                    stack.push(node);
+                    id ++;
+                    break;
+                case OPTIONAL:
+                    node = structs.OPTIONAL(String.valueOf(id),stack.pop());
+                    stack.push(node);
+                    id ++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        start = stack.pop();
+        start.last.accept = true;
+    }
+    ```
+
+    [Subir](#exregan)
+
+## 7. Diagrama De Clases
+<img title="Abrir" alt="Abrir" src="Images/ManualTecnico/Proyecto1_OLC1.png">
+
+[Subir](#exregan)
