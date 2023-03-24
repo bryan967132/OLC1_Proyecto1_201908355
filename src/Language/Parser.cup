@@ -1,0 +1,249 @@
+/* 1. Package e importaciones */
+package Language;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+import java_cup.runtime.*;
+import Colors.Token;
+import Colors.Type;
+import Components.ErrorS;
+import Components.Instruction;
+import Controller.Expression;
+import Controller.Regex;
+import Controller.Set;
+import Interface.IconFile;
+import Controller.ReportHTML;
+
+/* 2. Codigo para el parser, variables y metodos */
+
+parser code 
+{:
+    public Scanner s;
+    int index;
+    String nameFile;
+    public Parser(Scanner s) {
+        super(s);
+        this.s = s;
+    }
+    public void setObjects(int index,String nameFile) {
+        this.index = index;
+        this.nameFile = nameFile;
+    }
+    ArrayList<Instruction> flowExe = new ArrayList<>();
+    ArrayList<Instruction> errors = new ArrayList<>();
+    ArrayList<Expression> expressions = new ArrayList<>();
+    Map<String,Regex> regexs = new TreeMap<>();
+    Map<String,Set> sets = new TreeMap<>();
+    Expression expression = new Expression();
+    Regex regex = new Regex();
+    Set set = new Set();
+    public void syntax_error(Symbol sym) {
+        errors.add(
+            new Instruction(
+                new ErrorS(
+                    sym.left,
+                    sym.right,
+                    sym.value,
+                    Sym.terminalNames[sym.sym]
+                )
+            )
+        );
+    }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        errors.add(
+            new Instruction("Error Sintáctico sin recuperar.")
+        );
+        if(this.s.getErrors().size() > 0 || errors.size() > 0) {
+            new ReportHTML().reportErrors(index,nameFile,this.s.getErrors(),errors);
+        }
+    }
+    public ArrayList<Instruction> getExcecution() {
+        return flowExe;
+    }
+    public String getStrExecution() {
+        String exe = "";
+        for(int i = 0; i < flowExe.size(); i ++) {
+            exe += flowExe.get(i) + "\n";
+        }
+        if(errors.size() > 0) {
+            for(int i = 0; i < errors.size(); i ++) {
+                exe += errors.get(i) + "\n";
+            }
+            return exe + "\n";
+        }
+        return exe + "SUCCESSFULLY RUN";
+    }
+    public String getStrErrors() {
+        String exe = "";
+        for(int i = 0; i < errors.size(); i ++) {
+            exe += "-> " + errors.get(i) + "\n";
+        }
+        return exe + "\n";
+    }
+    public ArrayList<Instruction> getErrors() {
+        return errors;
+    }
+    public boolean isSuccessExecution() {
+        if(errors.size() > 0) {
+            return false;
+        }
+        return true;
+    }
+    private void addRange(String start,String end) {
+        set.startChar = start.charAt(0);
+        set.endChar = end.charAt(0);
+    }
+    private void addSpecific(String ch) {
+        set.specifics.add(ch.charAt(0));
+    }
+    private void addSet(String id) {
+        set.id = id;
+        sets.put(set.id,set);
+        flowExe.add(new Instruction(set));
+        set = new Set();
+    }
+    public Map<String,Set> getSets() {
+        return sets;
+    }
+    public String getStrSets() {
+        String str = "";
+        for(Map.Entry<String,Set> set : sets.entrySet()) {
+            str += set.getValue() + "\n";
+        }
+        return str;
+    }
+    private void addElement(String element,Type type) {
+        regex.expression.push(new Token(element,type));
+    }
+    private void addRegex(String id) {
+        regex.id = id;
+        regexs.put(regex.id,regex);
+        flowExe.add(new Instruction(regex));
+        regex = new Regex();
+    }
+    public Map<String,Regex> getRegexs() {
+        return regexs;
+    }
+    public String getStrRegexs() {
+        String str = "";
+        for(Map.Entry<String,Regex> regex : regexs.entrySet()) {
+            str += regex.getValue() + "\n";
+        }
+        return str;
+    }
+    private void addExpression(String id,String string) {
+        expression.id = id;
+        expression.string = string;
+        expressions.add(expression);
+        flowExe.add(new Instruction(expression));
+        expression = new Expression();
+    }
+    public ArrayList<Expression> getExpressions() {
+        return expressions;
+    }
+    public String getStrExpression() {
+        String str = "";
+        for(Expression expr : expressions) {
+            str += expr + "\n";
+        }
+        return str;
+    }
+:} 
+
+/* 3. Terminales*/
+
+terminal String RW_CONJ, ID, STRING, CHAR, CHARNUM;
+terminal String LBRACKET, RBRACKET;
+terminal String SEMICOLON, COLON, COMMA, PROMPT, TILDE;
+terminal String OR, POSITIVE, KLEENE, CONCAT, OPTIONAL;
+terminal String LIMIT, SINGLEQUOTE, DOUBLEQUOTE, ENTER;
+
+/* 4. No Terminales*/
+non terminal ini, body, declarations, evaluations;
+non terminal instructions,instruction;
+non terminal set, elements;
+non terminal specific, regex;
+non terminal operations, operation;
+non terminal node;
+non terminal analysis, expression;
+non terminal String character;
+non terminal String ids;
+
+/* 5. Precedencias */
+
+/* 6. Gramatica Libre de Contexto */
+
+start with ini;
+
+ini::=LBRACKET body RBRACKET | /*empty*/;
+
+body::=instructions declarations | /*empty*/;
+
+declarations::=LIMIT evaluations | /*empty*/;
+
+evaluations::=analysis | /*empty*/;
+
+instructions::=
+    instruction error instructions |
+    instruction instructions |
+    instruction error |
+    instruction;
+
+instruction::=
+    set |
+    regex;
+
+set::=RW_CONJ COLON ids:id PROMPT elements SEMICOLON {:addSet(id);:};
+
+elements::=
+    character:start TILDE character:end {:addRange(start,end);:}|
+    specific;
+
+specific::=
+    character:ch {:addSpecific(ch);:} COMMA specific |
+    character:ch {:addSpecific(ch);:};
+
+character::=
+    CHAR:ch         {:RESULT = ch;:} |
+    CHARNUM:ch      {:RESULT = ch;:} |
+    LBRACKET:lb     {:RESULT = lb;:} |
+    RBRACKET:rb     {:RESULT = rb;:} |
+    SEMICOLON:sm    {:RESULT = sm;:} |
+    COLON:cn        {:RESULT = cn;:} |
+    COMMA:cm        {:RESULT = cm;:} |
+    OR:or           {:RESULT = or;:} |
+    POSITIVE:pl     {:RESULT = pl;:} |
+    KLEENE:kl       {:RESULT = kl;:} |
+    OPTIONAL:op     {:RESULT = op;:} |
+    CONCAT:cc       {:RESULT = cc;:};
+
+regex::=ids:id PROMPT operations SEMICOLON {:addRegex(id);:};
+
+operations::=
+    operations operation |
+    operation;
+
+operation::=
+    CONCAT:cc   {:addElement(cc,Type.CONCAT);:} operation operation |
+    OR:or       {:addElement(or,Type.OR);:} operation operation |
+    KLEENE:kl   {:addElement(kl,Type.KLEENE);:} operation |
+    OPTIONAL:op {:addElement(op,Type.OPTIONAL);:} operation |
+    POSITIVE:pl {:addElement(pl,Type.POSITIVE);:} operation |
+    node;
+
+node::=
+    LBRACKET ids:id RBRACKET {:addElement(id,Type.ID);:} |
+    STRING:str               {:addElement(str,Type.STRING);:} |
+    ENTER:enter              {:addElement(enter,Type.ENTER);:} |
+    DOUBLEQUOTE:dq           {:addElement(dq,Type.DOUBLEQUOTE);:} |
+    SINGLEQUOTE:sq           {:addElement(sq,Type.SINGLEQUOTE);:};
+
+analysis::=
+    expression error analysis |
+    expression analysis |
+    expression error |
+    expression;
+
+expression::=ids:id COLON STRING:str SEMICOLON {:addExpression(id,str);:};
+
+ids::= ID:id {:RESULT = id;:} | CHAR:ch {:RESULT = ch;:};
