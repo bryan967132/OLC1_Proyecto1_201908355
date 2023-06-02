@@ -1,0 +1,14 @@
+{
+CONJ:exc1->!;
+CONJ:exc2->!,>;
+CONJ:signos->!~@;
+CONJ:minusculas->a~z;
+CONJ:mayusculas->A~Z;
+COMMENTS -> "//".({minuscula}|{mayuscula}|{signos}|" ")*;
+COMMENTM -> "<"."!".{exc1}*."!"+.({exc2}.{exc1}*."!"+)*.">";
+
+%%
+
+COMMENTS:"//sfcyaka dkdie  das";
+
+}

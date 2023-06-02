@@ -1,139 +1,102 @@
 package Thompson;
+
+import Tree.Node;
+
 public class Structs {
-    public Node OR(String id,Node frst,Node scnd) {
-        Node node = new Node();
-        node.id = id + "_start";
-        node.value = "&epsilon;";
-        if(frst.frst != null) {
-            node.frst = frst;
-            node.frst.last = node.frst.last.exit = new Node(id + "_exit",node.value);
-        }
-        else {
-            node.frst = new Node(id + "_frst",node.value);
-            frst.last = frst.exit = new Node(id + "_exit",node.value);
-            node.frst.frst = frst;
-        }
-        if(scnd.frst != null) {
-            node.scnd = scnd;
-            node.scnd.last.exit = new Node(id + "_exit",node.value);
-        }
-        else {
-            node.scnd = new Node(id + "_scnd",node.value);
-            scnd.exit = new Node(id + "_exit",node.value);
-            node.scnd.frst = scnd;
-        }
-        node.last = frst.last;
-        return node;
+    int number = 0;
+    public State OR(String id,State frst,State scnd) {
+        State state = new State(id + "_start","&epsilon;");
+        State exit = new State(id + "_exit",state.value);
+        //or1
+        state.next1 = frst;
+        state.last = state.next1.last.exit = exit;
+        //or2
+        state.next2 = scnd;
+        state.next2.last.next1 = exit;
+        return state;
     }
-    public Node CONCAT(String id,Node frst,Node scnd) {
-        Node node = new Node();
-        node.id = id + "_start";
-        if(frst.frst != null) {
-            node = frst;
-            if(scnd.frst != null) {
-                node.last.frst = scnd.frst;
-                if(scnd.scnd != null) {
-                    node.last.scnd = scnd.scnd;
-                }
-                if(scnd.jmps != null) {
-                    node.last.jmps = scnd.jmps;
-                    node.last.jmps.value = "&epsilon;";
-                }
-                node.last = scnd.last;
-            }
-            else {
-                node.last = node.last.exit = scnd;
-            }
+    public State CONCAT(String id,State frst,State scnd) {
+        State state = new State(id + "_start","&epsilon;");
+        //and1
+        state = frst;
+        //and2
+        state.last.next1 = scnd.next1;
+        state.last.next2 = scnd.next2;
+        if(scnd.jmps != null) {
+            state.last.jmps = scnd.jmps;
         }
-        else {
-            node.frst = frst;
-            if(scnd.frst != null) {
-                scnd.value = node.frst.value;
-                node.frst = scnd;
-                node.last = scnd.last;
-            }
-            else {
-                node.last = frst.frst = scnd;
-            }
-        }
-        return node;
+        state.last = scnd.last;
+        return state;
     }
-    public Node POSITIVE(String id,Node frst) {
-        Node node = new Node();
-        node.id = id + "_start";
-        node.value = "&epsilon;";
-        if(frst.frst != null) {
-            node.frst = frst;
-            frst.last.jmps = frst;
-            node.last = frst.last.exit =  new Node(id + "_exit",node.value);
-        }
-        else {
-            node.frst = new Node(id + "_frst",node.value);
-            node.frst.frst = frst;
-            node.frst.frst.jmps = node.frst;
-            node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
-        }
-        return node;
+    public State POSITIVE(String id,State frst) {
+        State state = new State(id + "_start","&epsilon;");
+        state.next1 = frst;
+        state.next1.last.jmps = state.next1;
+        state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        return state;
     }
-    public Node KLEENE(String id,Node frst) {
-        Node node = new Node();
-        node.id = id + "_start";
-        node.value = "&epsilon;";
-        if(frst.frst != null) {
-            node.frst = frst;
-            frst.last.jmps = frst;
-            node.last = frst.last.exit = new Node(id + "_exit",node.value);
-        }
-        else {
-            node.frst = new Node(id + "_frst",node.value);
-            node.frst.frst = frst;
-            node.frst.frst.jmps = node.frst;
-            node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
-        }
-        node.jmps = node.last;
-        return node;
+    public State KLEENE(String id,State frst) {
+        State state = new State(id + "_start","&epsilon;");
+        state.next1 = frst;
+        state.next1.last.jmps = state.next1;
+        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        return state;
     }
-    public Node OPTIONAL(String id,Node frst) {
-        Node node = new Node();
-        node.id = id + "_start";
-        node.value = "&epsilon;";
-        if(frst.frst != null) {
-            if(frst.frst.value.equals("&epsilon;") && frst.scnd == null && frst.jmps == null) {
-                frst = frst.frst;
+    public State OPTIONAL(String id,State frst) {
+        State state = new State(id + "_start","&epsilon;");
+        state.next1 = frst;
+        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        return state;
+    }
+    public State SIMPLE(String id,Node frst) {
+        State start = new State(id,"&epsilon;");
+        start.last = start.next1 = new State(id + "_next1",frst.value);
+        return start;
+    }
+    public State EPSILON(String id) {
+        State start = new State(id,"&epsilon;");
+        start.last = start.next1 = new State(id + "_next1",start.value);
+        return start;
+    }
+    public String getDot(State state) {
+        asignIDNodes(state);
+        return getDotGraph(state);
+    }
+    private void asignIDNodes(State node) {
+        if(node != null && !node.enumered) {
+            node.number = number;
+            node.enumered = true;
+            if(node.next1 != null) {
+                number ++;
+                asignIDNodes(node.next1);
             }
-            node.last = frst.last.exit = new Node(id + "_exit",node.value);
-            node.frst = frst;
+            if(node.next2 != null) {
+                number ++;
+                asignIDNodes(node.next2);
+            }
         }
-        else {
-            node.frst = new Node(id + "_frst",node.value);
-            node.frst.frst = frst;
-            node.last = node.frst.frst.exit = new Node(id + "_exit",node.value);
-        }
-        node.jmps = node.last;
-        return node;
     }
-    public String getDot(Node node) {
+    private String getDotGraph(State state) {
         String dot = "";
-        if(node.accept) {
-            dot += "\n\tN_" + node.id + "[label = \"\" peripheries = 2];";
+        if(state.accept) {
+            dot += "\n\tN_" + state.id + "[label = \"" + state.number+ "\" peripheries = 2];";
         }
         else {
-            dot += "\n\tN_" + node.id + "[label = \"\"];";
+            dot += "\n\tN_" + state.id + "[label = \"" + state.number+ "\"];";
         }
-        if(node.frst != null) {
-            dot += getDot(node.frst);
-            dot += "\n\tN_" + node.id + " -> N_" + node.frst.id + "[label = \"" + getValue(node.frst.value) + "\"];";
+        if(state.next1 != null) {
+            dot += getDot(state.next1);
+            dot += "\n\tN_" + state.id + " -> N_" + state.next1.id + "[label = \"" + getValue(state.next1.value) + "\"];";
         }
-        if(node.scnd != null) {
-            dot += getDot(node.scnd);
-            dot += "\n\tN_" + node.id + " -> N_" + node.scnd.id + "[label = \"" + getValue(node.scnd.value) + "\"];";
+        if(state.next2 != null) {
+            dot += getDot(state.next2);
+            dot += "\n\tN_" + state.id + " -> N_" + state.next2.id + "[label = \"" + getValue(state.next2.value) + "\"];";
         }
-        if(node.exit != null) {
-            dot += getDot(node.exit);
-            dot += "\n\tN_" + node.id + " -> N_" + node.exit.id + "[label = \"" + getValue(node.exit.value) + "\"];";
+        if(state.exit != null) {
+            dot += "\n\tN_" + state.id + " -> N_" + state.exit.id + "[label = \"" + getValue(state.exit.value) + "\"];";
         }
-        if(node.jmps != null) {
-            dot += "\n\tN_" + node.id + " -> N_" + node.jmps.id + "[label = \"" + getValue(node.jmps.value) + "\"];";
+        if(state.jmps != null) {
+            dot += "\n\tN_" + state.id + " -> N_" + state.jmps.id + "[label = \"" + getValue(state.jmps.value) + "\"];";
         }
         return dot;
     }

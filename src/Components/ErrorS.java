@@ -19,10 +19,6 @@ public class ErrorS {
     public String getHTML() {
         return "\t\t\t<tr>\n\t\t\t\t<td>" + toString() + "</td>\n\t\t\t</tr>\n";
     }
-    /*public String toString() {
-        return "Syntax Error" + (token != null ? " in Line " + line + " Column " + column : "") +
-            ". This Component was not expected: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";
-    }*/
     public String toString() {
         return "Error Sintáctico" + (token != null ? " en Línea " + line + " Columna " + column : "") +
             ". No se esperaba este componente: " + (token != null ? (token.equals("\"\"") ? "EMPTYSTRING" + " = " + token : type + " = " + token) : "EOF") + ".";

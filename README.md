@@ -4,62 +4,73 @@
 
 ```java
 {
-    //Este es un comentario en nuestro programa@
-    
-    CONJ:minuscula->a~z;
-    CONJ:digito->0~9;
-    CONJ:mayuscula->A~Z;
-    CONJ:digito_par->0,2,4,6,8;
-    CONJ:letra->A,b,C,d;
-    CONJ:simbolo->!~&;
+//Conjuntos
+CONJ: lower -> a~z;
+CONJ: upper -> A~Z;
+CONJ: digit -> 0~9;
+<!
+--------------COMENTARIO MULTILÍNEA--------------
+!>
+//Expresiones Regulares
+REGEX1 -> ||.?"1"*"2".+"3"*"2"|..?"2"+"3""1"."3"*"1";
+REGEX2 -> ||+.."a""b""c"...?"a""x""y""z"+|"0""1";
+numero -> .+{digit}?."."+{digit};
 
-    <!Este es un comentario
-      en nuestro programa@
-    !>
-    
-    ExprReg1->.{letra}*|"_"|{letra}{digito};
-    ExpresionReg2->.{digito}."."+{digito};
-    RegEx3->.{digito}*|"_"|{letra}{digito};
-    
-    %%
-    
-    ExpReg1:"primerLexemaCokoa";
-    ExpresionReg2:"34.44";
+%%
+//Validación de Cadenas
+REGEX1: "311111";
+REGEX1: "233331";
+numero: "31.001";
+numero: "0";
+REGEX2: "abcabc";
+REGEX2: "axyz";
+REGEX2: "111111";
 }
 ```
 
 ## Gramática Libre De Contexto
 ```java
-ini -> '{' instructions '%%' analysis '}'
+INI ->
+    '{' CODE'}' |
+    '{' '}'
 
-instructions -> instruction instructions |
-                instruction
+CODE -> 
+    DECLARATIONS '%%' EVALUATIONS |
+    DECLARATIONS '%%'             |
+    DECLARATIONS                  |
+    '%%' EVALUATIONS              |
+    '%%'
 
-instruction -> set |
-               regex
+DECLARATIONS ->
+    DECLARATIONS DECLARATION |
+    DECLARATION
 
-set -> 'CONJ' ':' ID '->' elements ';'
+DECLARATION ->
+    'CONJ' ':' TK_id '->' ELEMENTS ';' |
+    TK_id '->' OPERATION ';'
 
-elements -> CHAR '~' CHAR |
-            specific
+ELEMENTS ->
+    TK_char '~' TK_char |
+    SPECIFIC
 
-specific -> CHAR ',' specific |
-            CHAR
+SPECIFIC ->
+    SPECIFIC ',' TK_char |
+    TK_char
 
-regex -> ID '->' operations ';'
+OPERATION ->
+    '.' OPERATION OPERATION |
+    '|' OPERATION OPERATION |
+    '*' OPERATION |
+    '+' OPERATION |
+    OPERAND
 
-operations -> operations operation |
-              operation
+OPERAND ->
+    '{' TK_id '}' |
+    TK_str
 
-operation -> '.' operation operation |
-             '|' operation operation |
-             '*' operation |
-             '+' operation |
-             node
+EVALUATIONS ->
+    EVALUATIONS EVALUATION |
+    EVALUATION
 
-node -> '{' ID '}' | STRING
-
-analysis -> expression analysis | expression
-
-expression -> ID ':' STRING ';'
+EVALUATION -> TK_id ':' TK_str ';'
 ```

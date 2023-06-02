@@ -16,19 +16,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
-import Colors.ParserC;
-import Colors.ScannerC;
 import Colors.WordPainter;
+import Components.Expression;
 import Interface.IDE;
 import Interface.IconFile;
 import Interface.Path;
 import Language.Parser;
+import Language.ParserF;
 import Language.Scanner;
+import Language.ScannerF;
 import TreeMethod.TreeMethod;
 public class Controller {
     public ArrayList<IconFile> pjs = new ArrayList<>();
-    MethodsBuilder mthdsBldr = new MethodsBuilder();
-    TreeMethod treeMthod;
     public int existPJFile(String path) {
         for(int i = 0; i < pjs.size(); i ++) {
             if(pjs.get(i).path.equals(path)) {
@@ -45,14 +44,14 @@ public class Controller {
             StyledDocument doc = editor.getStyledDocument();
             String input = doc.getText(0,doc.getLength());
             WordPainter painter = new WordPainter();
-            ScannerC sc = new ScannerC(
+            ScannerF scanner = new ScannerF(
                 new BufferedReader(
                     new StringReader(input)
                 ),
                 painter
             );
             painter.setStyle(editor);
-            ParserC parser = new ParserC(sc,painter);
+            ParserF parser = new ParserF(scanner,painter);
             parser.parse();
         }
         catch(Exception e) {}
@@ -68,50 +67,54 @@ public class Controller {
             );
             Parser parser = new Parser(scanner);
             IconFile currentFile = pjs.get(index);
-            parser.setObjects(index,currentFile.name);
             parser.parse();
             if(parser.isSuccessExecution()) {
-                if(parser.getExcecution().size() > 0) {
-                    String consoleOut = "EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.";
-                    if(parser.getRegexs().size() > 0) {
-                        mthdsBldr.buildethods(ide,index,pjs.get(index),parser.getSets(),parser.getRegexs());
-                        ide.showManagerGraphs();
-                        lookGraphs(ide,index);
-                        consoleOut += "\n-> Autómatas creados.";
-                    }
-                    console.setText(consoleOut);
+                String out = "EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.";
+                if(parser.thereAreTrees()) {
+                    new MethodsBuilder().buildethods(ide,index,pjs.get(index),parser.sets,parser.regexs);
+                    ide.showManagerGraphs();
+                    lookGraphs(ide,index);
                 }
-                else {
-                    console.setText("EXREGAN: " + currentFile.name + "\n->");
-                }
+                out += "\n-> Conjuntos Guardados: " + parser.sets.size();
+                out += "\n-> Autómatas Generados: " + parser.regexs.size();
+                console.setText(out);
             }
             else {
-                console.setText("EXREGAN:\n" + parser.getStrErrors());
+                console.setText("EXREGAN: \n-> " + parser.getErrors());
+                
             }
-            if(parser.s.getErrors().size() > 0 || parser.getErrors().size() > 0) {
-                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors(),parser.getErrors());
+            if(parser.s.getErrors().size() > 0 || parser.errorsS.size() > 0) {
+                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors(),parser.errorsS);
             }
         } catch (Exception e) {}
     }
     public void lookGraphs(IDE ide,int index) {
-        ide.zoomFactor = 1.05;
-        ide.graphics.removeMouseListener(ide);
-        ide.graphics.removeMouseWheelListener(ide);
-        ide.graphics.removeMouseMotionListener(ide);
-		ide.regexCB.repaint();
-        ide.graphics.removeAll();
-        ide.img = new JLabel();
-        ide.image = new ImageIcon((ide.treesR.isSelected() ? "ARBOLES_201908355/tree_" : (ide.nextsR.isSelected() ? "SIGUIENTES_201908355/nexts_" : (ide.transitionsR.isSelected() ? "TRANSICIONES_201908355/transitions_" : (ide.afdsR.isSelected() ? "AFD_201908355/afd_" : "AFND_201908355/afnd_")))) + index + "_" + ide.regexCB.getSelectedItem() + ".png");
-        ide.icono = new ImageIcon(ide.image.getImage().getScaledInstance(ide.image.getIconWidth(),ide.image.getIconHeight(),Image.SCALE_DEFAULT));
-        ide.img.setIcon(ide.icono);
-        ide.img.setBounds(0,0,ide.icono.getIconWidth(),ide.icono.getIconHeight());
-        ide.graphics.add(ide.img);
-        ide.graphics.addMouseListener(ide);
-        ide.graphics.addMouseWheelListener(ide);
-        ide.graphics.addMouseMotionListener(ide);
-        ide.graphics.repaint();
+        try {
+            ide.zoomFactor = 1.05;
+            ide.graphics.removeMouseListener(ide);
+            ide.graphics.removeMouseWheelListener(ide);
+            ide.graphics.removeMouseMotionListener(ide);
+            ide.regexCB.repaint();
+            ide.graphics.removeAll();
+            ide.img = new JLabel();
+            ide.image = new ImageIcon((ide.treesR.isSelected() ? "Data/ARBOLES_201908355/tree_" : (ide.nextsR.isSelected() ? "Data/SIGUIENTES_201908355/nexts_" : (ide.transitionsR.isSelected() ? "Data/TRANSICIONES_201908355/transitions_" : (ide.afdsR.isSelected() ? "Data/AFD_201908355/afd_" : "Data/AFND_201908355/afnd_")))) + index + "_" + ide.regexCB.getSelectedItem() + ".png");
+            ide.icono = new ImageIcon(ide.image.getImage().getScaledInstance(ide.image.getIconWidth(),ide.image.getIconHeight(),Image.SCALE_DEFAULT));
+            ide.img.setIcon(ide.icono);
+            ide.img.setBounds(0,0,ide.icono.getIconWidth(),ide.icono.getIconHeight());
+            ide.graphics.add(ide.img);
+            ide.graphics.addMouseListener(ide);
+            ide.graphics.addMouseWheelListener(ide);
+            ide.graphics.addMouseMotionListener(ide);
+            ide.graphics.repaint();
+        }
+        catch(Exception e) {}
     }
-    public Parser getExpresions(int index,JTextPane editor) {
+    public void validateString(int index,JTextPane editor,JTextPane console) {
+        IconFile currentFile = pjs.get(index);
+        if(currentFile.treesM == null) {
+            console.setText("EXREGAN: " + currentFile.name + "\n-> Aún no hay autómatas creados para validar cadenas.");
+            return;
+        }
         try {
             StyledDocument doc = editor.getStyledDocument();
             String input = doc.getText(0,doc.getLength());
@@ -122,75 +125,51 @@ public class Controller {
             );
             Parser parser = new Parser(scanner);
             parser.parse();
-            return parser;
-        }
-        catch(Exception e) {}
-        return null;
-    }
-    public void validateString(int index,JTextPane editor,JTextPane console) {
-        IconFile currentFile = pjs.get(index);
-        if(currentFile.treesM == null) {
-            console.setText("EXREGAN: " + currentFile.name + "\n-> Aún no hay autómatas creados para validar cadenas.");
-            return;
-        }
-        Parser currentParser = getExpresions(index,editor);
-        if(currentParser.isSuccessExecution()) {
-            if(currentParser.getExpressions().size() > 0) {
-                String consoleOut = "EXREGAN: " + currentFile.name;
-                TreeMethod currenTreeMethod;
-                currentFile.json = "[";
-                ArrayList<Expression> expressions = currentParser.getExpressions();
-                Expression expression;
-                for(int i = 0; i < expressions.size(); i ++) {
-                    try {
-                        expression = expressions.get(i);
-                        currenTreeMethod = currentFile.treesM.get(expression.id);
-                        consoleOut += "\n-> " + (
-                            currenTreeMethod != null
-                            ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
-                            : "No se declaró la expresión regular \"" + expression.id + "\"."
-                        );
-                        currentFile.json += currentFile.treesM.get(expression.id).getJSON();
-                        if(i < expressions.size() - 1) currentFile.json += ",";
+            if(parser.isSuccessExecution()) {
+                if(parser.expressions.size() > 0) {
+                    String out = "EXREGAN: " + currentFile.name;
+                    TreeMethod currenTreeMethod;
+                    currentFile.json = "[";
+                    ArrayList<Expression> expressions = parser.expressions;
+                    Expression expression;
+                    for(int i = 0; i < expressions.size(); i ++) {
+                        try {
+                            expression = expressions.get(i);
+                            currenTreeMethod = currentFile.treesM.get(expression.id);
+                            out += "\n-> " + (
+                                currenTreeMethod != null
+                                ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
+                                : "No se declaró la expresión regular \"" + expression.id + "\"."
+                            );
+                            currentFile.json += currentFile.treesM.get(expression.id).getJSON();
+                            if(i < expressions.size() - 1) currentFile.json += ",";
+                        }
+                        catch(Exception e) {}
                     }
-                    catch(Exception e) {}
+                    currentFile.json += "\n]";
+                    buildJSON("SALIDAS_201908355","out_" + index + "_" + currentFile.name.replace(".olc",""),currentFile.json);
+                    console.setText(out);
+                    return;
                 }
-                currentFile.json += "\n]";
-                buildJSON("SALIDAS_201908355","out_" + index + "_" + currentFile.name.replace(".olc",""),currentFile.json);
-                console.setText(consoleOut);
+                console.setText("EXREGAN: " + currentFile.name + "\n-> Sin cadenas para analizar.");
                 return;
             }
-            console.setText("EXREGAN: " + currentFile.name + "\n-> Sin cadenas para analizar.");
-            return;
-        }
-        console.setText("EXREGAN:\n" + currentParser.getStrErrors());
+            else {
+                console.setText("EXREGAN: \n-> " + parser.getErrors());
+            }
+        } catch (Exception e) {}
     }
     private void buildJSON(String type,String name,String content) {
         try {
-            File file = new File(type);
+            File file = new File("Data/" + type);
             if(!file.exists()) {
                 file.mkdirs();
             }
-            FileOutputStream outputStream = new FileOutputStream(type + "/" + name + ".json");
+            FileOutputStream outputStream = new FileOutputStream("Data/" + type + "/" + name + ".json");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
             outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void analyze(String input) {
-        try {
-            Scanner scanner = new Scanner(
-                new BufferedReader(
-                    new StringReader(input)
-                )
-            );
-            System.out.println(input);
-            Parser parser = new Parser(scanner);
-            parser.parse();
-            System.out.println(parser.getStrExecution());
         } catch (Exception e) {}
     }
     public void saveOLCPJ(int index,JTextPane editor) {

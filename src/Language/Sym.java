@@ -8,53 +8,59 @@ package Language;
 /** CUP generated class containing symbol constants. */
 public class Sym {
   /* terminals */
-  public static final int PROMPT = 12;
-  public static final int SEMICOLON = 9;
-  public static final int OR = 14;
-  public static final int POSITIVE = 15;
-  public static final int CHAR = 5;
-  public static final int CONCAT = 17;
-  public static final int SINGLEQUOTE = 20;
-  public static final int LBRACKET = 7;
-  public static final int COLON = 10;
-  public static final int ENTER = 22;
-  public static final int ID = 3;
-  public static final int DOUBLEQUOTE = 21;
-  public static final int LIMIT = 19;
-  public static final int RBRACKET = 8;
-  public static final int TILDE = 13;
-  public static final int KLEENE = 16;
-  public static final int STRING = 4;
-  public static final int COMMA = 11;
+  public static final int TK_concat = 17;
+  public static final int TK_limit = 22;
+  public static final int TK_tilde = 16;
+  public static final int TK_char = 5;
+  public static final int TK_comma = 14;
+  public static final int TK_id = 3;
+  public static final int TK_positive = 19;
+  public static final int TK_lbr = 8;
+  public static final int TK_str = 4;
+  public static final int TK_prompt = 15;
+  public static final int TK_singlequ = 23;
+  public static final int TK_semicolon = 12;
   public static final int RW_CONJ = 2;
   public static final int EOF = 0;
-  public static final int CHARNUM = 6;
+  public static final int TK_optional = 21;
+  public static final int TK_rbr = 9;
+  public static final int TK_charascii = 7;
+  public static final int TK_kleene = 20;
   public static final int error = 1;
-  public static final int OPTIONAL = 18;
+  public static final int TK_doublequ = 24;
+  public static final int TK_rpar = 11;
+  public static final int TK_lpar = 10;
+  public static final int TK_or = 18;
+  public static final int TK_charnum = 6;
+  public static final int TK_newline = 25;
+  public static final int TK_colon = 13;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "RW_CONJ",
-  "ID",
-  "STRING",
-  "CHAR",
-  "CHARNUM",
-  "LBRACKET",
-  "RBRACKET",
-  "SEMICOLON",
-  "COLON",
-  "COMMA",
-  "PROMPT",
-  "TILDE",
-  "OR",
-  "POSITIVE",
-  "KLEENE",
-  "CONCAT",
-  "OPTIONAL",
-  "LIMIT",
-  "SINGLEQUOTE",
-  "DOUBLEQUOTE",
-  "ENTER"
+  "TK_id",
+  "TK_str",
+  "TK_char",
+  "TK_charnum",
+  "TK_charascii",
+  "TK_lbr",
+  "TK_rbr",
+  "TK_lpar",
+  "TK_rpar",
+  "TK_semicolon",
+  "TK_colon",
+  "TK_comma",
+  "TK_prompt",
+  "TK_tilde",
+  "TK_concat",
+  "TK_or",
+  "TK_positive",
+  "TK_kleene",
+  "TK_optional",
+  "TK_limit",
+  "TK_singlequ",
+  "TK_doublequ",
+  "TK_newline"
   };
 }
 

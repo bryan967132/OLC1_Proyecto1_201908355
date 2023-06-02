@@ -1,0 +1,119 @@
+/* 1. Package e importaciones */
+package Language;
+import java_cup.runtime.*;
+import Colors.WordPainter;
+
+/* 2. Codigo para el parser, variables y metodos */
+
+parser code 
+{:
+    public ScannerF s;
+    int index;
+    WordPainter painter;
+    public ParserF(ScannerF s,WordPainter painter) {
+        super(s);
+        this.s = s;
+        this.painter = painter;
+    }
+    public void syntax_error(Symbol sym) {
+        painter.SERROR(sym.left,sym.right);
+    }
+    public void unrecovered_syntax_error(Symbol sym) throws java.lang.Exception {}
+:} 
+
+/* 3. Terminales*/
+
+terminal String RW_CONJ, TK_id, TK_str, TK_char, TK_charnum, TK_charascii;
+terminal String TK_lbr, TK_rbr, TK_lpar, TK_rpar;
+terminal String TK_semicolon, TK_colon, TK_comma, TK_prompt, TK_tilde;
+terminal String TK_concat, TK_or, TK_positive, TK_kleene, TK_optional;
+terminal String TK_limit, TK_singlequ, TK_doublequ, TK_newline;
+
+/* 4. No Terminales*/
+non terminal INI, CODE, DECLARATIONS, DECLARATION, EVALUATIONS, EVALUATION, LIMIT;
+non terminal ELEMENTS, SPECIFIC;
+non terminal OPERATION, OPERAND;
+non terminal String CHARACTER;
+non terminal String IDS;
+
+/* 5. Precedencias */
+
+/* 6. Gramatica Libre de Contexto */
+
+start with INI;
+
+INI ::=
+    TK_lbr CODE TK_rbr  |
+    TK_lbr TK_rbr       ;
+
+CODE ::=
+    DECLARATIONS LIMIT EVALUATIONS  |
+    DECLARATIONS LIMIT              |
+    DECLARATIONS                    |
+    LIMIT EVALUATIONS               |
+    LIMIT                           ;
+
+LIMIT ::= TK_limit:lim      {:painter.LIMIT(limleft,limright);:} ;
+
+DECLARATIONS ::=
+    DECLARATIONS DECLARATION    |
+    DECLARATION                 |
+    DECLARATIONS error          |
+    error                       ;
+
+DECLARATION ::=
+    RW_CONJ:conj {:painter.RW(conjleft,conjright);:} TK_colon IDS:id {:painter.VARIABLE(idleft,idright);:} TK_prompt ELEMENTS TK_semicolon  |
+    IDS:id {:painter.REGEX(idleft,idright);:} TK_prompt OPERATION TK_semicolon                                                              ;
+
+ELEMENTS ::=
+    CHARACTER:ch1 {:painter.CHARACTER(ch1left,ch1right);:} TK_tilde CHARACTER:ch2 {:painter.CHARACTER(ch2left,ch2right);:} |
+    SPECIFIC                        ;
+
+SPECIFIC ::=
+    SPECIFIC TK_comma CHARACTER:ch     {:painter.CHARACTER(chleft,chright);:} |
+    CHARACTER:ch                       {:painter.CHARACTER(chleft,chright);:} ;
+
+CHARACTER ::=
+    TK_char     :ch    {:RESULT = ch;:} |
+    TK_charnum  :ch    {:RESULT = ch;:} |
+    TK_charascii:ch    {:RESULT = ch;:} |
+    TK_lbr      :ch    {:RESULT = ch;:} |
+    TK_rbr      :ch    {:RESULT = ch;:} |
+    TK_lpar     :ch    {:RESULT = ch;:} |
+    TK_rpar     :ch    {:RESULT = ch;:} |
+    TK_semicolon:ch    {:RESULT = ch;:} |
+    TK_colon    :ch    {:RESULT = ch;:} |
+    TK_comma    :ch    {:RESULT = ch;:} |
+    TK_or       :ch    {:RESULT = ch;:} |
+    TK_concat   :ch    {:RESULT = ch;:} |
+    TK_positive :ch    {:RESULT = ch;:} |
+    TK_kleene   :ch    {:RESULT = ch;:} ;
+
+OPERATION ::=
+    TK_or      :op {:painter.OPERATOR(opleft,opright);:} OPERATION OPERATION      |
+    TK_concat  :op {:painter.OPERATOR(opleft,opright);:} OPERATION OPERATION      |
+    TK_kleene  :op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
+    TK_positive:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
+    TK_optional:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
+    TK_lpar OPERATION TK_rpar               |
+    OPERAND                                 ;
+
+OPERAND ::=
+    TK_lbr IDS:op TK_rbr    {:painter.VARIABLEUSE(opleft,opright);:} |
+    TK_str      :op         {:painter.STRING(opleft,opright);:}      |
+    TK_newline  :op         {:painter.SPECIALCHAR(opleft,opright);:} |
+    TK_singlequ :op         {:painter.SPECIALCHAR(opleft,opright);:} |
+    TK_doublequ :op         {:painter.SPECIALCHAR(opleft,opright);:} ;
+
+EVALUATIONS ::=
+    EVALUATIONS EVALUATION  |
+    EVALUATION              |
+    EVALUATIONS error       |
+    error                   ;
+
+EVALUATION ::=
+    IDS:id {:painter.REGEXUSE(idleft,idright);:} TK_colon TK_str:str {:painter.STRING(strleft,strright);:} TK_semicolon    ;
+
+IDS ::=
+    TK_id:id   {:RESULT = id;:} |
+    TK_char:id {:RESULT = id;:} ;

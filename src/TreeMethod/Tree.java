@@ -2,132 +2,17 @@ package TreeMethod;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Stack;
 import java.util.stream.Collectors;
-import Colors.Token;
 import Colors.Type;
-import Controller.Regex;
+import Tree.Node;
 public class Tree {
     private ArrayList<Transition> transitions;
-    private int i;
-    private int id;
     private NextsTable nexts;
-    private Node node;
     private Node root;
-    private Stack<Node> stack;
-    private Stack<Token> expression;
-    private Token token;
     private TransitionTable table;
-    public Tree(Regex regex) {
-        this.i = 1;
-        this.id = 0;
-        this.expression = clone(regex.expression);
-        this.stack = new Stack<>();
+    public Tree(Node root) {
+        this.root = root;
         this.transitions = new ArrayList<>();
-    }
-    public void build() {
-        while(!isEmptyStack()) {
-            token = popTokenStack();
-            switch(token.type) {
-                case ID:
-                    node = new Node(id,token.lexeme,Type.LEAF,Type.ID);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case ENTER:
-                    node = new Node(id,token.lexeme,Type.LEAF,Type.ENTER);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case DOUBLEQUOTE:
-                    node = new Node(id,token.lexeme,Type.LEAF,Type.DOUBLEQUOTE);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case SINGLEQUOTE:
-                    node = new Node(id,token.lexeme,Type.LEAF,Type.SINGLEQUOTE);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case STRING:
-                    node = new Node(id,token.lexeme.replace("\"",""),Type.LEAF,Type.STRING);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case END:
-                    node = new Node(id,token.lexeme,Type.LEAF);
-                    node.anulable = false;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case OR:
-                    node = new Node(id,token.lexeme,token.type);
-                    node.left = stack.pop();
-                    node.left.parent = node;
-                    node.right = stack.pop();
-                    node.right.parent = node;
-                    node.anulable = node.left.anulable || node.right.anulable;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case CONCAT:
-                    node = new Node(id,".",token.type);
-                    node.left = stack.pop();
-                    node.left.parent = node;
-                    node.right = stack.pop();
-                    node.right.parent = node;
-                    node.anulable = node.left.anulable && node.right.anulable;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case POSITIVE:
-                    node = new Node(id,token.lexeme,token.type);
-                    node.left = stack.pop();
-                    node.left.parent = node;
-                    node.anulable = node.left.anulable;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case KLEENE:
-                    node = new Node(id,token.lexeme,token.type);
-                    node.left = stack.pop();
-                    node.left.parent = node;
-                    node.anulable = true;
-                    stack.push(node);
-                    id ++;
-                    break;
-                case OPTIONAL:
-                    node = new Node(id,token.lexeme,token.type);
-                    node.left = stack.pop();
-                    node.left.parent = node;
-                    node.anulable = true;
-                    stack.push(node);
-                    id ++;
-                    break;
-                default:
-                    break;
-            }
-        }
-        root = stack.pop();
-    }
-    public void createIDNodes() {
-        createIDNodes(root);
-    }
-    private void createIDNodes(Node node) {
-        if(node != null) {
-            if(node.type == Type.LEAF) {
-                node.i = i;
-                i ++;
-                return;
-            }
-            createIDNodes(node.left);
-            createIDNodes(node.right);
-        }
     }
     public void calculateFirsts() {
         calculateFirsts(root);
@@ -178,6 +63,7 @@ public class Tree {
     }
     public void calculateNexts() {
         nexts = new NextsTable(root);
+        nexts.calculateNexts();
     }
     public NextsTable getNexts() {
         return nexts;
@@ -246,21 +132,6 @@ public class Tree {
     }
     private String getLasts(Node node) {
         return node.lasts.size() > 0 ? String.join(",",node.lasts.stream().map(Object::toString).collect(Collectors.joining(","))) :  "";
-    }
-    private Token popTokenStack() {
-        return expression.pop();
-    }
-    private boolean isEmptyStack() {
-        return expression.isEmpty();
-    }
-    private Stack<Token> clone(Stack<Token> expression) {
-        Stack<Token> expressionClone = new Stack<>();
-        expressionClone.push(new Token(".",Type.CONCAT));
-        for(Token token : expression) {
-            expressionClone.push(token);
-        }
-        expressionClone.push(new Token("#",Type.END));
-        return expressionClone;
     }
     private enum Align {
         LEFT,

@@ -5,61 +5,51 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Stack;
-import Colors.Token;
 import Colors.Type;
-import Controller.Set;
-import Controller.Regex;
+import Components.Set;
+import Tree.Node;
 public class TreeMethod {
     ArrayList<Boolean> validator;
     boolean errorSet = false;
     int id;
     Map<String,Set> sets;
     NextsTable nextsTable;
-    Regex regex;
+    Node root;
     Set setNotFound;
-    Stack<Token> stack;
     String json;
-    Token token;
-    Token token1;
-    Token token2;
+    String name;
     Tree tree;
     TransitionTable transitionsTable;
-    public TreeMethod(Regex regex) {
-        this.regex = regex;
-        tree = new Tree(regex);
-    }
-    public TreeMethod(Map<String,Set> sets) {
+    public TreeMethod(Map<String,Set> sets,String name) {
         this.sets = sets;
+        this.name = name;
     }
-    public void setRegex(int id,Regex regex) {
+    public void setRegex(int id,Node root) {
         this.id = id;
-        this.regex = regex;
-        tree = new Tree(regex);
+        this.root = root;
+        tree = new Tree(root);
     }
     public void build() {
-        tree.build();
-        tree.createIDNodes();
         tree.calculateFirsts();
         tree.calculateLasts();
-        exportDot("tree_" + id + "_" + regex.id,tree.getDot(regex.id),"Tree");
-        buildPNG("Tree","ARBOLES_201908355","tree_" + id + "_" + regex.id);
+        exportDot("tree_" + id + "_" + name,tree.getDot(name),"Tree");
+        buildPNG("Tree","ARBOLES_201908355","tree_" + id + "_" + name);
     }
     public void buildNextsTable() {
         tree.calculateNexts();
         nextsTable = tree.getNexts();
-        exportDot("nexts_" + id + "_" + regex.id,nextsTable.getDot(regex.id),"Nexts");
-        buildPNG("Nexts","SIGUIENTES_201908355","nexts_" + id + "_" + regex.id);
+        exportDot("nexts_" + id + "_" + name,nextsTable.getDot(name),"Nexts");
+        buildPNG("Nexts","SIGUIENTES_201908355","nexts_" + id + "_" + name);
     }
     public void buildTransitionsTable() {
         tree.calculateTransitions();
         transitionsTable = tree.getTransitionsTable();
-        exportDot("transitions_" + id + "_" + regex.id,transitionsTable.getDot(regex.id),"Transitions");
-        buildPNG("Transitions","TRANSICIONES_201908355","transitions_" + id + "_" + regex.id);
+        exportDot("transitions_" + id + "_" + name,transitionsTable.getDot(name),"Transitions");
+        buildPNG("Transitions","TRANSICIONES_201908355","transitions_" + id + "_" + name);
     }
     public void buildAFD() {
-        exportDot("afd_" + id + "_" + regex.id,tree.getDotAFD(regex.id),"AFD");
-        buildPNG("AFD","AFD_201908355","afd_" + id + "_" + regex.id);
+        exportDot("afd_" + id + "_" + name,tree.getDotAFD(name),"AFD");
+        buildPNG("AFD","AFD_201908355","afd_" + id + "_" + name);
     }
     public void printMethod() {
         System.out.println("SIGUIENTES");
@@ -78,10 +68,10 @@ public class TreeMethod {
         }
         json = "\n\t{";
         json += "\n\t\t\"Valor\":\"" + (string.contains("\n") ? string.replace("\n","\\n") : string) + "\",";
-        json += "\n\t\t\"ExpresionRegular\":\"" + regex.id + "\",";
+        json += "\n\t\t\"ExpresionRegular\":\"" + name + "\",";
         json += "\n\t\t\"Resultado\":\"Cadena " + (isValid ? "Válida" : "Inválida") + "\"";
         json += "\n\t}";
-        return "La Expresión: \"" + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!isValid ? "\" no" : "\"") + " es Válida con la Expresión Regular \"" + regex.id + "\".";
+        return "La Expresión: \"" + (string.contains("\n") ? string.replace("\n","\\n") : string) + (!isValid ? "\" no" : "\"") + " es Válida con la Expresión Regular \"" + name + "\".";
     }
     public String getJSON() {
         return json;
@@ -149,7 +139,7 @@ public class TreeMethod {
         }
         return false;
     }
-    public void exportDot(String id,String content,String type) {
+    private void exportDot(String id,String content,String type) {
         try {
             File file = new File("Dot/" + type);
             if(!file.exists()) {
@@ -165,13 +155,13 @@ public class TreeMethod {
     }
     private void buildPNG(String typeDot,String typePng,String name) {
         try {
-            File file = new File(typePng);
+            File file = new File("Data/" + typePng);
             if(!file.exists()) {
                 file.mkdirs();
             }
             String graphviz_path = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
             String dot_path = "Dot/" + typeDot + "/" + name + ".dot";
-            String png_path =  typePng + "/" + name + ".png" ;
+            String png_path =  "Data/" + typePng + "/" + name + ".png" ;
             ProcessBuilder pBuilder = new ProcessBuilder(graphviz_path, "-Tpng", "-o", png_path, dot_path);
             pBuilder.redirectErrorStream(true);
             pBuilder.start();

@@ -2,36 +2,47 @@
 
 ## Gramática Libre De Contexto
 ```java
-ini -> '{' instructions '%%' analysis '}'
+INI ->
+    '{' CODE'}' |
+    '{' '}'
 
-instructions -> instruction instructions |
-                instruction
+CODE -> 
+    DECLARATIONS '%%' EVALUATIONS |
+    DECLARATIONS '%%'             |
+    DECLARATIONS                  |
+    '%%' EVALUATIONS              |
+    '%%'
 
-instruction -> set |
-               regex
+DECLARATIONS ->
+    DECLARATIONS DECLARATION |
+    DECLARATION
 
-set -> 'CONJ' ':' ID '->' elements ';'
+DECLARATION ->
+    'CONJ' ':' TK_id '->' ELEMENTS ';' |
+    TK_id '->' OPERATION ';'
 
-elements -> CHAR '~' CHAR |
-            specific
+ELEMENTS ->
+    TK_char '~' TK_char |
+    SPECIFIC
 
-specific -> CHAR ',' specific |
-            CHAR
+SPECIFIC ->
+    SPECIFIC ',' TK_char |
+    TK_char
 
-regex -> ID '->' operations ';'
+OPERATION ->
+    '.' OPERATION OPERATION |
+    '|' OPERATION OPERATION |
+    '*' OPERATION |
+    '+' OPERATION |
+    OPERAND
 
-operations -> operations operation |
-              operation
+OPERAND ->
+    '{' TK_id '}' |
+    TK_str
 
-operation -> '.' operation operation |
-             '|' operation operation |
-             '*' operation |
-             '+' operation |
-             node
+EVALUATIONS ->
+    EVALUATIONS EVALUATION |
+    EVALUATION
 
-node -> '{' ID '}' | STRING
-
-analysis -> expression analysis | expression
-
-expression -> ID ':' STRING ';'
+EVALUATION -> TK_id ':' TK_str ';'
 ```

@@ -120,21 +120,27 @@ El reporte se genera y abre automáticamente al momento del análisis si se dete
 
 ```java
 {
-    CONJ:minuscula->a~z;
-    CONJ:digito->0~9;
-    CONJ:mayuscula->A~Z;
-    CONJ:digito_par->0,2,4,6,8;
-    CONJ:letra->A,b,C,d;
-    CONJ:simbolo->!~&;
-    
-    ExprReg1->.{letra}*|"_"|{letra}{digito};
-    ExpresionReg2->.{digito}."."+{digito};
-    RegEx3->.{digito}*|"_"|{letra}{digito};
-    
-    %%
-    
-    ExpReg1:"primerLexemaCokoa";
-    ExpresionReg2:"34.44";
+//Conjuntos
+CONJ: lower -> a~z;
+CONJ: upper -> A~Z;
+CONJ: digit -> 0~9;
+<!
+--------------COMENTARIO MULTILÍNEA--------------
+!>
+//Expresiones Regulares
+REGEX1 -> ||.?"1"*"2".+"3"*"2"|..?"2"+"3""1"."3"*"1";
+REGEX2 -> ||+.."a""b""c"...?"a""x""y""z"+|"0""1";
+numero -> .+{digit}?."."+{digit};
+
+%%
+//Validación de Cadenas
+REGEX1: "311111";
+REGEX1: "233331";
+numero: "31.001";
+numero: "0";
+REGEX2: "abcabc";
+REGEX2: "axyz";
+REGEX2: "111111";
 }
 ```
 

@@ -89,6 +89,7 @@ public class IconFile extends JPanel implements MouseListener {
 		}
 		JOptionPane.showMessageDialog(null,"No se encontró el archivo.","Archivo no encontrado.",JOptionPane.ERROR_MESSAGE);
 		controller.pjs.remove(id);
+		controller.serialize();
 		ide.lookPJFiles();
 	}
 	public String toString() {
