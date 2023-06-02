@@ -1,12 +1,14 @@
 package TreeMethod;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
+import Tree.Node;
 public class TransitionTable {
-    ArrayList<Node> nexts = new ArrayList<>();
+    Map<Integer,Node> nexts = new TreeMap<>();
     ArrayList<Transition> transitions = new ArrayList<>();
     ArrayList<Transition> tmpTrnst = new ArrayList<>();
     ArrayList<Terminal> terminals = new ArrayList<>();
-    public TransitionTable(ArrayList<Transition> transitions,ArrayList<Node> nexts) {
+    public TransitionTable(ArrayList<Transition> transitions,Map<Integer,Node> nexts) {
         this.transitions = transitions;
         this.nexts = nexts;
     }
@@ -23,7 +25,7 @@ public class TransitionTable {
             for(Terminal terminal : terminals) {
                 newTrnst = new Transition(transitions.size(),terminal.value);
                 for(int nxt : transition.nexts) {
-                    next = nexts.get(nxt - 1);
+                    next = nexts.get(nxt);
                     if(next.value.equals(terminal.value)) {
                         newTrnst.nexts.addAll(next.nexts);
                     }
@@ -52,9 +54,9 @@ public class TransitionTable {
     }
     private void addTerminals() {
         Terminal newTerminal;
-        for(Node next : nexts) {
-            if(!next.value.equals("#")) {
-                newTerminal = new Terminal(next.value,next.type1);
+        for(Map.Entry<Integer,Node> next : nexts.entrySet()) {
+            if(!next.getValue().value.equals("#")) {
+                newTerminal = new Terminal(next.getValue().value,next.getValue().type1);
                 if(!verifyTerminal(newTerminal)) {
                     terminals.add(newTerminal);
                 }

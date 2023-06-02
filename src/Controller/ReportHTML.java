@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import Components.ErrorL;
-import Components.Instruction;
+import Components.Response;
 public class ReportHTML {
-    public void reportErrors(int index,String name,ArrayList<ErrorL> errorsL,ArrayList<Instruction> errorsS) {
+    public void reportErrors(int index,String name,ArrayList<ErrorL> errorsL,ArrayList<Response> errorsS) {
         String firstHTML = "<!DOCTYPE html>\n" +
 "<html lang=\"en\">\n" +
 "<head>\n" +
@@ -72,28 +72,26 @@ public class ReportHTML {
         }
         return html;
     }
-    private String getHTMLS(ArrayList<Instruction> errorsS) {
+    private String getHTMLS(ArrayList<Response> errorsS) {
         String html = "";
-        for(Instruction error : errorsS) {
+        for(Response error : errorsS) {
             html += error.getHTML();
         }
         return html;
     }
     private void buildHTML(String type,String name,String content) {
         try {
-            File file = new File(type);
+            File file = new File("Data/" + type);
             if(!file.exists()) {
                 file.mkdirs();
             }
-            file = new File(type + "/" + name + ".html");
-            FileOutputStream outputStream = new FileOutputStream(type + "/" + name + ".html");
+            file = new File("Data/" + type + "/" + name + ".html");
+            FileOutputStream outputStream = new FileOutputStream("Data/" + type + "/" + name + ".html");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
             outputStream.close();
             Desktop.getDesktop().browse(file.toURI());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 }

@@ -1,0 +1,20 @@
+{
+//Este es un comentario en nuestro programa@
+
+CONJ:minuscula->a~z;//[a-z]
+CONJ:digito->0~9;//[0-9]
+CONJ:mayuscula->A~Z;//[A-Z]
+CONJ:digito_par->0,2,4,6,8;//[02468]
+CONJ:letra->A,b,C,d;
+CONJ:simbolo->!~&;
+
+numero->{digito}+.(".".{digito}+)?;
+identificador->{minuscula}.("_"|{digito}|{minuscula}|{mayuscula})*;
+url -> "h"."t"."t"."p"."s"?.":"."/"."/".{minuscula}+.".".{minuscula}+;
+
+%%  
+
+numero:"123";
+numero:"0";
+
+}

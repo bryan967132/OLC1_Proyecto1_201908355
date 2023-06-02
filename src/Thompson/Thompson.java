@@ -1,102 +1,55 @@
 package Thompson;
-import java.util.Stack;
-import Colors.Token;
-import Controller.Regex;
+import Tree.Node;
 public class Thompson {
     private int id;
-    private Node node;
-    private Node start;
-    private Stack<Node> stack;
-    private Stack<Token> expression;
+    private State start;
     private Structs structs;
-    private Token token;
+    private Node tree;
     public Thompson() {}
-    public Thompson(Regex regex) {
+    public Thompson(Node tree) {
         this.id = 0;
-        this.expression = clone(regex.expression);
-        this.stack = new Stack<>();
         this.structs = new Structs();
+        this.tree = tree;
     }
     public void build() {
-        while(!isEmptyStack()) {
-            token = popTokenStack();
-            switch(token.type) {
-                case ID:
-                    node = new Node(String.valueOf(id),token.lexeme);
-                    stack.push(node);
-                    id ++;
-                    break;
-                case ENTER:
-                    node = new Node(String.valueOf(id),token.lexeme);
-                    stack.push(node);
-                    id ++;
-                    break;
-                case DOUBLEQUOTE:
-                    node = new Node(String.valueOf(id),token.lexeme);
-                    stack.push(node);
-                    id ++;
-                    break;
-                case SINGLEQUOTE:
-                    node = new Node(String.valueOf(id),token.lexeme);
-                    stack.push(node);
-                    id ++;
-                    break;
-                case STRING:
-                    node = new Node(String.valueOf(id),token.lexeme.replace("\"",""));
-                    stack.push(node);
-                    id ++;
-                    break;
-                case END:
-                    node = new Node(String.valueOf(id),token.lexeme);
-                    stack.push(node);
-                    id ++;   
-                    break;
-                case OR:
-                    node = structs.OR(String.valueOf(id),stack.pop(),stack.pop());
-                    stack.push(node);
-                    id ++;
-                    break;
-                case CONCAT:
-                    node = structs.CONCAT(String.valueOf(id),stack.pop(),stack.pop());
-                    stack.push(node);
-                    id ++;
-                    break;
-                case POSITIVE:
-                    node = structs.POSITIVE(String.valueOf(id),stack.pop());
-                    stack.push(node);
-                    id ++;
-                    break;
-                case KLEENE:
-                    node = structs.KLEENE(String.valueOf(id),stack.pop());
-                    stack.push(node);
-                    id ++;
-                    break;
-                case OPTIONAL:
-                    node = structs.OPTIONAL(String.valueOf(id),stack.pop());
-                    stack.push(node);
-                    id ++;
-                    break;
-                default:
-                    break;
-            }
-        }
-        start = stack.pop();
+        start = build1(tree.left);
         start.last.accept = true;
     }
-    public String getDot(String name) {
-        return "digraph AFN {\n\tgraph[fontname=\"Arial\" labelloc=t];\n\tnode[shape=circle fontname=\"Arial\"];\n\tedge[fontname=\"Arial\"];\n\trankdir = LR;\n\tlabel=\"Expresión Regular: " + name + "\"" + structs.getDot(start) + "\n}";
-    }
-    private Token popTokenStack() {
-        return expression.pop();
-    }
-    private boolean isEmptyStack() {
-        return expression.isEmpty();
-    }
-    private Stack<Token> clone(Stack<Token> expression) {
-        Stack<Token> expressionClone = new Stack<>();
-        for(Token token : expression) {
-            expressionClone.push(token);
+    public State build1(Node node) {
+        id ++;
+        switch(node.type) {
+            case OR:
+                return structs.OR(String.valueOf(id),build1(node.left),build1(node.right));               
+            case CONCAT:
+                return structs.CONCAT(String.valueOf(id),build1(node.left),build1(node.right));
+            case POSITIVE:
+                return structs.CONCAT(String.valueOf(id),build1(node.left),structs.KLEENE(String.valueOf(id) + "_c",build1(node.left)));
+            case KLEENE:
+                return structs.KLEENE(String.valueOf(id),build1(node.left));
+            case OPTIONAL:
+                return structs.OR(String.valueOf(id),build1(node.left),structs.EPSILON(String.valueOf(id) + "_epsilon"));
+            default:
+                return structs.SIMPLE(String.valueOf(id),node);
         }
-        return expressionClone;
+    }
+    public State build2(Node node) {
+        id ++;
+        switch(node.type) {
+            case OR:
+                return structs.OR(String.valueOf(id),build2(node.left),build2(node.right));               
+            case CONCAT:
+                return structs.CONCAT(String.valueOf(id),build2(node.left),build2(node.right));
+            case POSITIVE:
+                return structs.POSITIVE(String.valueOf(id),build2(node.left));
+            case KLEENE:
+                return structs.KLEENE(String.valueOf(id),build2(node.left));
+            case OPTIONAL:
+                return structs.OPTIONAL(String.valueOf(id),build2(node.left));
+            default:
+                return structs.SIMPLE(String.valueOf(id),node);
+        }
+    }
+    public String getDot(String name) {
+        return "digraph AFN {\n\tgraph[fontname=\"Arial\" labelloc=t];\n\tnode[shape=circle fontname=\"Arial\"];\n\tedge[fontname=\"Arial\"];\n\trankdir = LR;\n\tlabel=\"Expresión Regular: " + name + "\";" + structs.getDot(start) + "\n}";
     }
 }

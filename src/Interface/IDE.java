@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Image;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,6 +13,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -32,7 +32,6 @@ import Templates.Icons;
 import Templates.Label;
 import Templates.RadioButton;
 public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
-    ArrayList<Token> code;
     Controller controller;
     Button analyzeInput,analyzeStrings,saveOLC;
     public JComboBox<String> regexCB;
@@ -48,6 +47,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     JPanel editorAreaContentFalse;
     public JPanel graphics;
     JPanel projects;
+    JScrollPane consoleScroll;
     JTextPane console;
     public RadioButton treesR,nextsR,transitionsR,afdsR,afndsR;
     String input;
@@ -68,6 +68,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         lookPJFiles();
         initManagerGraphs();
         hideManagerGraphs();
+        copyright();
     }
     void initComponents() {
         projects = new JPanel();
@@ -112,9 +113,11 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         console.setForeground(Colors.WHITE);
         console.setBackground(Colors.DARKECLIPSE);
         console.setFont(new java.awt.Font("Consolas", 0, 11));
-        console.setBounds(220,550,1120,140);
-        console.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
+        console.setBounds(0,0,1120,140);;
         console.setText("EXREGAN:\n->");
+        consoleScroll = new JScrollPane(console);
+        consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
+        consoleScroll.setBounds(220,550,1120,140);
         //graphics
         graphics.setBackground(Colors.WHITE);
         graphics.setBounds(790,105,550,425);
@@ -216,11 +219,15 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         this.add(projects);
         this.add(editorAreaContent);
         this.add(cursorPosition);
-        this.add(console);
+        this.add(consoleScroll);
         this.add(graphics);
         this.add(analyzeInput);
         this.add(analyzeStrings);
         this.add(saveOLC);
+    }
+    void copyright() {
+        this.add(new Label(0,695,1390,15,"EXREGAN Prefix",11));
+        this.add(new Label(0,710,1390,15,"© Danny Hugo Bryan Tejaxún Pichiyá",11));
     }
     void addToolBar() {
         toolbar = new ToolBar(controller,this,w);
@@ -269,27 +276,33 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         );
     }
     public void mouseWheelMoved(MouseWheelEvent e) {
-        int notches = e.getWheelRotation();
-        if (notches < 0) {
-            // zoom in
-            zoomFactor *= 1.05;
-        } else {
-            // zoom out
-            zoomFactor /= 1.05;
+        try {
+            int notches = e.getWheelRotation();
+            if (notches < 0) {
+                // zoom in
+                zoomFactor *= 1.05;
+            } else {
+                // zoom out
+                zoomFactor /= 1.05;
+            }
+            int w = image.getIconWidth();
+            int h = image.getIconHeight();
+            img.removeAll();
+            icono = new ImageIcon(image.getImage().getScaledInstance((int) (w * zoomFactor),(int) (h * zoomFactor), Image.SCALE_DEFAULT));
+            img.setIcon(icono);
+            img.setSize(icono.getIconWidth(),icono.getIconHeight());
+            graphics.revalidate();
+            graphics.repaint();
         }
-        int w = image.getIconWidth();
-        int h = image.getIconHeight();
-        img.removeAll();
-        icono = new ImageIcon(image.getImage().getScaledInstance((int) (w * zoomFactor),(int) (h * zoomFactor), Image.SCALE_DEFAULT));
-        img.setIcon(icono);
-        img.setSize(icono.getIconWidth(),icono.getIconHeight());
-        graphics.revalidate();
-        graphics.repaint();
+        catch(Exception e1) {}
     }
     public void mouseDragged(MouseEvent e) {
-        int dx = e.getX() - posXImg;
-        int dy = e.getY() - posYImg;
-        img.setLocation(posXLabImg + dx,posYLabImg + dy);
+        try {
+            int dx = e.getX() - posXImg;
+            int dy = e.getY() - posYImg;
+            img.setLocation(posXLabImg + dx,posYLabImg + dy);
+        }
+        catch(Exception e1) {}
     }
     public void mouseMoved(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {

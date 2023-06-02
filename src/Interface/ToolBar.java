@@ -169,6 +169,29 @@ public class ToolBar extends JPanel implements MouseListener {
             } while(true);
         }
     }
+    private void deleteFile(File file) {
+        File[] archivos = file.listFiles();
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                if (archivo.isDirectory()) {
+                    deleteFile(archivo);
+                } else {
+                    archivo.delete();
+                }
+            }
+        }
+        file.delete();
+    }
+    private void deleteDirectories() {
+        File file = new File("Dot");
+        if(file.exists()) {
+            deleteFile(file);
+        }
+        file = new File("Data");
+        if(file.exists()) {
+            deleteFile(file);
+        }        
+    }
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == openOLC) {
             chooseFile();
@@ -185,6 +208,7 @@ public class ToolBar extends JPanel implements MouseListener {
             catch(Exception e1) {}
         }
         else if(e.getSource() == close) {
+            deleteDirectories();
             System.exit(0);
         }
         else if(e.getSource() == minimize) {
