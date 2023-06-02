@@ -55,7 +55,7 @@
 * ### Gramática Libre del Contexto
 ```java
 INI ->
-    '{' CODE'}' |
+    '{' CODE '}' |
     '{' '}'
 
 CODE -> 

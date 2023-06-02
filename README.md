@@ -31,7 +31,7 @@ REGEX2: "111111";
 ## Gramática Libre De Contexto
 ```java
 INI ->
-    '{' CODE'}' |
+    '{' CODE '}' |
     '{' '}'
 
 CODE -> 
