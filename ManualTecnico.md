@@ -158,7 +158,7 @@ EVALUATION -> TK_id ':' TK_str ';'
     :}
 
     DECLARATION ::=
-        RW_CONJ TK_colon IDS:set TK_prompt ELEMENTS:elem TK_semicolon   {:addSet(set,elem); :} |
+        IDS:regex TK_prompt OPERATION:op TK_semicolon                   {:addTree(regex,op);:} ;
 
     OPERATION ::=
         TK_or       OPERATION:op1 OPERATION:op2 {:RESULT = buildTree("|",op1,op2,op1.anulable || op2.anulable,Type.OR);    :} |
