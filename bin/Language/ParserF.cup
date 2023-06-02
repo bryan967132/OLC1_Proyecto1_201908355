@@ -95,8 +95,7 @@ OPERATION ::=
     TK_kleene  :op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
     TK_positive:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
     TK_optional:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
-    TK_lpar OPERATION TK_rpar               |
-    OPERAND                                 ;
+    OPERAND                                                                       ;
 
 OPERAND ::=
     TK_lbr IDS:op TK_rbr    {:painter.VARIABLEUSE(opleft,opright);:} |
