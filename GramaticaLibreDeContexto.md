@@ -3,7 +3,7 @@
 ## Gramática Libre De Contexto
 ```java
 INI ->
-    '{' CODE'}' |
+    '{' CODE '}' |
     '{' '}'
 
 CODE -> 
