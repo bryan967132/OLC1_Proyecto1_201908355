@@ -103,7 +103,7 @@ OPERATION ::=
 
 OPERAND ::=
     TK_lbr IDS:op TK_rbr    {:painter.VARIABLEUSE(opleft,opright);:} |
-    TK_str      :op         {:painter.STRING(opleft,opright);:}      |
+    TK_str      :op         {:painter.STRING(opleft,opright);     :} |
     TK_newline  :op         {:painter.SPECIALCHAR(opleft,opright);:} |
     TK_singlequ :op         {:painter.SPECIALCHAR(opleft,opright);:} |
     TK_doublequ :op         {:painter.SPECIALCHAR(opleft,opright);:} ;
