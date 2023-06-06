@@ -30,12 +30,11 @@ SPECIFIC ->
     TK_char
 
 OPERATION ->
-    OPERATION '.' OPERATION |
-    OPERATION '|' OPERATION |
-    OPERATION '*'           |
-    OPERATION '+'           |
-    OPERATION '?'           |
-    '(' OPERATION ')'       |
+    '.' OPERATION OPERATION |
+    '|' OPERATION OPERATION |
+    '*' OPERATION           |
+    '+' OPERATION           |
+    '?' OPERATION           |
     OPERAND
 
 OPERAND ->

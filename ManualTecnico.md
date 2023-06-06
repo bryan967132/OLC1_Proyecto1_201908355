@@ -9,7 +9,7 @@
 4. [Cálculo De Siguientes](#4-cálculo-de-siguientes)
 5. [Cálculo De Transiciones](#5-cálculo-de-transiciones)
 6. [Método De Thompson](#6-método-de-thompson)
-7. [Diagrama De Clases](#7-diagrama-de-clases)
+7. [Método De Thompson](#7-diagrama-de-clases)
 
 ## 1. Análisis Léxico
 * ### Tabla de Tokens
@@ -44,13 +44,13 @@
 
 ## 2. Análisis Sintáctico
 * ### Expresion Regular en Notación Polaca
-    Los operadores se escriben entre los operandos para operadores binarios y al final para operadores unarios.
+    Los operadores se escriben antes que los operandos.
     <br>Ejemplo:<br>
-    * operando | operando
-    * operando . operando
-    * operando \+
-    * operando \*
-    * operando ?
+    * | operando operando
+    * . operando operando
+    * \+ operando
+    * \* operando
+    * ? operando
 
 * ### Gramática Libre del Contexto
 ```java
@@ -82,12 +82,11 @@ SPECIFIC ->
     TK_char
 
 OPERATION ->
-    OPERATION '.' OPERATION |
-    OPERATION '|' OPERATION |
-    OPERATION '*'           |
-    OPERATION '+'           |
-    OPERATION '?'           |
-    '(' OPERATION ')'       |
+    '.' OPERATION OPERATION |
+    '|' OPERATION OPERATION |
+    '*' OPERATION           |
+    '+' OPERATION           |
+    '?' OPERATION           |
     OPERAND
 
 OPERAND ->
@@ -163,12 +162,11 @@ EVALUATION -> TK_id ':' TK_str ';'
         IDS:regex TK_prompt OPERATION:op TK_semicolon                   {:addTree(regex,op);:} ;
 
     OPERATION ::=
-        OPERATION:op1 TK_or     OPERATION:op2   {:RESULT = buildTree("|",op1,op2,op1.anulable || op2.anulable,Type.OR);    :} |
-        OPERATION:op1 TK_concat OPERATION:op2   {:RESULT = buildTree(".",op1,op2,op1.anulable && op2.anulable,Type.CONCAT);:} |
-        OPERATION:op1 TK_kleene                 {:RESULT = buildTree("*",op1,null,true,Type.KLEENE);                       :} |
-        OPERATION:op1 TK_positive               {:RESULT = buildTree("+",op1,null,op1.anulable,Type.POSITIVE);             :} |
-        OPERATION:op1 TK_optional               {:RESULT = buildTree("?",op1,null,true,Type.OPTIONAL);                     :} |
-        TK_lpar OPERATION:op TK_rpar            {:RESULT = op;                                                             :} |
+        TK_or       OPERATION:op1 OPERATION:op2 {:RESULT = buildTree("|",op1,op2,op1.anulable || op2.anulable,Type.OR);    :} |
+        TK_concat   OPERATION:op1 OPERATION:op2 {:RESULT = buildTree(".",op1,op2,op1.anulable && op2.anulable,Type.CONCAT);:} |
+        TK_kleene   OPERATION:op1               {:RESULT = buildTree("*",op1,null,true,Type.KLEENE);                       :} |
+        TK_positive OPERATION:op1               {:RESULT = buildTree("+",op1,null,op1.anulable,Type.POSITIVE);             :} |
+        TK_optional OPERATION:op1               {:RESULT = buildTree("?",op1,null,true,Type.OPTIONAL);                     :} |
         OPERAND:op                              {:RESULT = op;                                                             :} ;
 
     OPERAND ::=
