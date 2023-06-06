@@ -84,8 +84,9 @@ SPECIFIC ->
 OPERATION ->
     '.' OPERATION OPERATION |
     '|' OPERATION OPERATION |
-    '*' OPERATION |
-    '+' OPERATION |
+    '*' OPERATION           |
+    '+' OPERATION           |
+    '?' OPERATION           |
     OPERAND
 
 OPERAND ->
@@ -166,7 +167,7 @@ EVALUATION -> TK_id ':' TK_str ';'
         TK_kleene   OPERATION:op1               {:RESULT = buildTree("*",op1,null,true,Type.KLEENE);                       :} |
         TK_positive OPERATION:op1               {:RESULT = buildTree("+",op1,null,op1.anulable,Type.POSITIVE);             :} |
         TK_optional OPERATION:op1               {:RESULT = buildTree("?",op1,null,true,Type.OPTIONAL);                     :} |
-        OPERAND:op                              {:RESULT = op;:} ;
+        OPERAND:op                              {:RESULT = op;                                                             :} ;
 
     OPERAND ::=
         TK_lbr TK_id:op TK_rbr     {:RESULT = buildTree(op,Type.LEAF,Type.ID);         :} |
