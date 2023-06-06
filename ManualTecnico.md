@@ -84,8 +84,10 @@ SPECIFIC ->
 OPERATION ->
     OPERATION '.' OPERATION |
     OPERATION '|' OPERATION |
-    OPERATION '*' |
-    OPERATION '+' |
+    OPERATION '*'           |
+    OPERATION '+'           |
+    OPERATION '?'           |
+    '(' OPERATION ')'       |
     OPERAND
 
 OPERAND ->
