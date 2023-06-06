@@ -37,9 +37,6 @@ non terminal String CHARACTER;
 non terminal String IDS;
 
 /* 5. Precedencias */
-precedence left TK_or;
-precedence left TK_concat;
-precedence left TK_positive, TK_kleene, TK_optional;
 
 /* 6. Gramatica Libre de Contexto */
 
@@ -93,12 +90,11 @@ CHARACTER ::=
     TK_kleene   :ch    {:RESULT = ch;:} ;
 
 OPERATION ::=
-    OPERATION TK_or      :op {:painter.OPERATOR(opleft,opright);:} OPERATION      |
-    OPERATION TK_concat  :op {:painter.OPERATOR(opleft,opright);:} OPERATION      |
-    OPERATION TK_kleene  :op {:painter.OPERATOR(opleft,opright);:}                |
-    OPERATION TK_positive:op {:painter.OPERATOR(opleft,opright);:}                |
-    OPERATION TK_optional:op {:painter.OPERATOR(opleft,opright);:}                |
-    TK_lpar OPERATION TK_rpar                                                     |
+    TK_or      :op {:painter.OPERATOR(opleft,opright);:} OPERATION OPERATION      |
+    TK_concat  :op {:painter.OPERATOR(opleft,opright);:} OPERATION OPERATION      |
+    TK_kleene  :op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
+    TK_positive:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
+    TK_optional:op {:painter.OPERATOR(opleft,opright);:} OPERATION                |
     OPERAND                                                                       ;
 
 OPERAND ::=

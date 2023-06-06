@@ -100,19 +100,19 @@ El reporte se genera y abre automáticamente al momento del análisis si se dete
 [Subir](#exregan)
 
 ## 5. Expresión Regular
-* ### Expresion Regular en Notación Infija
+* ### Expresion Regular en Notación Polaca
     Los operadores se escriben antes que los operandos.
     <br>Ejemplo:<br>
-    * operando | operando
-    * operando . operando
-    * operando \+
-    * operando \*
-    * operando ?
-* ### Ejemplos de  Expresiones Regulares en Notación Infija
-    |Notación Infija|Notación Prefija|
+    * | operando operando
+    * . operando operando
+    * \+ operando
+    * \* operando
+    * ? operando
+* ### Ejemplos de  Expresiones Regulares en Notación Prefija o Polaca
+    |Notación Prefija|Notación Infija|
     |----------------|---------------|
-    |((operando)* \| operando)+|+ \| * operando operando|
-    |(operando)+(operando \| operando)|. + operando \| operando operando|
+    |+ \| * operando operando|((operando)* \| operando)+|
+    |. + operando \| operando operando|(operando)+(operando \| operando)|
 
 [Subir](#exregan)
 
@@ -128,9 +128,9 @@ CONJ: digit -> 0~9;
 --------------COMENTARIO MULTILÍNEA--------------
 !>
 //Expresiones Regulares
-REGEX1 -> ("1"?."2"*|"3"+."2"*)|("2"?."3"+."1"|"3"."1"*);
-REGEX2 -> ("a"."b"."c")+|"a"?."x"."y"."z"|("0"|"1")+;
-numero -> {digit}+.(".".{digit}+)?;
+REGEX1 -> ||.?"1"*"2".+"3"*"2"|..?"2"+"3""1"."3"*"1";
+REGEX2 -> ||+.."a""b""c"...?"a""x""y""z"+|"0""1";
+numero -> .+{digit}?."."+{digit};
 
 %%
 //Validación de Cadenas
