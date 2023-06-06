@@ -754,7 +754,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = op;
+		RESULT = op;                                                             
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

@@ -860,7 +860,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.STRING(opleft,opright);
+		painter.STRING(opleft,opright);     
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
