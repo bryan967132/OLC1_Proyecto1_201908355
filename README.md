@@ -12,9 +12,9 @@ CONJ: digit -> 0~9;
 --------------COMENTARIO MULTILÍNEA--------------
 !>
 //Expresiones Regulares
-REGEX1 -> ("1"?."2"*|"3"+."2"*)|("2"?."3"+."1"|"3"."1"*);
-REGEX2 -> ("a"."b"."c")+|"a"?."x"."y"."z"|("0"|"1")+;
-numero -> {digit}+.(".".{digit}+)?;
+REGEX1 -> ||.?"1"*"2".+"3"*"2"|..?"2"+"3""1"."3"*"1";
+REGEX2 -> ||+.."a""b""c"...?"a""x""y""z"+|"0""1";
+numero -> .+{digit}?."."+{digit};
 
 %%
 //Validación de Cadenas

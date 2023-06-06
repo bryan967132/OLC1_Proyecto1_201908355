@@ -226,7 +226,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         this.add(saveOLC);
     }
     void copyright() {
-        this.add(new Label(0,695,1390,15,"EXREGAN Infix",11));
+        this.add(new Label(0,695,1390,15,"EXREGAN Prefix",11));
         this.add(new Label(0,710,1390,15,"© Danny Hugo Bryan Tejaxún Pichiyá",11));
     }
     void addToolBar() {
