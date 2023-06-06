@@ -9,7 +9,7 @@
 4. [Cálculo De Siguientes](#4-cálculo-de-siguientes)
 5. [Cálculo De Transiciones](#5-cálculo-de-transiciones)
 6. [Método De Thompson](#6-método-de-thompson)
-7. [Método De Thompson](#7-diagrama-de-clases)
+7. [Diagrama De Clases](#7-diagrama-de-clases)
 
 ## 1. Análisis Léxico
 * ### Tabla de Tokens
@@ -44,13 +44,13 @@
 
 ## 2. Análisis Sintáctico
 * ### Expresion Regular en Notación Polaca
-    Los operadores se escriben antes que los operandos.
+    Los operadores se escriben entre los operandos para operadores binarios y al final para operadores unarios.
     <br>Ejemplo:<br>
-    * | operando operando
-    * . operando operando
-    * \+ operando
-    * \* operando
-    * ? operando
+    * operando | operando
+    * operando . operando
+    * operando \+
+    * operando \*
+    * operando ?
 
 * ### Gramática Libre del Contexto
 ```java
