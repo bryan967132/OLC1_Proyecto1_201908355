@@ -9,7 +9,7 @@
 4. [Cálculo De Siguientes](#4-cálculo-de-siguientes)
 5. [Cálculo De Transiciones](#5-cálculo-de-transiciones)
 6. [Método De Thompson](#6-método-de-thompson)
-7. [Método De Thompson](#7-diagrama-de-clases)
+7. [Diagrama De Clases](#7-diagrama-de-clases)
 
 ## 1. Análisis Léxico
 * ### Tabla de Tokens
