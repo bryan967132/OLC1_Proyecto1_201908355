@@ -229,8 +229,10 @@ public class Controller {
             input.close();
             file.close();
             pjs = new ArrayList<>();
+            int i = 0;
             for(Path path : pjs1) {
-                pjs.add(new IconFile(path.id,new File(path.path),ide,this));
+                pjs.add(new IconFile(i,new File(path.path),ide,this));
+                i ++;
             }
         }
         catch (Exception e) {}
