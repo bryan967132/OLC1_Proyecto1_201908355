@@ -54,7 +54,7 @@
     * Al crearlo se abrirá el archivo con código en el editor de código.
     <img title="Archivo Creado" alt="Archivo Creado" src="Images/ManualUsuario/GuardadoComo.png">
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## 2. Opciones Para Entradas
 * ### Analizar Entrada
@@ -73,7 +73,7 @@
     Actualiza el archivo con el código modificado en el editor de código.
     <img title="Guardar" alt="Guardar" src="Images/ManualUsuario/Guardar.png">
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## 3. Grafos Y Tablas
 * ### Árbol de Expresión
@@ -96,13 +96,13 @@
 * ### AFND
     <img title="AFND" alt="AFND" src="Images/ManualUsuario/AFND.png">
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## 4. Reporte De Errores
 El reporte se genera y abre automáticamente al momento del análisis si se detecta errores léxicos o sintácticos o ambos.
 <img title="Reporte de Errores" alt="Reporte de Errores" src="Images/ManualUsuario/ReporteErrorL.png">
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## 5. Expresión Regular
 * ### Expresion Regular en Notación Polaca
@@ -119,7 +119,7 @@ El reporte se genera y abre automáticamente al momento del análisis si se dete
     |+ \| * operando operando|((operando)* \| operando)+|
     |. + operando \| operando operando|(operando)+(operando \| operando)|
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## 6. Sintaxis Del Lenguaje
 
@@ -149,7 +149,7 @@ REGEX2: "111111";
 }
 ```
 
-[Subir](#exregan)
+[Subir](#manual-de-usuario)
 
 ## EXREGAN
 
@@ -194,7 +194,7 @@ REGEX2: "111111";
     |Comentarios Simples|Secuencia de Caracteres precedida de //|\\/\\/([^\r\n]*)?|// comentario simple
     |Comentarios Multilíneas|Secuencia de Caracteres entre <! y !>|\\<\\!([^<!>]*)?\\!\\>|<! comentario multilínea !>|
 
-[Subir](#exregan)
+[Subir](#manual-técnico)
 
 ## 2. Análisis Sintáctico
 * ### Expresion Regular en Notación Polaca
@@ -254,7 +254,7 @@ EVALUATIONS ->
 EVALUATION -> TK_id ':' TK_str ';'
 ```
 
-[Subir](#exregan)
+[Subir](#manual-técnico)
 
 ## 3. Método Del Árbol
 1. ### Construcción del Árbol
@@ -331,7 +331,7 @@ EVALUATION -> TK_id ':' TK_str ';'
         TK_doublequ :op            {:RESULT = buildTree(op,Type.LEAF,Type.DOUBLEQUOTE);:} ;
     ```
 
-    [Subir](#exregan)
+    [Subir](#manual-técnico)
 
 2. ### Cálculo de Primeras Posiciones
     Conciciones para los cálculos:
@@ -369,7 +369,7 @@ EVALUATION -> TK_id ':' TK_str ';'
     }
     ```
 
-    [Subir](#exregan)
+    [Subir](#manual-técnico)
 
 3. ### Cálculo de Últimas Posiciones
     Conciciones para los cálculos:
@@ -409,7 +409,7 @@ EVALUATION -> TK_id ':' TK_str ';'
     }
     ```
 
-    [Subir](#exregan)
+    [Subir](#manual-técnico)
 
 ## 4. Cálculo De Siguientes
 Conciciones para los cálculos:<br>
@@ -473,7 +473,7 @@ class NextsTable {
 }
 ```
 
-[Subir](#exregan)
+[Subir](#manual-técnico)
 
 ## 5. Cálculo De Transiciones
 Método implementado desde la clase Tree:
@@ -562,7 +562,7 @@ class TransitionTable {
 }
 ```
 
-[Subir](#exregan)
+[Subir](#manual-técnico)
 
 ## 6. Método De Thompson
 * Construcción de AFND.<br>
@@ -719,9 +719,9 @@ class TransitionTable {
     }
     ```
 
-    [Subir](#exregan)
+    [Subir](#manual-técnico)
 
 ## 7. Diagrama De Clases
 <img title="Abrir" alt="Abrir" src="Images/ManualTecnico/Proyecto1_OLC1.png">
 
-[Subir](#exregan)
+[Subir](#manual-técnico)
