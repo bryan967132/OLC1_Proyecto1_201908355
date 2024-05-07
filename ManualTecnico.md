@@ -53,51 +53,53 @@
     * ? operando
 
 * ### Gramática Libre del Contexto
-```java
-INI ->
-    '{' CODE '}' |
+```html
+<INI> ::=
+    '{' <CODE> '}' |
     '{' '}'
 
-CODE -> 
-    DECLARATIONS '%%' EVALUATIONS |
-    DECLARATIONS '%%'             |
-    DECLARATIONS                  |
-    '%%' EVALUATIONS              |
-    '%%'
+<CODE> ::= 
+    <DECLARATIONS> '%%' <EVALUATIONS> |
+    <DECLARATIONS> '%%'               |
+    <DECLARATIONS>                    |
+    '%%' <EVALUATIONS>                |
+    '%%'                              
 
-DECLARATIONS ->
-    DECLARATIONS DECLARATION |
-    DECLARATION
+<DECLARATIONS> ::=
+    <DECLARATIONS> <DECLARATION> |
+    <DECLARATION>
 
-DECLARATION ->
-    'CONJ' ':' TK_id '->' ELEMENTS ';' |
-    TK_id '->' OPERATION ';'
+<DECLARATION> ::=
+    'CONJ' ':' TK_id '->' <ELEMENTS> ';' |
+    TK_id '->' <OPERATION> ';'           
 
-ELEMENTS ->
+<ELEMENTS> ::=
     TK_char '~' TK_char |
-    SPECIFIC
+    <SPECIFIC>          
 
-SPECIFIC ->
-    SPECIFIC ',' TK_char |
-    TK_char
+<SPECIFIC> ::=
+    <SPECIFIC> ',' TK_char |
+    TK_char                
 
-OPERATION ->
-    '.' OPERATION OPERATION |
-    '|' OPERATION OPERATION |
-    '*' OPERATION           |
-    '+' OPERATION           |
-    '?' OPERATION           |
-    OPERAND
+<OPERATION> ::=
+    <OPERATION> '.' <OPERATION> |
+    <OPERATION> '|' <OPERATION> |
+    <OPERATION> '*'             |
+    <OPERATION> '+'             |
+    <OPERATION> '?'             |
+    '(' <OPERATION> ')'         |
+    <OPERAND>                   
 
-OPERAND ->
+<OPERAND> ::=
     '{' TK_id '}' |
-    TK_str
+    TK_str        
 
-EVALUATIONS ->
-    EVALUATIONS EVALUATION |
-    EVALUATION
+<EVALUATIONS> ::=
+    <EVALUATIONS> <EVALUATION> |
+    <EVALUATION>               
 
-EVALUATION -> TK_id ':' TK_str ';'
+<EVALUATION> ::=
+    TK_id ':' TK_str ';' 
 ```
 
 [Subir](#exregan)
