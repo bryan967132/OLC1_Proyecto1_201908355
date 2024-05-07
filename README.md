@@ -210,7 +210,7 @@ REGEX2: "111111";
 ```html
 <INI> ::=
     '{' <CODE> '}' |
-    '{' '}'
+    '{' '}'        
 
 <CODE> ::= 
     <DECLARATIONS> '%%' <EVALUATIONS> |
@@ -236,12 +236,11 @@ REGEX2: "111111";
     TK_char                
 
 <OPERATION> ::=
-    <OPERATION> '.' <OPERATION> |
-    <OPERATION> '|' <OPERATION> |
-    <OPERATION> '*'             |
-    <OPERATION> '+'             |
-    <OPERATION> '?'             |
-    '(' <OPERATION> ')'         |
+    '.' <OPERATION> <OPERATION> |
+    '|' <OPERATION> <OPERATION> |
+    '*' <OPERATION>             |
+    '+' <OPERATION>             |
+    '?' <OPERATION>             |
     <OPERAND>                   
 
 <OPERAND> ::=
