@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import Tree.Node;
 public class TransitionTable {
-    Map<Integer,Node> nexts = new TreeMap<>();
+    Map<Integer, Node> nexts = new TreeMap<>();
     ArrayList<Transition> transitions = new ArrayList<>();
     ArrayList<Transition> tmpTrnst = new ArrayList<>();
     ArrayList<Terminal> terminals = new ArrayList<>();
-    public TransitionTable(ArrayList<Transition> transitions,Map<Integer,Node> nexts) {
+    public TransitionTable(ArrayList<Transition> transitions, Map<Integer, Node> nexts) {
         this.transitions = transitions;
         this.nexts = nexts;
     }
@@ -23,7 +23,7 @@ public class TransitionTable {
             Transition newTrnst;
             Transition transition = transitions.get(i);
             for(Terminal terminal : terminals) {
-                newTrnst = new Transition(transitions.size(),terminal.value);
+                newTrnst = new Transition(transitions.size(), terminal.value);
                 for(int nxt : transition.nexts) {
                     next = nexts.get(nxt);
                     if(next.value.equals(terminal.value)) {
@@ -33,12 +33,12 @@ public class TransitionTable {
                 position = existTransition(newTrnst);
                 if(position == -1) {
                     if(newTrnst.nexts.size() > 0) {
-                        transition.changes.put(terminal.value,new Change(transitions.size(),terminal.value,terminal.type));
+                        transition.changes.put(terminal.value, new Change(transitions.size(), terminal.value, terminal.type));
                         transitions.add(newTrnst);
                     }
                 }
                 else {
-                    transition.changes.put(terminal.value,new Change(position,terminal.value,terminal.type));
+                    transition.changes.put(terminal.value, new Change(position, terminal.value, terminal.type));
                 }
             }
             build(i + 1);
@@ -54,9 +54,9 @@ public class TransitionTable {
     }
     private void addTerminals() {
         Terminal newTerminal;
-        for(Map.Entry<Integer,Node> next : nexts.entrySet()) {
+        for(Map.Entry<Integer, Node> next : nexts.entrySet()) {
             if(!next.getValue().value.equals("#")) {
-                newTerminal = new Terminal(next.getValue().value,next.getValue().type1);
+                newTerminal = new Terminal(next.getValue().value, next.getValue().type1);
                 if(!verifyTerminal(newTerminal)) {
                     terminals.add(newTerminal);
                 }
@@ -81,7 +81,7 @@ public class TransitionTable {
             dot += "\n\t\t\t<td bgcolor=\"#009900\" width=\"100\"><font color=\"#FFFFFF\">" + (title.equals(" ") ? "\\\\s" : title) + "</font></td>";
         }
         dot += "\n\t\t</tr>";
-        Map<String,Change> chngs;
+        Map<String, Change> chngs;
         Change aux;
         for(int i = 0; i < transitions.size(); i ++) {
             chngs = transitions.get(i).changes;
@@ -98,7 +98,7 @@ public class TransitionTable {
     }
     public String toStringM() {
         String string = "";
-        Map<String,Change> chngs;
+        Map<String, Change> chngs;
         Change aux;
         String m_ij;
         for(int i = 0; i < transitions.size(); i ++) {

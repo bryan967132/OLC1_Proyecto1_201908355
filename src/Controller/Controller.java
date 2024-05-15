@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,24 +43,24 @@ public class Controller {
     public void setFormat(JTextPane editor) {
         try {
             StyledDocument doc = editor.getStyledDocument();
-            String input = doc.getText(0,doc.getLength());
+            String input = doc.getText(0, doc.getLength());
             WordPainter painter = new WordPainter();
             ScannerF scanner = new ScannerF(
                 new BufferedReader(
                     new StringReader(input)
-                ),
+                ), 
                 painter
             );
             painter.setStyle(editor);
-            ParserF parser = new ParserF(scanner,painter);
+            ParserF parser = new ParserF(scanner, painter);
             parser.parse();
         }
         catch(Exception e) {}
     }
-    public void analyze(IDE ide,int index,JTextPane editor,JTextPane console,JPanel graphics) {
+    public void analyze(IDE ide, int index, JTextPane editor, JTextPane console, JPanel graphics) {
         try {
             StyledDocument doc = editor.getStyledDocument();
-            String input = doc.getText(0,doc.getLength());
+            String input = doc.getText(0, doc.getLength());
             Scanner scanner = new Scanner(
                 new BufferedReader(
                     new StringReader(input)
@@ -71,9 +72,9 @@ public class Controller {
             if(parser.isSuccessExecution()) {
                 String out = "EXREGAN: " + currentFile.name + "\n-> Análisis de Entrada Exitoso.";
                 if(parser.thereAreTrees()) {
-                    new MethodsBuilder().buildethods(ide,index,pjs.get(index),parser.sets,parser.regexs);
+                    new MethodsBuilder().buildethods(ide, index, pjs.get(index), parser.sets, parser.regexs);
                     ide.showManagerGraphs();
-                    lookGraphs(ide,index);
+                    lookGraphs(ide, index);
                 }
                 out += "\n-> Conjuntos Guardados: " + parser.sets.size();
                 out += "\n-> Autómatas Generados: " + parser.regexs.size();
@@ -84,11 +85,11 @@ public class Controller {
                 
             }
             if(parser.s.getErrors().size() > 0 || parser.errorsS.size() > 0) {
-                new ReportHTML().reportErrors(index,currentFile.name,parser.s.getErrors(),parser.errorsS);
+                new ReportHTML().reportErrors(index, currentFile.name, parser.s.getErrors(), parser.errorsS);
             }
         } catch (Exception e) {}
     }
-    public void lookGraphs(IDE ide,int index) {
+    public void lookGraphs(IDE ide, int index) {
         try {
             ide.zoomFactor = 1.05;
             ide.graphics.removeMouseListener(ide);
@@ -98,9 +99,9 @@ public class Controller {
             ide.graphics.removeAll();
             ide.img = new JLabel();
             ide.image = new ImageIcon((ide.treesR.isSelected() ? "Data/ARBOLES_201908355/tree_" : (ide.nextsR.isSelected() ? "Data/SIGUIENTES_201908355/nexts_" : (ide.transitionsR.isSelected() ? "Data/TRANSICIONES_201908355/transitions_" : (ide.afdsR.isSelected() ? "Data/AFD_201908355/afd_" : "Data/AFND_201908355/afnd_")))) + index + "_" + ide.regexCB.getSelectedItem() + ".png");
-            ide.icono = new ImageIcon(ide.image.getImage().getScaledInstance(ide.image.getIconWidth(),ide.image.getIconHeight(),Image.SCALE_DEFAULT));
+            ide.icono = new ImageIcon(ide.image.getImage().getScaledInstance(ide.image.getIconWidth(), ide.image.getIconHeight(), Image.SCALE_DEFAULT));
             ide.img.setIcon(ide.icono);
-            ide.img.setBounds(0,0,ide.icono.getIconWidth(),ide.icono.getIconHeight());
+            ide.img.setBounds(0, 0, ide.icono.getIconWidth(), ide.icono.getIconHeight());
             ide.graphics.add(ide.img);
             ide.graphics.addMouseListener(ide);
             ide.graphics.addMouseWheelListener(ide);
@@ -109,7 +110,7 @@ public class Controller {
         }
         catch(Exception e) {}
     }
-    public void validateString(int index,JTextPane editor,JTextPane console) {
+    public void validateString(int index, JTextPane editor, JTextPane console) {
         IconFile currentFile = pjs.get(index);
         if(currentFile.treesM == null) {
             console.setText("EXREGAN: " + currentFile.name + "\n-> Aún no hay autómatas creados para validar cadenas.");
@@ -117,7 +118,7 @@ public class Controller {
         }
         try {
             StyledDocument doc = editor.getStyledDocument();
-            String input = doc.getText(0,doc.getLength());
+            String input = doc.getText(0, doc.getLength());
             Scanner scanner = new Scanner(
                 new BufferedReader(
                     new StringReader(input)
@@ -138,16 +139,16 @@ public class Controller {
                             currenTreeMethod = currentFile.treesM.get(expression.id);
                             out += "\n-> " + (
                                 currenTreeMethod != null
-                                ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1,expression.string.length() - 1))
+                                ? currentFile.treesM.get(expression.id).validateString(expression.string.substring(1, expression.string.length() - 1))
                                 : "No se declaró la expresión regular \"" + expression.id + "\"."
                             );
                             currentFile.json += currentFile.treesM.get(expression.id).getJSON();
-                            if(i < expressions.size() - 1) currentFile.json += ",";
+                            if(i < expressions.size() - 1) currentFile.json += ", ";
                         }
                         catch(Exception e) {}
                     }
                     currentFile.json += "\n]";
-                    buildJSON("SALIDAS_201908355","out_" + index + "_" + currentFile.name.replace(".olc",""),currentFile.json);
+                    buildJSON("SALIDAS_201908355", "out_" + index + "_" + currentFile.name.replace(".olc", ""), currentFile.json);
                     console.setText(out);
                     return;
                 }
@@ -159,29 +160,29 @@ public class Controller {
             }
         } catch (Exception e) {}
     }
-    private void buildJSON(String type,String name,String content) {
+    private void buildJSON(String type, String name, String content) {
         try {
             File file = new File("Data/" + type);
             if(!file.exists()) {
                 file.mkdirs();
             }
             FileOutputStream outputStream = new FileOutputStream("Data/" + type + "/" + name + ".json");
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream,  "UTF-8");
             outputStreamWriter.write(content);
             outputStreamWriter.close();
             outputStream.close();
         } catch (Exception e) {}
     }
-    public void saveOLCPJ(int index,JTextPane editor) {
+    public void saveOLCPJ(int index, JTextPane editor) {
         try {
             BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(
-                    new FileOutputStream(pjs.get(index).path),
+                    new FileOutputStream(pjs.get(index).path), 
                     "utf-8"
                 )
             );
             StyledDocument doc = editor.getStyledDocument();
-            String input = doc.getText(0,doc.getLength());
+            String input = doc.getText(0, doc.getLength());
             writer.write(input);
             writer.close();
         } catch (Exception e) {}
@@ -190,7 +191,7 @@ public class Controller {
         try {
             File archivo = new File(path);
             FileInputStream fis = new FileInputStream(archivo);
-            InputStreamReader isr = new InputStreamReader(fis,"UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String text = "";
             String line;
@@ -211,7 +212,7 @@ public class Controller {
         try {
             Path[] pjs1 = new Path[pjs.size()];
             for(int i = 0; i < pjs.size(); i ++) {
-                pjs1[i] = new Path(pjs.get(i).id,pjs.get(i).path);
+                pjs1[i] = new Path(pjs.get(i).id, pjs.get(i).path);
             }
             FileOutputStream file = new FileOutputStream("bin/Files");
             ObjectOutputStream output = new ObjectOutputStream(file);
@@ -231,8 +232,12 @@ public class Controller {
             pjs = new ArrayList<>();
             int i = 0;
             for(Path path : pjs1) {
-                pjs.add(new IconFile(i,new File(path.path),ide,this));
+                pjs.add(new IconFile(i, new File(path.path), ide,  this));
                 i ++;
+            }
+            Collections.sort(pjs);
+            for(i = 0; i < pjs.size(); i ++) {
+                pjs.get(i).id = i;
             }
         }
         catch (Exception e) {}

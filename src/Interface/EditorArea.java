@@ -59,7 +59,7 @@ public class EditorArea extends JPanel {
         int start = editor.viewToModel(scroll.getViewport().getViewPosition());
         int end = editor.viewToModel(
             new Point(
-                scroll.getViewport().getViewPosition().x + editor.getWidth(),
+                scroll.getViewport().getViewPosition().x + editor.getWidth(), 
                 scroll.getViewport().getViewPosition().y + editor.getHeight()
             )
         );
@@ -68,7 +68,7 @@ public class EditorArea extends JPanel {
         int endline = doc.getDefaultRootElement().getElementIndex(end) + 1;
         int fontSize = g.getFontMetrics(editor.getFont()).getHeight();
         for(int line = startline, y = 0; line <= endline; line ++, y += fontSize) {
-            g.drawString(Integer.toString(line),0,y);
+            g.drawString(Integer.toString(line), 0, y);
         }
     }
 }

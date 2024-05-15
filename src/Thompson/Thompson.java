@@ -19,34 +19,34 @@ public class Thompson {
         id ++;
         switch(node.type) {
             case OR:
-                return structs.OR(String.valueOf(id),build1(node.left),build1(node.right));               
+                return structs.OR(String.valueOf(id), build1(node.left), build1(node.right));               
             case CONCAT:
-                return structs.CONCAT(String.valueOf(id),build1(node.left),build1(node.right));
+                return structs.CONCAT(String.valueOf(id), build1(node.left), build1(node.right));
             case POSITIVE:
-                return structs.CONCAT(String.valueOf(id),build1(node.left),structs.KLEENE(String.valueOf(id) + "_c",build1(node.left)));
+                return structs.CONCAT(String.valueOf(id), build1(node.left), structs.KLEENE(String.valueOf(id) + "_c", build1(node.left)));
             case KLEENE:
-                return structs.KLEENE(String.valueOf(id),build1(node.left));
+                return structs.KLEENE(String.valueOf(id), build1(node.left));
             case OPTIONAL:
-                return structs.OR(String.valueOf(id),build1(node.left),structs.EPSILON(String.valueOf(id) + "_epsilon"));
+                return structs.OR(String.valueOf(id), build1(node.left), structs.EPSILON(String.valueOf(id) + "_epsilon"));
             default:
-                return structs.SIMPLE(String.valueOf(id),node);
+                return structs.SIMPLE(String.valueOf(id), node);
         }
     }
     public State build2(Node node) {
         id ++;
         switch(node.type) {
             case OR:
-                return structs.OR(String.valueOf(id),build2(node.left),build2(node.right));               
+                return structs.OR(String.valueOf(id), build2(node.left), build2(node.right));               
             case CONCAT:
-                return structs.CONCAT(String.valueOf(id),build2(node.left),build2(node.right));
+                return structs.CONCAT(String.valueOf(id), build2(node.left), build2(node.right));
             case POSITIVE:
-                return structs.POSITIVE(String.valueOf(id),build2(node.left));
+                return structs.POSITIVE(String.valueOf(id), build2(node.left));
             case KLEENE:
-                return structs.KLEENE(String.valueOf(id),build2(node.left));
+                return structs.KLEENE(String.valueOf(id), build2(node.left));
             case OPTIONAL:
-                return structs.OPTIONAL(String.valueOf(id),build2(node.left));
+                return structs.OPTIONAL(String.valueOf(id), build2(node.left));
             default:
-                return structs.SIMPLE(String.valueOf(id),node);
+                return structs.SIMPLE(String.valueOf(id), node);
         }
     }
     public String getDot(String name) {

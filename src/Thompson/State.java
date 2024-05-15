@@ -11,7 +11,7 @@ public class State {
     String id;
     String value;
     public State() {}
-    public State(String id,String value) {
+    public State(String id, String value) {
         this.id = id;
         this.value = value;
     }

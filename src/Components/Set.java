@@ -7,7 +7,7 @@ public class Set {
     public char endChar;
     public ArrayList<Character> specifics = new ArrayList<>();
     public Set() {}
-    public Set(char startChar,char endChar) {
+    public Set(char startChar, char endChar) {
         this.startChar = startChar;
         this.endChar = endChar;
     }

@@ -31,16 +31,16 @@ import Templates.Colors;
 import Templates.Icons;
 import Templates.Label;
 import Templates.RadioButton;
-public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheelListener,MouseListener,MouseMotionListener  {
+public class IDE extends JPanel implements ActionListener, KeyListener, MouseWheelListener, MouseListener, MouseMotionListener  {
     Controller controller;
-    Button analyzeInput,analyzeStrings,saveOLC;
+    Button analyzeInput, analyzeStrings, saveOLC;
     public JComboBox<String> regexCB;
     public double zoomFactor = 1.05; // factor de zoom
     EditorArea editorArea;
     public Icon icono;
     public ImageIcon image;
     int indexFilePJ = -1;
-    int posCaret,posXImg,posYImg,posXLabImg,posYLabImg;
+    int posCaret, posXImg, posYImg, posXLabImg, posYLabImg;
     JLabel cursorPosition;
     public JLabel img;
     JPanel editorAreaContent;
@@ -49,7 +49,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     JPanel projects;
     JScrollPane consoleScroll;
     JTextPane console;
-    public RadioButton treesR,nextsR,transitionsR,afdsR,afndsR;
+    public RadioButton treesR, nextsR, transitionsR, afdsR, afndsR;
     String input;
     Symbol sym;
     Tag tag;
@@ -92,20 +92,20 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     void defineComponents() {
         //projects
         projects.setBackground(Colors.MEDIUMECLIPSE2);
-        projects.setBounds(40,105,160,585);
+        projects.setBounds(40, 105, 160, 585);
         projects.setLayout(null);
         //editorArea
         editorAreaContent.setLayout(new BorderLayout());
-        editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
+        editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE, 8));
         editorArea = new EditorArea();
         editorArea.editor.addKeyListener(this);
-        editorAreaContent.add(editorArea,BorderLayout.WEST);
-        editorAreaContent.add(editorArea.scroll,BorderLayout.CENTER);
-        editorAreaContent.setBounds(220,105,550,425);
+        editorAreaContent.add(editorArea, BorderLayout.WEST);
+        editorAreaContent.add(editorArea.scroll, BorderLayout.CENTER);
+        editorAreaContent.setBounds(220, 105, 550, 425);
         //cursorPosition
         cursorPosition.setText("1 : 1");
         cursorPosition.setForeground(Colors.WHITE);
-        cursorPosition.setBounds(220,535,550,10);
+        cursorPosition.setBounds(220, 535, 550, 10);
         cursorPosition.setHorizontalAlignment(JLabel.RIGHT);
         cursorPosition.setVerticalAlignment(JLabel.CENTER);
         //console
@@ -113,30 +113,30 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         console.setForeground(Colors.WHITE);
         console.setBackground(Colors.DARKECLIPSE);
         console.setFont(new java.awt.Font("Consolas", 0, 11));
-        console.setBounds(0,0,1120,140);;
+        console.setBounds(0, 0, 1120, 140);;
         console.setText("EXREGAN:\n->");
         consoleScroll = new JScrollPane(console);
-        consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE,8));
-        consoleScroll.setBounds(220,550,1120,140);
+        consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKECLIPSE, 8));
+        consoleScroll.setBounds(220, 550, 1120, 140);
         //graphics
         graphics.setBackground(Colors.WHITE);
-        graphics.setBounds(790,105,550,425);
+        graphics.setBounds(790, 105, 550, 425);
         graphics.setBorder(BorderFactory.createEmptyBorder());
         graphics.setLayout(null);
         //analyzeInput
-        analyzeInput.locationSize(440,56,30,30);
+        analyzeInput.locationSize(440, 56, 30, 30);
         analyzeInput.Icon(Icons.PLAY);
         analyzeInput.setDesign(Colors.GREEN2);
         analyzeInput.setHoverColor(Colors.GREEN3);
         analyzeInput.addMouseListener(this);
         //analyzeStrings
-        analyzeStrings.locationSize(475,56,30,30);
+        analyzeStrings.locationSize(475, 56, 30, 30);
         analyzeStrings.Icon(Icons.CHECK);
         analyzeStrings.setDesign(Colors.GREEN2);
         analyzeStrings.setHoverColor(Colors.GREEN3);
         analyzeStrings.addMouseListener(this);
         //saveOLC
-        saveOLC.locationSize(510,56,30,30);
+        saveOLC.locationSize(510, 56, 30, 30);
         saveOLC.Icon(Icons.SAVE);
         saveOLC.setDesign(Colors.GREEN2);
         saveOLC.setHoverColor(Colors.GREEN3);
@@ -145,38 +145,38 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     public void initManagerGraphs() {
         ButtonGroup group = new ButtonGroup();
 
-        treesR.setText("Árbol",Colors.WHITE,12);
-        treesR.setBoundsR(790,50,53,15);
+        treesR.setText("Árbol", Colors.WHITE, 12);
+        treesR.setBoundsR(790, 50, 53, 15);
         treesR.setSelected(true);
         treesR.addActionListener(this);
         group.add(treesR);
         this.add(treesR);
 
-        nextsR.setText("Siguientes",Colors.WHITE,12);
-        nextsR.setBoundsR(790,65,84,15);
+        nextsR.setText("Siguientes", Colors.WHITE, 12);
+        nextsR.setBoundsR(790, 65, 84, 15);
         nextsR.addActionListener(this);
         group.add(nextsR);
         this.add(nextsR);
 
-        transitionsR.setText("Transiciones",Colors.WHITE,12);
-        transitionsR.setBoundsR(790,80,94,15);
+        transitionsR.setText("Transiciones", Colors.WHITE, 12);
+        transitionsR.setBoundsR(790, 80, 94, 15);
         transitionsR.addActionListener(this);
         group.add(transitionsR);
         this.add(transitionsR);
 
-        afdsR.setText("AFD",Colors.WHITE,12);
-        afdsR.setBoundsR(890,50,44,15);
+        afdsR.setText("AFD", Colors.WHITE, 12);
+        afdsR.setBoundsR(890, 50, 44, 15);
         afdsR.addActionListener(this);
         group.add(afdsR);
         this.add(afdsR);
 
-        afndsR.setText("AFND",Colors.WHITE,12);
-        afndsR.setBoundsR(890,65,52,15);
+        afndsR.setText("AFND", Colors.WHITE, 12);
+        afndsR.setBoundsR(890, 65, 52, 15);
         afndsR.addActionListener(this);
         group.add(afndsR);
         this.add(afndsR);
 
-        regexCB.setBounds(1000,60,190,22);
+        regexCB.setBounds(1000, 60, 190, 22);
         regexCB.addActionListener(this);
         this.add(regexCB);
     }
@@ -201,15 +201,15 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
             tag.removeAll();
 			this.remove(tag);
 		}
-		tag = new Tag(indexFilePJ,this,controller);
+		tag = new Tag(indexFilePJ, this, controller);
         this.add(tag);
 		this.repaint();
     }
     public void lookPJFiles() {
         projects.removeAll();
-        projects.add(new Label(0,10,projects.getWidth(),25,"Proyectos",16));
+        projects.add(new Label(0, 10, projects.getWidth(), 25, "Proyectos", 16));
         for(int i = 0; i < controller.countPJ(); i ++) {
-            controller.pjs.get(i).locationSize(0,i * 25 + 40,this.projects.getWidth(),25);
+            controller.pjs.get(i).locationSize(0, i * 25 + 40, this.projects.getWidth(), 25);
             controller.pjs.get(i).setHoverColor(Colors.LIGHTECLIPSE);
             projects.add(controller.pjs.get(i));
         }
@@ -226,12 +226,12 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         this.add(saveOLC);
     }
     void copyright() {
-        this.add(new Label(0,695,1390,15,"EXREGAN Infix",11));
-        this.add(new Label(0,710,1390,15,"© Danny Hugo Bryan Tejaxún Pichiyá",11));
+        this.add(new Label(0, 695, 1390, 15, "EXREGAN Infix", 11));
+        this.add(new Label(0, 710, 1390, 15, "© Danny Hugo Bryan Tejaxún Pichiyá", 11));
     }
     void addToolBar() {
-        toolbar = new ToolBar(controller,this,w);
-        toolbar.setBounds(0,0,1390,40);
+        toolbar = new ToolBar(controller, this, w);
+        toolbar.setBounds(0, 0, 1390, 40);
         this.add(toolbar);
     }
     void init() {
@@ -240,7 +240,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     }
     void execute() {
         controller.setFormat(editorArea.editor);
-        controller.analyze(this,indexFilePJ,editorArea.editor,console,graphics);
+        controller.analyze(this, indexFilePJ, editorArea.editor, console, graphics);
     }
     void setFormat() {
         controller.setFormat(editorArea.editor);
@@ -258,9 +258,9 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
                 public void caretUpdate(CaretEvent e) {
                     try {
                         posCaret = e.getDot();
-                        int row = 1,col = 1;
+                        int row = 1, col = 1;
                         int lastRow = -1;
-                        String text = editorArea.editor.getText().replaceAll("\r","");
+                        String text = editorArea.editor.getText().replaceAll("\r", "");
                         for(int i = 0; i < posCaret; i ++) {
                             if(text.charAt(i) == '\n') {
                                 row ++;
@@ -288,9 +288,9 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
             int w = image.getIconWidth();
             int h = image.getIconHeight();
             img.removeAll();
-            icono = new ImageIcon(image.getImage().getScaledInstance((int) (w * zoomFactor),(int) (h * zoomFactor), Image.SCALE_DEFAULT));
+            icono = new ImageIcon(image.getImage().getScaledInstance((int) (w * zoomFactor), (int) (h * zoomFactor), Image.SCALE_DEFAULT));
             img.setIcon(icono);
-            img.setSize(icono.getIconWidth(),icono.getIconHeight());
+            img.setSize(icono.getIconWidth(), icono.getIconHeight());
             graphics.revalidate();
             graphics.repaint();
         }
@@ -300,7 +300,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         try {
             int dx = e.getX() - posXImg;
             int dy = e.getY() - posYImg;
-            img.setLocation(posXLabImg + dx,posYLabImg + dy);
+            img.setLocation(posXLabImg + dx, posYLabImg + dy);
         }
         catch(Exception e1) {}
     }
@@ -316,7 +316,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         }
         else if(e.getSource() == analyzeStrings) {
             if(indexFilePJ != -1) {
-                controller.validateString(indexFilePJ,editorArea.editor,console);
+                controller.validateString(indexFilePJ, editorArea.editor, console);
             }
             else {
                 console.setText("EXREGAN:\n->");
@@ -324,7 +324,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
         }
         else if(e.getSource() == saveOLC) {
             if(indexFilePJ != -1) {
-                controller.saveOLCPJ(indexFilePJ,editorArea.editor);
+                controller.saveOLCPJ(indexFilePJ, editorArea.editor);
             }
         }
     }
@@ -343,7 +343,7 @@ public class IDE extends JPanel implements ActionListener,KeyListener,MouseWheel
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == treesR || e.getSource() == nextsR || e.getSource() == transitionsR || e.getSource() == afdsR || e.getSource() == afndsR || e.getSource() == regexCB) {
-            controller.lookGraphs(this,indexFilePJ);
+            controller.lookGraphs(this, indexFilePJ);
         }
     }
 }
