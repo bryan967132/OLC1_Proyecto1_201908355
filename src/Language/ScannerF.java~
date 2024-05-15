@@ -261,7 +261,7 @@ public class ScannerF implements java_cup.runtime.Scanner {
 
   /* user code: */
     WordPainter painter;
-    public ScannerF(java.io.Reader in, WordPainter painter) {
+    public ScannerF(java.io.Reader in,WordPainter painter) {
         yyline = 0;
         yychar = 0;
         this.zzReader = in;
@@ -271,8 +271,8 @@ public class ScannerF implements java_cup.runtime.Scanner {
     public ArrayList<ErrorL> getErrors() {
         return errors;
     }
-    void addError(int line, int column, String character) {
-        errors.add(new ErrorL(line, column, character));
+    void addError(int line,int column,String character) {
+        errors.add(new ErrorL(line,column,character));
     }
 
 
@@ -646,7 +646,7 @@ public class ScannerF implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { painter.ERROR(yychar, yylength());
+            { painter.ERROR(yychar,yylength());
             } 
             // fall through
           case 28: break;
@@ -656,127 +656,127 @@ public class ScannerF implements java_cup.runtime.Scanner {
             // fall through
           case 29: break;
           case 3: 
-            { return new Symbol(Sym.TK_char,      yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_char,yychar,yylength(),yytext());
             } 
             // fall through
           case 30: break;
           case 4: 
-            { return new Symbol(Sym.TK_charnum,   yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_charnum,yychar,yylength(),yytext());
             } 
             // fall through
           case 31: break;
           case 5: 
-            { return new Symbol(Sym.TK_charascii, yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_charascii,yychar,yylength(),yytext());
             } 
             // fall through
           case 32: break;
           case 6: 
-            { return new Symbol(Sym.TK_lbr,       yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_lbr,yychar,yylength(),yytext());
             } 
             // fall through
           case 33: break;
           case 7: 
-            { return new Symbol(Sym.TK_rbr,       yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_rbr,yychar,yylength(),yytext());
             } 
             // fall through
           case 34: break;
           case 8: 
-            { return new Symbol(Sym.TK_lpar,      yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_lpar,yychar,yylength(),yytext());
             } 
             // fall through
           case 35: break;
           case 9: 
-            { return new Symbol(Sym.TK_rpar,      yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_rpar,yychar,yylength(),yytext());
             } 
             // fall through
           case 36: break;
           case 10: 
-            { return new Symbol(Sym.TK_semicolon, yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_semicolon,yychar,yylength(),yytext());
             } 
             // fall through
           case 37: break;
           case 11: 
-            { return new Symbol(Sym.TK_colon,     yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_colon,yychar,yylength(),yytext());
             } 
             // fall through
           case 38: break;
           case 12: 
-            { return new Symbol(Sym.TK_comma,     yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_comma,yychar,yylength(),yytext());
             } 
             // fall through
           case 39: break;
           case 13: 
-            { return new Symbol(Sym.TK_or,        yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_or,yychar,yylength(),yytext());
             } 
             // fall through
           case 40: break;
           case 14: 
-            { return new Symbol(Sym.TK_concat,    yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_concat,yychar,yylength(),yytext());
             } 
             // fall through
           case 41: break;
           case 15: 
-            { return new Symbol(Sym.TK_positive,  yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_positive,yychar,yylength(),yytext());
             } 
             // fall through
           case 42: break;
           case 16: 
-            { return new Symbol(Sym.TK_kleene,    yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_kleene,yychar,yylength(),yytext());
             } 
             // fall through
           case 43: break;
           case 17: 
-            { return new Symbol(Sym.TK_optional,  yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_optional,yychar,yylength(),yytext());
             } 
             // fall through
           case 44: break;
           case 18: 
-            { return new Symbol(Sym.TK_tilde,     yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_tilde,yychar,yylength(),yytext());
             } 
             // fall through
           case 45: break;
           case 19: 
-            { return new Symbol(Sym.TK_id,        yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_id,yychar,yylength(),yytext());
             } 
             // fall through
           case 46: break;
           case 20: 
-            { return new Symbol(Sym.TK_str,       yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_str,yychar,yylength(),yytext());
             } 
             // fall through
           case 47: break;
           case 21: 
-            { return new Symbol(Sym.TK_doublequ,  yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_doublequ,yychar,yylength(),yytext());
             } 
             // fall through
           case 48: break;
           case 22: 
-            { return new Symbol(Sym.TK_singlequ,  yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_singlequ,yychar,yylength(),yytext());
             } 
             // fall through
           case 49: break;
           case 23: 
-            { return new Symbol(Sym.TK_newline,   yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_newline,yychar,yylength(),yytext());
             } 
             // fall through
           case 50: break;
           case 24: 
-            { painter.COMMENT(yychar, yylength());
+            { painter.COMMENT(yychar,yylength());
             } 
             // fall through
           case 51: break;
           case 25: 
-            { return new Symbol(Sym.TK_limit,     yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_limit,yychar,yylength(),yytext());
             } 
             // fall through
           case 52: break;
           case 26: 
-            { return new Symbol(Sym.TK_prompt,    yychar, yylength(), yytext());
+            { return new Symbol(Sym.TK_prompt,yychar,yylength(),yytext());
             } 
             // fall through
           case 53: break;
           case 27: 
-            { return new Symbol(Sym.RW_CONJ,      yychar, yylength(), yytext());
+            { return new Symbol(Sym.RW_CONJ,yychar,yylength(),yytext());
             } 
             // fall through
           case 54: break;
