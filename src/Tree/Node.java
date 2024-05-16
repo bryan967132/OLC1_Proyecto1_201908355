@@ -14,14 +14,14 @@ public class Node {
     public String value;
     public Type type;
     public Type type1;
-    public Node(int id,String value,Type type) {
+    public Node(int id, String value, Type type) {
         this.id = id;
         this.value = value;
         this.type = type;
     }
-    public Node(int id,String value,Type type,Type type1) {
+    public Node(int id, String value, Type type, Type type1) {
         this.id = id;
-        this.value = type1 == Type.STRING ? value.substring(1,value.length() - 1) : value;
+        this.value = type1 == Type.STRING ? value.substring(1, value.length() - 1) : value;
         this.type = type;
         this.type1 = type1;
     }

@@ -4,7 +4,7 @@ public class ErrorS {
     int column;
     Object token;
     String type;
-    public ErrorS(int line,int column,Object token,String type) {
+    public ErrorS(int line, int column, Object token, String type) {
         this.line = line;
         this.column = column;
         this.token = token;

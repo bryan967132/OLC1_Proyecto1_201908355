@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import Components.ErrorL;
 import Components.Response;
 public class ReportHTML {
-    public void reportErrors(int index,String name,ArrayList<ErrorL> errorsL,ArrayList<Response> errorsS) {
+    public void reportErrors(int index, String name, ArrayList<ErrorL> errorsL, ArrayList<Response> errorsS) {
         String firstHTML = "<!DOCTYPE html>\n" +
 "<html lang=\"en\">\n" +
 "<head>\n" +
@@ -63,7 +63,7 @@ public class ReportHTML {
         String finalTABLE = "\t\t</table>\n" +
 "    </div>\n";
         String html = firstHTML + (errorsL.size() > 0 ? firstTABLE + getHTML(errorsL) + finalTABLE : "") + (errorsS.size() > 0 ? firstTABLE1 + getHTMLS(errorsS) + finalTABLE : "") + finalHTML;
-        buildHTML("ERRORES_201908355","errors_" + index + "_" + name.replace(".olc",""),html);
+        buildHTML("ERRORES_201908355", "errors_" + index + "_" + name.replace(".olc", ""), html);
     }
     private String getHTML(ArrayList<ErrorL> errorsL) {
         String html = "";
@@ -79,7 +79,7 @@ public class ReportHTML {
         }
         return html;
     }
-    private void buildHTML(String type,String name,String content) {
+    private void buildHTML(String type, String name, String content) {
         try {
             File file = new File("Data/" + type);
             if(!file.exists()) {

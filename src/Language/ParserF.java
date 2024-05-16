@@ -242,13 +242,13 @@ public class ParserF extends java_cup.runtime.lr_parser {
     public ScannerF s;
     int index;
     WordPainter painter;
-    public ParserF(ScannerF s,WordPainter painter) {
+    public ParserF(ScannerF s, WordPainter painter) {
         super(s);
         this.s = s;
         this.painter = painter;
     }
     public void syntax_error(Symbol sym) {
-        painter.SERROR(sym.left,sym.right);
+        painter.SERROR(sym.left, sym.right);
     }
     public void unrecovered_syntax_error(Symbol sym) throws java.lang.Exception {}
 
@@ -361,7 +361,7 @@ class CUP$ParserF$actions {
 		int limleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int limright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String lim = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.LIMIT(limleft,limright);
+		painter.LIMIT(limleft, limright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("LIMIT",6, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -409,7 +409,7 @@ class CUP$ParserF$actions {
 		int conjleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int conjright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String conj = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.RW(conjleft,conjright);
+painter.RW(conjleft, conjright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$0",13, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -424,7 +424,7 @@ painter.RW(conjleft,conjright);
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.VARIABLE(idleft,idright);
+painter.VARIABLE(idleft, idright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$1",14, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -453,7 +453,7 @@ painter.VARIABLE(idleft,idright);
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.REGEX(idleft,idright);
+painter.REGEX(idleft, idright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$2",15, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -479,7 +479,7 @@ painter.REGEX(idleft,idright);
 		int ch1left = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int ch1right = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String ch1 = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.CHARACTER(ch1left,ch1right);
+painter.CHARACTER(ch1left, ch1right);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$3",16, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -496,7 +496,7 @@ painter.CHARACTER(ch1left,ch1right);
 		int ch2left = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int ch2right = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String ch2 = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.CHARACTER(ch2left,ch2right);
+		painter.CHARACTER(ch2left, ch2right);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("ELEMENTS",7, ((java_cup.runtime.Symbol)CUP$ParserF$stack.elementAt(CUP$ParserF$top-3)), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -517,7 +517,7 @@ painter.CHARACTER(ch1left,ch1right);
 		int chleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int chright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String ch = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.CHARACTER(chleft,chright);
+		painter.CHARACTER(chleft, chright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("SPECIFIC",8, ((java_cup.runtime.Symbol)CUP$ParserF$stack.elementAt(CUP$ParserF$top-2)), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -529,7 +529,7 @@ painter.CHARACTER(ch1left,ch1right);
 		int chleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int chright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String ch = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.CHARACTER(chleft,chright);
+		painter.CHARACTER(chleft, chright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("SPECIFIC",8, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -709,7 +709,7 @@ painter.CHARACTER(ch1left,ch1right);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.OPERATOR(opleft,opright);
+painter.OPERATOR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$4",17, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -735,7 +735,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.OPERATOR(opleft,opright);
+painter.OPERATOR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$5",18, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -761,7 +761,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.OPERATOR(opleft,opright);
+painter.OPERATOR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$6",19, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -787,7 +787,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.OPERATOR(opleft,opright);
+painter.OPERATOR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$7",20, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -813,7 +813,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-painter.OPERATOR(opleft,opright);
+painter.OPERATOR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("NT$8",21, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -848,7 +848,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.elementAt(CUP$ParserF$top-1)).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.elementAt(CUP$ParserF$top-1)).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.elementAt(CUP$ParserF$top-1)).value;
-		painter.VARIABLEUSE(opleft,opright);
+		painter.VARIABLEUSE(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.elementAt(CUP$ParserF$top-2)), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -860,7 +860,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.STRING(opleft,opright);
+		painter.STRING(opleft, opright);     
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -872,7 +872,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.SPECIALCHAR(opleft,opright);
+		painter.SPECIALCHAR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -884,7 +884,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.SPECIALCHAR(opleft,opright);
+		painter.SPECIALCHAR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;
@@ -896,7 +896,7 @@ painter.OPERATOR(opleft,opright);
 		int opleft = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$ParserF$stack.peek()).value;
-		painter.SPECIALCHAR(opleft,opright);
+		painter.SPECIALCHAR(opleft, opright);
               CUP$ParserF$result = parser.getSymbolFactory().newSymbol("OPERAND",10, ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserF$stack.peek()), RESULT);
             }
           return CUP$ParserF$result;

@@ -4,9 +4,9 @@ import Tree.Node;
 
 public class Structs {
     int number = 0;
-    public State OR(String id,State frst,State scnd) {
-        State state = new State(id + "_start","&epsilon;");
-        State exit = new State(id + "_exit",state.value);
+    public State OR(String id, State frst, State scnd) {
+        State state = new State(id + "_start", "&epsilon;");
+        State exit = new State(id + "_exit", state.value);
         //or1
         state.next1 = frst;
         state.last = state.next1.last.exit = exit;
@@ -15,8 +15,8 @@ public class Structs {
         state.next2.last.next1 = exit;
         return state;
     }
-    public State CONCAT(String id,State frst,State scnd) {
-        State state = new State(id + "_start","&epsilon;");
+    public State CONCAT(String id, State frst, State scnd) {
+        State state = new State(id + "_start", "&epsilon;");
         //and1
         state = frst;
         //and2
@@ -28,34 +28,34 @@ public class Structs {
         state.last = scnd.last;
         return state;
     }
-    public State POSITIVE(String id,State frst) {
-        State state = new State(id + "_start","&epsilon;");
+    public State POSITIVE(String id, State frst) {
+        State state = new State(id + "_start", "&epsilon;");
         state.next1 = frst;
         state.next1.last.jmps = state.next1;
-        state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        state.last = state.next1.last.next1 = new State(id + "_exit", state.value);
         return state;
     }
-    public State KLEENE(String id,State frst) {
-        State state = new State(id + "_start","&epsilon;");
+    public State KLEENE(String id, State frst) {
+        State state = new State(id + "_start", "&epsilon;");
         state.next1 = frst;
         state.next1.last.jmps = state.next1;
-        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit", state.value);
         return state;
     }
-    public State OPTIONAL(String id,State frst) {
-        State state = new State(id + "_start","&epsilon;");
+    public State OPTIONAL(String id, State frst) {
+        State state = new State(id + "_start", "&epsilon;");
         state.next1 = frst;
-        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit",state.value);
+        state.jmps = state.last = state.next1.last.next1 = new State(id + "_exit", state.value);
         return state;
     }
-    public State SIMPLE(String id,Node frst) {
-        State start = new State(id,"&epsilon;");
-        start.last = start.next1 = new State(id + "_next1",frst.value);
+    public State SIMPLE(String id, Node frst) {
+        State start = new State(id, "&epsilon;");
+        start.last = start.next1 = new State(id + "_next1", frst.value);
         return start;
     }
     public State EPSILON(String id) {
-        State start = new State(id,"&epsilon;");
-        start.last = start.next1 = new State(id + "_next1",start.value);
+        State start = new State(id, "&epsilon;");
+        start.last = start.next1 = new State(id + "_next1", start.value);
         return start;
     }
     public String getDot(State state) {

@@ -31,7 +31,7 @@ public class ScannerTest {
         try {
             File archivo = new File(path);
             FileInputStream fis = new FileInputStream(archivo);
-            InputStreamReader isr = new InputStreamReader(fis,"UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             
             String texto = "";

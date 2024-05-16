@@ -12,22 +12,22 @@ import javax.swing.JPanel;
 public class Button extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	boolean activado = false;
-	Color backgroundColor,hoverColor,tmpColor;
+	Color backgroundColor, hoverColor, tmpColor;
 	String texto;
 	public Button() {}
 	public Button(String texto) {
 		this.texto = texto;
 	}
-	public void locationSize(int x,int y,int w,int h) {
-		this.setBounds(x,y,w,h);
+	public void locationSize(int x, int y, int w, int h) {
+		this.setBounds(x, y, w, h);
 		this.setLayout(null);
 		this.setVisible(true);
 	}
-	public void text(Color color,int tamano) {
-		this.add(new Label(0,0,this.getWidth(),this.getHeight(),texto,tamano));
+	public void text(Color color, int tamano) {
+		this.add(new Label(0, 0, this.getWidth(), this.getHeight(), texto, tamano));
 	}
 	public void Icon(String icon) {
-		this.add(new IconImage(icon,6,6,this.getWidth() - 12,this.getHeight() - 12));
+		this.add(new IconImage(icon, 6, 6, this.getWidth() - 12, this.getHeight() - 12));
 	}
 	public void setDesign(Color colorFondo) {
 		this.setOpaque(false);
@@ -42,7 +42,7 @@ public class Button extends JPanel implements MouseListener {
 	protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Shape shape = new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),getHeight(),getHeight());
+        Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
         g2d.setColor(backgroundColor);
         g2d.fill(shape);
         super.paintComponent(g);

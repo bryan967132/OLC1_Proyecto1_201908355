@@ -230,15 +230,15 @@ public class Parser extends java_cup.runtime.lr_parser {
     private int leaf = 1;
     private int errors = 0;
     public ArrayList<Response> errorsS = new ArrayList<>();
-    public Map<String,Set> sets = new TreeMap<>();
-    public Map<String,Node> regexs = new TreeMap<>();
+    public Map<String, Set> sets = new TreeMap<>();
+    public Map<String, Node> regexs = new TreeMap<>();
     public ArrayList<Expression> expressions = new ArrayList<>();
     public Parser(Scanner s) {
         super(s);
         this.s = s;
     }
     public void syntax_error(Symbol sym) {
-        errorsS.add(new Response(new ErrorS(sym.left,sym.right,sym.value,Sym.terminalNames[sym.sym])));
+        errorsS.add(new Response(new ErrorS(sym.left, sym.right, sym.value, Sym.terminalNames[sym.sym])));
         errors ++;
     }
     public void unrecovered_syntax_error(Symbol sym) throws java.lang.Exception {
@@ -256,39 +256,39 @@ public class Parser extends java_cup.runtime.lr_parser {
     public String getErrors() {
         return errorsS.stream().map(Object::toString).collect(Collectors.joining("\n-> "));
     }
-    private void addSet(String set,Set elements) {
+    private void addSet(String set, Set elements) {
         elements.id = set;
-        sets.put(set,elements);
+        sets.put(set, elements);
     }
-    private void addTree(String regex,Node op) {
-        Node root = new Node(this.id + 1,".",Type.CONCAT);
+    private void addTree(String regex, Node op) {
+        Node root = new Node(this.id + 1, ".", Type.CONCAT);
         root.left = op;
-        root.right = new Node(this.id,"#",Type.LEAF,Type.END);
+        root.right = new Node(this.id, "#", Type.LEAF, Type.END);
         root.right.anulable = false;
         root.right.i = this.leaf;
         root.anulable = root.left.anulable && root.right.anulable;
-        regexs.put(regex,root);
+        regexs.put(regex, root);
         this.id = 0;
         this.leaf = 1;
     }
-    private Node buildTree(String value,Node left,Node right,boolean anulable,Type type) {
-        Node root = new Node(id,value,type);
+    private Node buildTree(String value, Node left, Node right, boolean anulable, Type type) {
+        Node root = new Node(id, value, type);
         root.anulable = anulable;
         root.left = left;
         root.right = right;
         id ++;
         return root;
     }
-    private Node buildTree(String op,Type type,Type type1) {
-        Node root = new Node(id,op,type,type1);
+    private Node buildTree(String op, Type type, Type type1) {
+        Node root = new Node(id, op, type, type1);
         root.anulable = false;
         root.i = leaf;
         id ++;
         leaf ++;
         return root;
     }
-    private void addExpression(String exp,String string) {
-        expressions.add(new Expression(exp,string));
+    private void addExpression(String exp, String string) {
+        expressions.add(new Expression(exp, string));
     }
 
 
@@ -691,7 +691,7 @@ class CUP$Parser$actions {
 		int op2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int op2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree("|",op1,op2,op1.anulable || op2.anulable,Type.OR);    
+		RESULT = buildTree("|", op1, op2,  op1.anulable || op2.anulable, Type.OR      );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -706,7 +706,7 @@ class CUP$Parser$actions {
 		int op2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int op2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(".",op1,op2,op1.anulable && op2.anulable,Type.CONCAT);
+		RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -718,7 +718,7 @@ class CUP$Parser$actions {
 		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int op1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op1 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree("*",op1,null,true,Type.KLEENE);                       
+		RESULT = buildTree("*", op1, null, true,                         Type.KLEENE  );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -730,7 +730,7 @@ class CUP$Parser$actions {
 		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int op1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op1 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree("+",op1,null,op1.anulable,Type.POSITIVE);             
+		RESULT = buildTree("+", op1, null, op1.anulable,                 Type.POSITIVE);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -742,7 +742,7 @@ class CUP$Parser$actions {
 		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int op1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op1 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree("?",op1,null,true,Type.OPTIONAL);                     
+		RESULT = buildTree("?", op1, null, true,                         Type.OPTIONAL);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -766,7 +766,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		RESULT = buildTree(op,Type.LEAF,Type.ID);         
+		RESULT = buildTree(op, Type.LEAF, Type.ID         );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERAND",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -778,7 +778,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(op,Type.LEAF,Type.STRING);     
+		RESULT = buildTree(op, Type.LEAF, Type.STRING     );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERAND",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -790,7 +790,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(op,Type.LEAF,Type.ENTER);      
+		RESULT = buildTree(op, Type.LEAF, Type.ENTER      );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERAND",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -802,7 +802,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(op,Type.LEAF,Type.SINGLEQUOTE);
+		RESULT = buildTree(op, Type.LEAF, Type.SINGLEQUOTE);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERAND",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -814,7 +814,7 @@ class CUP$Parser$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String op = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(op,Type.LEAF,Type.DOUBLEQUOTE);
+		RESULT = buildTree(op, Type.LEAF, Type.DOUBLEQUOTE);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERAND",9, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -865,7 +865,7 @@ class CUP$Parser$actions {
 		int strleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int strright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String str = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		addExpression(exp,str);
+		addExpression(exp, str);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EVALUATION",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
