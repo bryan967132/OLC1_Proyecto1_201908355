@@ -155,8 +155,8 @@ CHARACTER ::=
     TK_kleene    :ch    {:RESULT = ch;:} ;
 
 OPERATION ::=
-    OPERATION :op1 TK_concat   OPERATION :op2 {:RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );:} |
     OPERATION :op1 TK_or       OPERATION :op2 {:RESULT = buildTree("|", op1, op2,  op1.anulable || op2.anulable, Type.OR      );:} |
+    OPERATION :op1 TK_concat   OPERATION :op2 {:RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );:} |
     OPERATION :op1 TK_kleene                  {:RESULT = buildTree("*", op1, null, true,                         Type.KLEENE  );:} |
     OPERATION :op1 TK_positive                {:RESULT = buildTree("+", op1, null, op1.anulable,                 Type.POSITIVE);:} |
     OPERATION :op1 TK_optional                {:RESULT = buildTree("?", op1, null, true,                         Type.OPTIONAL);:} |

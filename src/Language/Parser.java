@@ -96,8 +96,8 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\001\002\000\020\015\uffdf\016\uffdf\023\uffdf\024\uffdf\025" +
     "\uffdf\026\uffdf\027\uffdf\001\002\000\016\006\024\012\027" +
     "\014\030\031\023\032\031\033\026\001\002\000\020\015" +
-    "\uffe0\016\uffe0\023\035\024\uffe0\025\034\026\037\027\036" +
-    "\001\002\000\020\015\uffe1\016\uffe1\023\uffe1\024\uffe1\025" +
+    "\uffe1\016\uffe1\023\035\024\uffe1\025\034\026\037\027\036" +
+    "\001\002\000\020\015\uffe0\016\uffe0\023\uffe0\024\uffe0\025" +
     "\034\026\037\027\036\001\002\000\004\013\044\001\002" +
     "\000\020\015\uffda\016\uffda\023\uffda\024\uffda\025\uffda\026" +
     "\uffda\027\uffda\001\002\000\016\003\ufff4\004\ufff4\005\ufff4" +
@@ -667,22 +667,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // OPERATION ::= OPERATION TK_concat OPERATION 
-            {
-              Node RESULT =null;
-		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int op1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Node op1 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int op2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
-		int op2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Node op2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // OPERATION ::= OPERATION TK_or OPERATION 
+          case 32: // OPERATION ::= OPERATION TK_or OPERATION 
             {
               Node RESULT =null;
 		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -692,6 +677,21 @@ class CUP$Parser$actions {
 		int op2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Node op2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		RESULT = buildTree("|", op1, op2,  op1.anulable || op2.anulable, Type.OR      );
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 33: // OPERATION ::= OPERATION TK_concat OPERATION 
+            {
+              Node RESULT =null;
+		int op1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int op1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Node op1 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int op2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int op2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Node op2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OPERATION",8, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

@@ -93,8 +93,8 @@ CHARACTER ::=
     TK_kleene    :ch {:RESULT = ch;:} ;
 
 OPERATION ::=
-    OPERATION TK_concat   :op {:painter.OPERATOR(opleft, opright);:} OPERATION |
     OPERATION TK_or       :op {:painter.OPERATOR(opleft, opright);:} OPERATION |
+    OPERATION TK_concat   :op {:painter.OPERATOR(opleft, opright);:} OPERATION |
     OPERATION TK_kleene   :op {:painter.OPERATOR(opleft, opright);:}           |
     OPERATION TK_positive :op {:painter.OPERATOR(opleft, opright);:}           |
     OPERATION TK_optional :op {:painter.OPERATOR(opleft, opright);:}           |
