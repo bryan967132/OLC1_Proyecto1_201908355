@@ -24,16 +24,16 @@ public class EvaluationTest {
             ThompsonMethod thompsonMethod;
             TreeMethod treeMethod;
             Node rgx;
-            for(Map.Entry<String,Node> regex : parser.regexs.entrySet()) {
+            for(Map.Entry<String, Node> regex : parser.regexs.entrySet()) {
                 rgx = regex.getValue();
-                treeMethod = new TreeMethod(parser.sets,regex.getKey());
-                treeMethod.setRegex(1,rgx);
+                treeMethod = new TreeMethod(parser.sets, regex.getKey());
+                treeMethod.setRegex(1, rgx);
                 treeMethod.build();
                 treeMethod.buildNextsTable();
                 treeMethod.buildTransitionsTable();
                 treeMethod.buildAFD();
-                thompsonMethod = new ThompsonMethod(1,regex.getKey());
-                thompsonMethod.setRegex(1,rgx);
+                thompsonMethod = new ThompsonMethod(1, regex.getKey());
+                thompsonMethod.setRegex(1, rgx);
                 thompsonMethod.build();
                 thompsonMethod.buildAFND();
             }
@@ -46,7 +46,7 @@ public class EvaluationTest {
         try {
             File archivo = new File(path);
             FileInputStream fis = new FileInputStream(archivo);
-            InputStreamReader isr = new InputStreamReader(fis,"UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String texto = "";
             String linea;

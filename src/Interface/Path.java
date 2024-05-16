@@ -10,7 +10,7 @@ public class Path implements Serializable {
 	public ArrayList<String> afns = new ArrayList<>();
 	public ArrayList<String> nexts = new ArrayList<>();
 	public ArrayList<String> transitions = new ArrayList<>();
-    public Path(int id,String path) {
+    public Path(int id, String path) {
         this.id = id;
         this.path = path;
     }

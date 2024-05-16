@@ -8,11 +8,11 @@ public class ThompsonMethod {
     private Thompson thompson;
     private int id;
     private String name;
-    public ThompsonMethod(int id,String name) {
+    public ThompsonMethod(int id, String name) {
         this.id = id;
         this.name = name;
     }
-    public void setRegex(int id,Node regex) {
+    public void setRegex(int id, Node regex) {
         this.id = id;
         this.thompson = new Thompson(regex);
     }
@@ -20,10 +20,10 @@ public class ThompsonMethod {
         thompson.build();
     }
     public void buildAFND() {
-        exportGraph("afnd_" + id + "_" + name,thompson.getDot(name),"AFND");
-        buildPNG("AFND","AFND_201908355","afnd_" + id + "_" + name);
+        exportGraph("afnd_" + id + "_" + name, thompson.getDot(name), "AFND");
+        buildPNG("AFND", "AFND_201908355", "afnd_" + id + "_" + name);
     }
-    private void exportGraph(String id,String content,String type) {
+    private void exportGraph(String id, String content, String type) {
         try {
             File file = new File("Dot/" + type);
             if(!file.exists()) {
@@ -37,7 +37,7 @@ public class ThompsonMethod {
         }
         catch(IOException e) {}
     }
-    private void buildPNG(String typeDot,String typePng,String name) {
+    private void buildPNG(String typeDot, String typePng, String name) {
         try {
             File file = new File("Data/" + typePng);
             if(!file.exists()) {

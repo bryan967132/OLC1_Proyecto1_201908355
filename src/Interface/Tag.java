@@ -8,24 +8,24 @@ public class Tag extends Button {
     Button close;
     Controller controller;
     IDE ide;
-    public Tag(int id,IDE ide,Controller controller) {
+    public Tag(int id, IDE ide, Controller controller) {
         this.ide = ide;
         this.controller = controller;
-        this.setBounds(220,80,150,25);
+        this.setBounds(220, 80, 150, 25);
         this.setLayout(null);
         this.setOpaque(false);
         this.setDesign(Colors.MEDIUMECLIPSE2);
         IconFile icnf = controller.pjs.get(id);
         close = new Button("×");
-        text(icnf.name,Colors.WHITE,12);
+        text(icnf.name, Colors.WHITE, 12);
     }
-    public void text(String texto,Color color,int tamano) {
+    public void text(String texto, Color color, int tamano) {
         button();
-		this.add(new PJName(10,0,this.getWidth() - 50,this.getHeight(),texto,tamano));
+		this.add(new PJName(10, 0, this.getWidth() - 50, this.getHeight(), texto, tamano));
 	}
     private void button() {
-        close.locationSize(this.getWidth() - 25,0,25,25);
-        close.text(Colors.WHITE,15);
+        close.locationSize(this.getWidth() - 25, 0, 25, 25);
+        close.text(Colors.WHITE, 15);
         close.setDesign(Colors.MEDIUMECLIPSE2);
         close.setHoverColor(Colors.LIGHTECLIPSE);
         close.addMouseListener(this);
