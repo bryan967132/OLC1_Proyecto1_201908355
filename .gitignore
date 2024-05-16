@@ -1,1 +1,6 @@
-/build/
+**/bin
+**/data
+**/Data
+**/Dot
+**/*.sh
+**/*.java~
