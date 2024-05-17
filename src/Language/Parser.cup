@@ -124,40 +124,39 @@ DECLARATIONS ::=
     error                    ;
 
 DECLARATION ::=
-    RW_CONJ TK_colon IDS :set TK_prompt ELEMENTS :elem TK_semicolon {:addSet(set, elem); :} |
-    IDS :regex TK_prompt OPERATION :op TK_semicolon                 {:addTree(regex, op);:} ;
+    RW_CONJ TK_colon IDS :set TK_prompt ELEMENTS :elem TK_semicolon {:addSet(set,elem); :} |
+    IDS :regex TK_prompt OPERATION :op TK_semicolon                 {:addTree(regex,op);:} ;
 
 ELEMENTS ::=
-    CHARACTER :ch1 TK_tilde CHARACTER :ch2 {:RESULT = new Set(ch1.charAt(0), ch2.charAt(0));:} |
-    SPECIFIC :sp                           {:RESULT = new Set(sp);                          :} ;
+    CHARACTER :ch1 TK_tilde CHARACTER :ch2 {:RESULT = new Set(ch1.charAt(0),ch2.charAt(0));:} |
+    SPECIFIC :sp                           {:RESULT = new Set(sp);                         :} ;
 
 SPECIFIC ::=
     SPECIFIC :sp TK_comma CHARACTER :ch {:sp.add(ch.charAt(0)); RESULT = sp;                    :} |
     CHARACTER :ch                       {:RESULT = new ArrayList<>(Arrays.asList(ch.charAt(0)));:} ;
     
 CHARACTER ::=
-    TK_char      :ch    {:RESULT = ch;:} |
-    TK_charnum   :ch    {:RESULT = ch;:} |
-    TK_charascii :ch    {:RESULT = ch;:} |
-    TK_lbr       :ch    {:RESULT = ch;:} |
-    TK_rbr       :ch    {:RESULT = ch;:} |
-    TK_lpar      :ch    {:RESULT = ch;:} |
-    TK_rpar      :ch    {:RESULT = ch;:} |
-    TK_semicolon :ch    {:RESULT = ch;:} |
-    TK_colon     :ch    {:RESULT = ch;:} |
-    TK_comma     :ch    {:RESULT = ch;:} |
-    TK_or        :ch    {:RESULT = ch;:} |
-    TK_concat    :ch    {:RESULT = ch;:} |
-    TK_positive  :ch    {:RESULT = ch;:} |
-    TK_kleene    :ch    {:RESULT = ch;:} ;
+    TK_char      :ch {:RESULT = ch;:} |
+    TK_charnum   :ch {:RESULT = ch;:} |
+    TK_charascii :ch {:RESULT = ch;:} |
+    TK_lbr       :ch {:RESULT = ch;:} |
+    TK_rbr       :ch {:RESULT = ch;:} |
+    TK_lpar      :ch {:RESULT = ch;:} |
+    TK_rpar      :ch {:RESULT = ch;:} |
+    TK_semicolon :ch {:RESULT = ch;:} |
+    TK_colon     :ch {:RESULT = ch;:} |
+    TK_comma     :ch {:RESULT = ch;:} |
+    TK_or        :ch {:RESULT = ch;:} |
+    TK_concat    :ch {:RESULT = ch;:} |
+    TK_positive  :ch {:RESULT = ch;:} |
+    TK_kleene    :ch {:RESULT = ch;:} ;
 
 OPERATION ::=
-    OPERATION :op1 TK_or       OPERATION :op2 {:RESULT = buildTree("|", op1, op2,  op1.anulable || op2.anulable, Type.OR      );:} |
-    OPERATION :op1 TK_concat   OPERATION :op2 {:RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );:} |
-    OPERATION :op1 TK_kleene                  {:RESULT = buildTree("*", op1, null, true,                         Type.KLEENE  );:} |
-    OPERATION :op1 TK_positive                {:RESULT = buildTree("+", op1, null, op1.anulable,                 Type.POSITIVE);:} |
-    OPERATION :op1 TK_optional                {:RESULT = buildTree("?", op1, null, true,                         Type.OPTIONAL);:} |
-    TK_lpar OPERATION :op TK_rpar             {:RESULT = op;:} |
+    TK_or       OPERATION :op1 OPERATION :op2 {:RESULT = buildTree("|", op1, op2,  op1.anulable || op2.anulable, Type.OR      );:} |
+    TK_concat   OPERATION :op1 OPERATION :op2 {:RESULT = buildTree(".", op1, op2,  op1.anulable && op2.anulable, Type.CONCAT  );:} |
+    TK_kleene   OPERATION :op1                {:RESULT = buildTree("*", op1, null, true,                         Type.KLEENE  );:} |
+    TK_positive OPERATION :op1                {:RESULT = buildTree("+", op1, null, op1.anulable,                 Type.POSITIVE);:} |
+    TK_optional OPERATION :op1                {:RESULT = buildTree("?", op1, null, true,                         Type.OPTIONAL);:} |
     OPERAND :op                               {:RESULT = op;:} ;
 
 OPERAND ::=

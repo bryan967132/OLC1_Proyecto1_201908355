@@ -19,7 +19,7 @@ parser code
         painter.SERROR(sym.left, sym.right);
     }
     public void unrecovered_syntax_error(Symbol sym) throws java.lang.Exception {}
-:} 
+:}
 
 /* 3. Terminales*/
 
@@ -31,8 +31,8 @@ terminal String TK_limit, TK_singlequ, TK_doublequ, TK_newline;
 
 /* 4. No Terminales*/
 non terminal Object INI, CODE, DECLARATIONS, DECLARATION, EVALUATIONS, EVALUATION, LIMIT;
-non terminal ELEMENTS, SPECIFIC;
-non terminal OPERATION, OPERAND;
+non terminal Object ELEMENTS, SPECIFIC;
+non terminal Object OPERATION, OPERAND;
 non terminal String CHARACTER;
 non terminal String IDS;
 
@@ -90,20 +90,19 @@ CHARACTER ::=
     TK_kleene    :ch {:RESULT = ch;:} ;
 
 OPERATION ::=
-    OPERATION TK_or       :op {:painter.OPERATOR(opleft, opright);:} OPERATION |
-    OPERATION TK_concat   :op {:painter.OPERATOR(opleft, opright);:} OPERATION |
-    OPERATION TK_kleene   :op {:painter.OPERATOR(opleft, opright);:}           |
-    OPERATION TK_positive :op {:painter.OPERATOR(opleft, opright);:}           |
-    OPERATION TK_optional :op {:painter.OPERATOR(opleft, opright);:}           |
-    TK_lpar OPERATION TK_rpar                                                  |
+    TK_or       :op {:painter.OPERATOR(opleft, opright);:} OPERATION OPERATION |
+    TK_concat   :op {:painter.OPERATOR(opleft, opright);:} OPERATION OPERATION |
+    TK_kleene   :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
+    TK_positive :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
+    TK_optional :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
     OPERAND                                                                    ;
 
 OPERAND ::=
-    TK_lbr IDS :op TK_rbr {:painter.VARIABLEUSE(opleft, opright);:} |
-    TK_str      :op       {:painter.STRING(opleft, opright);     :} |
-    TK_newline  :op       {:painter.SPECIALCHAR(opleft, opright);:} |
-    TK_singlequ :op       {:painter.SPECIALCHAR(opleft, opright);:} |
-    TK_doublequ :op       {:painter.SPECIALCHAR(opleft, opright);:} ;
+    TK_lbr IDS  :op TK_rbr {:painter.VARIABLEUSE(opleft, opright);:} |
+    TK_str      :op        {:painter.STRING(opleft, opright);     :} |
+    TK_newline  :op        {:painter.SPECIALCHAR(opleft, opright);:} |
+    TK_singlequ :op        {:painter.SPECIALCHAR(opleft, opright);:} |
+    TK_doublequ :op        {:painter.SPECIALCHAR(opleft, opright);:} ;
 
 EVALUATIONS ::=
     EVALUATIONS EVALUATION |
@@ -112,8 +111,8 @@ EVALUATIONS ::=
     error                  ;
 
 EVALUATION ::=
-    IDS :id {:painter.REGEXUSE(idleft, idright);:} TK_colon TK_str :str {:painter.STRING(strleft, strright);:} TK_semicolon ;
+    IDS :id {:painter.REGEXUSE(idleft, idright);:} TK_colon TK_str :str {:painter.STRING(strleft, strright);:} TK_semicolon    ;
 
 IDS ::=
-    TK_id :id   {:RESULT = id;:} |
+    TK_id   :id {:RESULT = id;:} |
     TK_char :id {:RESULT = id;:} ;
