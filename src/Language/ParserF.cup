@@ -30,9 +30,9 @@ terminal String TK_concat, TK_or, TK_positive, TK_kleene, TK_optional;
 terminal String TK_limit, TK_singlequ, TK_doublequ, TK_newline;
 
 /* 4. No Terminales*/
-non terminal INI, CODE, DECLARATIONS, DECLARATION, EVALUATIONS, EVALUATION, LIMIT;
-non terminal ELEMENTS, SPECIFIC;
-non terminal OPERATION, OPERAND;
+non terminal Object INI, CODE, DECLARATIONS, DECLARATION, EVALUATIONS, EVALUATION, LIMIT;
+non terminal Object ELEMENTS, SPECIFIC;
+non terminal Object OPERATION, OPERAND;
 non terminal String CHARACTER;
 non terminal String IDS;
 
@@ -95,7 +95,7 @@ OPERATION ::=
     TK_kleene   :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
     TK_positive :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
     TK_optional :op {:painter.OPERATOR(opleft, opright);:} OPERATION           |
-    OPERAND                                                                   ;
+    OPERAND                                                                    ;
 
 OPERAND ::=
     TK_lbr IDS  :op TK_rbr {:painter.VARIABLEUSE(opleft, opright);:} |
@@ -111,7 +111,7 @@ EVALUATIONS ::=
     error                  ;
 
 EVALUATION ::=
-    IDS :id {:painter.REGEXUSE(idleft,idright);:} TK_colon TK_str :str {:painter.STRING(strleft,strright);:} TK_semicolon    ;
+    IDS :id {:painter.REGEXUSE(idleft, idright);:} TK_colon TK_str :str {:painter.STRING(strleft, strright);:} TK_semicolon    ;
 
 IDS ::=
     TK_id   :id {:RESULT = id;:} |
