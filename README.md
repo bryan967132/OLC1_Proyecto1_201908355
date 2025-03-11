@@ -381,7 +381,8 @@ REGEX2: "111111";
     |C<sub>1</sub> ?|Últimos(C<sub>1</sub>)|
     |C<sub>1</sub> \| C<sub>2</sub>|Últimos(C<sub>1</sub>) U Últimos(C<sub>2</sub>)|
     |C<sub>1</sub> C<sub>2</sub>|(Anulable(C<sub>2</sub>)) ? Últimos(C<sub>1</sub>) U Últimos(C<sub>2</sub>) : Últimos(C<sub>2</sub>)|
-    Métodos implementados para el cálculo:
+
+   Métodos implementados para el cálculo:
     ```java
     public void calculateLasts() {
         calculateLasts(root);
